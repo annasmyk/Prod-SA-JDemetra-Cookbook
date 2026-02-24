@@ -1,0 +1,36 @@
+project:
+  type: book
+
+book:
+  title: "My Book Template"
+  author:
+    - name: Anna Smyk
+      url: https://github.com/annasmyk
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - G-Chap1.qmd
+    - G-Chap2.qmd
+    - part: Part1-topic.qmd
+      chapters:
+        - P1-Chap1.qmd
+    - part: Part2-topic.qmd
+      chapters:
+        - P2-Chap1.qmd
+    - part: Part3-topic.qmd
+      chapters:
+        - P3-Chap1.qmd
+        - references.qmd
+bibliography: references.bib
+
+format:
+  html:
+    theme: 
+        - united
+        - custom.scss
+    css: styles.css
+  pdf:
+    documentclass: scrreprt
+
+editor: source
+
