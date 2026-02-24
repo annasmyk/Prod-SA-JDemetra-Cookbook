@@ -1,8 +1,0 @@
-# Other general topic {.unnumbered}
-
-
-
-## Artefacts to be built
-
-## Heuristics 
-
