@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Production of seasonally adjusted series - Part 1: Seasonal Adjustment and Production</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.bib" rel="next">
+<link href="./introduction.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./P1-Overview.html">Part 1: Seasonal Adjustment and Production</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Production of seasonally adjusted series</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SA production</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P1-Overview.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Part 1: Seasonal Adjustment and Production</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-statistical-process" id="toc-the-statistical-process" class="nav-link active" data-scroll-target="#the-statistical-process">The Statistical Process</a>
+  <ul class="collapse">
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
+  <li><a href="#steps" id="toc-steps" class="nav-link" data-scroll-target="#steps">Steps</a></li>
+  </ul></li>
+  <li><a href="#the-production-process" id="toc-the-production-process" class="nav-link" data-scroll-target="#the-production-process">The production process</a>
+  <ul class="collapse">
+  <li><a href="#properties" id="toc-properties" class="nav-link" data-scroll-target="#properties">Properties</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#annual-and-infra-annual-reviews" id="toc-annual-and-infra-annual-reviews" class="nav-link" data-scroll-target="#annual-and-infra-annual-reviews">Annual and Infra-Annual Reviews</a></li>
+  </ul></li>
+  <li><a href="#jdemetra-a-tool-for-seasonal-adjustment" id="toc-jdemetra-a-tool-for-seasonal-adjustment" class="nav-link" data-scroll-target="#jdemetra-a-tool-for-seasonal-adjustment">JDemetra+: a tool for seasonal adjustment</a>
+  <ul class="collapse">
+  <li><a href="#algorithms" id="toc-algorithms" class="nav-link" data-scroll-target="#algorithms">Algorithms</a></li>
+  <li><a href="#tools" id="toc-tools" class="nav-link" data-scroll-target="#tools">Tools</a></li>
+  <li><a href="#data-structures" id="toc-data-structures" class="nav-link" data-scroll-target="#data-structures">Data structures</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook/edit/main/P1-Overview.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Part 1: Seasonal Adjustment and Production</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="the-statistical-process" class="level2">
+<h2 class="anchored" data-anchor-id="the-statistical-process">The Statistical Process</h2>
+<p>Seasonal adjustment removes periodic movements from the data series that mask cyclical variations and long-term trends. For this reason, most economic indicators are published seasonally (and calendar) adjusted (SA). Seasonal adjustment requires estimating a seasonal component that captures all periodic intra-annual movements in order to remove it from the raw series <span class="math inline">\(Y_\text{cvs} = Y-S\)</span>. To do this, the raw series is broken down into three unobservable components: seasonality, trend, and irregularity (<span class="math inline">\(Y=S+T+I\)</span>), where the trend <span class="math inline">\(T\)</span> represents long-term movements and <span class="math inline">\(I\)</span> represents noise generated by exceptional events (strikes, weather conditions, short-term shocks, etc.) and all measurement errors. The algorithms most commonly used today by European national statistical institutes and central banks are Tramo-Seats <span class="citation" data-cites="gomez1996programs">(<a href="#ref-gomez1996programs" role="doc-biblioref">Gomez and Maravall 1996</a>)</span> and X13-Arima <span class="citation" data-cites="census">(<a href="#ref-census" role="doc-biblioref">US-Census-Bureau 2015</a>)</span>. The latter is used (almost) exclusively by the French public statistics service. These methods proceed in two stages: the raw series is not directly decomposed but first linearized, by (permanently) removing calendar effects and (temporarily) removing outliers using Reg-Arima modelling.</p>
+<section id="objectives" class="level3">
+<h3 class="anchored" data-anchor-id="objectives">Objectives</h3>
+<p>The main objective is, of course, to produce seasonally adjusted (SA) series, particularly with a view to publication. However, to ensure the quality of the seasonal adjustment, a broader output is necessary. The process must therefore allow the diagnostics to be viewed (seasonality tests, residual seasonality tests, and residual calendar effects for the seasonally adjusted series, etc.) and the parameters to be adjusted in light of the problems identified by these diagnostics. Intermediate series, in addition to the final SA series, such as unobservable components, the linearized series, and seasonal factors (including forecast factors), are often useful.</p>
+</section>
+<section id="steps" class="level3">
+<h3 class="anchored" data-anchor-id="steps">Steps</h3>
+<p>Seasonal adjustment begins with a seasonality test to ensure that this operation is necessary for the series in question. If this is not the case, the raw series will also be published as SA. In practice, this test is often performed at the end of the seasonal adjustment process, which allows it to be performed on the linearized series (from which the <span class="math inline">\(S\)</span> factors will be extracted) and to always keep the same input data set, excluding only the series that are not to be seasonally adjusted at the dissemination stage.</p>
+<p>A correction for calendar effects must often be implemented or at least tested . The first estimation (pre-adjustment and decomposition) can then be made, probably with a largely automatic specification, and a quality assessment can be generated to improve the quality of the seasonal adjustment. We refer here to a quality assessment and not simply to diagnostics, as the former consists of formatting the diagnostics and summarizing them in a score that allows a “selective editing” approach to prioritize manual expertise in the series. It is generally necessary to quantify the revisions and the numerical impact of the choice of parameters, which will influence the choice of final parameters. Once these elements have been reviewed, a second estimation can be made, and the process may be repeated until a final set of parameters is reached.</p>
+<p>Table 1: The steps</p>
+<table class="table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Domain</th>
+<th>Operations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Correction of calendar effects</td>
+<td>Creation of a reference calendar</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Generation of regression sets</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Selection of the best set for each series</td>
+</tr>
+<tr class="even">
+<td>Customization of specifications</td>
+<td>Assignment of calendar regressors</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Assigning outliers</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Other parameters</td>
+</tr>
+<tr class="odd">
+<td>Estimation</td>
+<td>Preliminary estimation</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Output generation</td>
+</tr>
+<tr class="odd">
+<td>Quality Control</td>
+<td>Quality Report</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Manual fine tuning</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Final estimation</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Final output generation</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="the-production-process" class="level2">
+<h2 class="anchored" data-anchor-id="the-production-process">The production process</h2>
+<section id="properties" class="level3">
+<h3 class="anchored" data-anchor-id="properties">Properties</h3>
+<p>Production inherently requires the automation of as many operations as possible (definition of specifications, estimation, production of a quality report, application of revision policies), but also, in the case of seasonality adjustment, the visualization of diagnostics and graphs in an environment that allows for rapid manual adjustment of parameters.</p>
+<p>The process can be divided into three distinct phases based on their objectives and the type of intervention they require: implementation of a production process, annual campaigns, and infra-annual campaigns.</p>
+</section>
+<section id="installation" class="level3">
+<h3 class="anchored" data-anchor-id="installation">Installation</h3>
+<p>The process must be initialized by making medium-term choices that will not, in principle, be called into question for a period of approximately five years. User requirements are then specified: the variables of interest to be seasonally adjusted are selected, as well as the level of the nomenclature and the direct (seasonal adjustment at each level) or indirect (aggregation of seasonally adjusted series) approach. See <a href="file:///%20C:/Users/YWYD5I/Downloads/KS-GQ-24-012-EN-N.pdf">Guidelines chapter 5.4</a> for more details. The relevance of a calendar effect correction must be tested. This is also the time to determine the length of the estimation period (Guidelines, Chapter 8) and the depth of revisions during publication (Guidelines, Chapter 6). This is also when the algorithm and software to be used should be chosen.</p>
+</section>
+<section id="annual-and-infra-annual-reviews" class="level3">
+<h3 class="anchored" data-anchor-id="annual-and-infra-annual-reviews">Annual and Infra-Annual Reviews</h3>
+<p>Approximately once a year, the producer updates the statistical parameters based on new raw data (Guidelines, Chapter 6). One method is to compare current models with an automatic re-estimation, as described in Part 3.</p>
+<p>During infra-annual production, the goal is to minimize technical revisions. It is recommended that you review only a limited number of parameters, and you may even use the seasonal coefficients predicted during the last annual campaign. The focus should be on revisions and on the appearance or disappearance of outliers in the recent period.</p>
+<p>(References: revision policies, controlled current (ref): Part 3)</p>
+<p>The rest of this article presents a procedure and the tools needed to implement the three phases described above. As part of harmonizing statistical practices and tools, Eurostat has recommended JDemetra+ to member countries of the European Statistical System for seasonal adjustment since 2015. We will therefore use this software. The following section briefly presents its main features relating to the production of seasonally adjusted series.</p>
+</section>
+</section>
+<section id="jdemetra-a-tool-for-seasonal-adjustment" class="level2">
+<h2 class="anchored" data-anchor-id="jdemetra-a-tool-for-seasonal-adjustment">JDemetra+: a tool for seasonal adjustment</h2>
+<p>JDemetra+ is an open-source library of algorithms for time series analysis. These are accessible via a graphical user interface (GUI), which can be enhanced with plug-ins (https://jdemetra-new-documentation.netlify.app/t-plug-ins) and an ecosystem of R packages, the rjdverse (https://github.com/rjdverse?view_as=public). In addition to seasonal adjustment, they also enable nowcasting, benchmarking, temporal disaggregation, trend estimation, and revision analysis. The development and promotion of JDemetra+ are co-financed by Eurostat through successive grants and currently within the <a href="https://jdemetra-new-documentation.netlify.app/#COSA-abstract">COSA</a> project.</p>
+<p>Seasonal adjustment is the area for which JDemetra+ is best known. The software was initially developed as a simple graphical interface, based on the original programs for the two algorithms X12-arima and Tramo-Seats. The aim was to provide users with a user-friendly view of the results, diagnostics, and parameters, and to harmonize this for both algorithms. The software was initially called <a href="https://github.com/cosa-tsa-shop/Resources-Logistics/tree/main/Historical%20Documents">Demetra</a>, the goddess of agriculture and the seasons. When the Fortran programs of the US Census Bureau and the Bank of Spain were rewritten in Java, Demetra became JDemetra+ <span class="citation" data-cites="grudkowska2013advanced">(<a href="#ref-grudkowska2013advanced" role="doc-biblioref">Grudkowska et al. 2013</a>)</span>.</p>
+<section id="algorithms" class="level3">
+<h3 class="anchored" data-anchor-id="algorithms">Algorithms</h3>
+<p>JDemetra+ now offers additional algorithms for seasonal adjustment, but only the two historical ones are really designed for mass data production, as they allow parameters to be stored in a workspace and use an automation module called Cruncher. In our examples, we will refer to X13-Arima, but all recommendations remain valid with Tramo-Seats.</p>
+<p>Tab: Seasonal adjustment algorithms</p>
+<table class="table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 6%">
+<col style="width: 24%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithme</th>
+<th>GUI</th>
+<th>Packages R</th>
+<th>Suitable for production</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>X13-ARIMA</td>
+<td>✅</td>
+<td>{rjd3x13}</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td>Tramo-Seats</td>
+<td>✅</td>
+<td>{rjd3tramoseats}</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td>X12+</td>
+<td>✅</td>
+<td>{rjd3x11plus}</td>
+<td>not yet</td>
+</tr>
+<tr class="even">
+<td>STL</td>
+<td>✅</td>
+<td>{rjd3stl}</td>
+<td>not yet</td>
+</tr>
+<tr class="odd">
+<td>Basic Structural Models</td>
+<td>✅</td>
+<td>{rjd3sts}</td>
+<td>not yet</td>
+</tr>
+</tbody>
+</table>
+<p>All of the above algorithms can be used to seasonally adjust monthly, quarterly, bimonthly, four-monthly, and biannual data. They also have extensions for high-frequency (infra-monthly) data, as detailed in Webel and Smyk <span class="citation" data-cites="webel2024seasonal">(<a href="#ref-webel2024seasonal" role="doc-biblioref">2024</a>)</span>.</p>
+</section>
+<section id="tools" class="level3">
+<h3 class="anchored" data-anchor-id="tools">Tools</h3>
+<section id="graphical-user-interface-gui" class="level4">
+<h4 class="anchored" data-anchor-id="graphical-user-interface-gui">Graphical User Interface (GUI)</h4>
+<p>JDemetra+ is available as a <a href="https://jdemetra-new-documentation.netlify.app/t-gui-overview">graphical user interface</a> designed to facilitate manual fine-tuning through an organized presentation of results and parameters. Operations are mainly performed by clicking buttons, which requires auxiliary automation tools. Using the GUI and the Cruncher also requires organizing data into a specific structure: the <a href="#sec-concept-workspace">workspace</a>.</p>
+</section>
+<section id="Cruncher" class="level4">
+<h4 class="anchored" data-anchor-id="Cruncher">Cruncher</h4>
+<p>The Cruncher avoids opening the interface and clicking when launching or refreshing an estimation. It is a command line executable module that we will use later with two R packages, rjwsacruncher for estimations and exporting results, and JDCruncher for formatting diagnostics. Another advantage of the Cruncher is its speed: it can be run on hundreds or thousands of series and produce results in a reasonable amount of time. The installation procedure and main functions are described in the <a href="https://jdemetra-new-documentation.netlify.app/t-production-tools-Cruncher-qr">documentation</a>.</p>
+</section>
+<section id="r-packages" class="level4">
+<h4 class="anchored" data-anchor-id="r-packages">R Packages</h4>
+<p>A family of packages, <a href="https://github.com/rjdverse">rjdverse</a> provides direct access to JDemetra+ algorithms in R and automates operations related to the use of workspaces. The rjd3production package offers macro functions corresponding to complete stages in the production chain.</p>
+<table class="table">
+<caption>R packages used for the production of seasonally adjusted series</caption>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Useful functions for production</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://github.com/rjdverse/rjd3toolkit">{rjd3toolkit}</a></td>
+<td>Generation of calendar regressors, Customization of specifications, Tests</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/rjdverse/rjd3x13">{rjd3x13}</a></td>
+<td>Seasonal adjustment (Reg-Arima pre-adjustment and X11 decomposition)</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/rjdverse/rjd3tramoseats">{rjd3tramoseats}</a></td>
+<td>Seasonal adjustment (TRAMO pre-adjustment and SEATS decomposition)</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/AQLT/rjwsacruncher">{rjwsacruncher}</a></td>
+<td>Workspace update and output export</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/InseeFr/JDCruncher">{JDCruncher}</a></td>
+<td>Create a quality report for the workspace based on the outputs</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/TanguyBarthelemy/rjd3production">{rjd3production}</a></td>
+<td>Wrapper with macro functions for each production step</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/rjdverse/rjd3workspace">{rjd3workspace}</a></td>
+<td>Workspace creation and modificationCréation et modification des workspaces</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/rjdverse/rjd3providers">{rjd3providers}</a></td>
+<td>Input data management</td>
+</tr>
+</tbody>
+</table>
+<p>The installation procedures for all of the tools presented are described in the <a href="https://jdemetra-new-documentation.netlify.app/#installing-the-software">documentation</a>.</p>
+</section>
+</section>
+<section id="data-structures" class="level3">
+<h3 class="anchored" data-anchor-id="data-structures">Data structures</h3>
+<p>In the following paragraphs, we briefly describe the data structures and concepts specific to JDemetra+, which will be useful in the following sections.</p>
+<section id="sec-concept-input" class="level4">
+<h4 class="anchored" data-anchor-id="sec-concept-input">Input series</h4>
+<p>The JDemetra+ interface accepts different types of data formats that can be imported from the menus in the <a href="https://jdemetra-new-documentation.netlify.app/t-gui-overview#providers-window">providers</a> tab.</p>
+<ul>
+<li>CSV files (specifying the field separator, date format, decimal separator, etc.)</li>
+<li>Excel files (only *.xlsx in version 3.x)</li>
+<li>XML files</li>
+<li>SDMX data sources</li>
+<li>ODBC or JDBC databases</li>
+</ul>
+<p>All series, whether seasonally adjusted data or auxiliary variables, are imported in the same way. For estimations, R packages work with TS class objects.</p>
+</section>
+<section id="sec-concept-output" class="level4">
+<h4 class="anchored" data-anchor-id="sec-concept-output">Outputs</h4>
+<p>JDemetra+ generates different types of outputs:</p>
+<ul>
+<li>Series (seasonally adjusted, seasonal factors, linearized series)</li>
+<li>Parameters (specification information)</li>
+<li>Diagnostics (information on the quality of the fit)</li>
+</ul>
+<p>The graphical interface allows you to view these outputs and export them using <a href="https://jdemetra-new-documentation.netlify.app/t-gui-output">drop-down menus</a>.</p>
+<p>The Cruncher avoids menu navigation by offering an identical automated export. The parameters and diagnostics are grouped into a single data file where the identifier is the name of the series. The exported file is called demetra_m.cvs, where “m” stands for matrix.</p>
+<p>If the estimation is done in R, for example with {rjd3x13}, a list of lists groups the series, diagnostics, and parameters.</p>
+<p>Estimation et recupération des séries finales</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3toolkit"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3x13"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">x13</span>(ABS[, <span class="dv">1</span>])</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span>result<span class="sc">$</span>final</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="sec-concept-specification" class="level4">
+<h4 class="anchored" data-anchor-id="sec-concept-specification">Specifications</h4>
+<p>A specification is a set of parameters and constraints specific to X-13 or Tramo-Seats that enable a series to be seasonally adjusted. Each algorithm has a set of <a href="https://jdemetra-new-documentation.netlify.app/a-sa-pre-treatment#a-pre-t-def-spec">default specifications</a> that the user can customize. Thus, a specification will be attached to each series, stored in the workspace or in the R object.</p>
+<p>More specifically, version 3 of JDemetra+ allows to manipulate three versions of the same initial specification: <code>domainSpec</code> (or reference spec in the GUI), <code>estimationSpec</code>, and <code>pointSpec</code>. The distinction between these three stages becomes useful when applying an estimation or refresh policy with the GUI or Cruncher during annual or infra-annual campaigns.</p>
+<ul>
+<li><p><code>domainSpec</code>: set of constraints within which the estimation will be performed; if the user sets parameters here, they will never be deleted.</p></li>
+<li><p><code>estimationSpec</code>: contains all the parameter choices resulting from the estimation, for example:</p></li>
+<li><p><code>pointSpec</code>: complete result of the estimation (coefficients, length and weight of filters, etc.) allowing the estimated series to be retrieved from the raw series.</p></li>
+</ul>
+<p>The display and modification by the user of these three types of specifications, as well as an example of use cases, are presented in the <a href="#comp-specs">appendices</a>.</p>
+<p>This definition and the behavior of refresh policies is different from JDemetra+ version 2. Details are provided in the <a href="#spec-v2-v3">appendices</a>.</p>
+</section>
+<section id="sec-concept-workspace" class="level4">
+<h4 class="anchored" data-anchor-id="sec-concept-workspace">Workspaces</h4>
+<p>A workspace is a data structure specific to JDemetra+, consisting of a set of XML files organized into folders (image and link to doc) containing, among other things:</p>
+<ul>
+<li>External variables (calendar regressors, etc.)</li>
+<li>Custom calendars for the workspace</li>
+<li>Specifications (seasonal adjustment models)</li>
+<li>Multi-documents, also known as SA-Processing</li>
+</ul>
+<p>At the first level, a workspace is the combination of a directory (containing XML files) and a master XML file that defines the structure of the folder and its contents. Both have the same name and must be located together in the same directory.</p>
+<p>A workspace contains SA-Processing, the equivalent of subdirectories specific to JDemetra+, where SA-items are created. These are sub-structures containing all the information relating to a series (raw data, links to it, and the three types of specifications seen in the previous section). The workspace does not store results, but rather all the parameters needed to regenerate them. We complete this description in <a href="#data-structures">appendices</a>.</p>
+<p>The following section details the steps involved in building a production chain by combining the tools described above.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-gomez1996programs" class="csl-entry" role="listitem">
+Gomez, Victor, and Agustin Maravall. 1996. <span>“Programs TRAMO (Time Series Regression with Arima Noise, Missing Observations, and Outliers) and SEATS (Signal Extraction in Arima Time Series). Instructions for the User.”</span> <em>Documento de Trabajo</em> 9628: 56.
+</div>
+<div id="ref-grudkowska2013advanced" class="csl-entry" role="listitem">
+Grudkowska, Sylwia, Dario Buono, Jean Palate, and Wojciech Ciebiera. 2013. <span>“Advanced Tools for Time Series Analysis and Seasonal Adjustment in the New Jdemetra+.”</span> <em>JSM Proceedings Paper</em>.
+</div>
+<div id="ref-census" class="csl-entry" role="listitem">
+US-Census-Bureau. 2015. <span>“The x-13ARIMA-Seats Seasonal Adjustment Program.”</span> 2015. <a href="https://www.census.gov/srd/www/x13as">https://www.census.gov/srd/www/x13as</a>.
+</div>
+<div id="ref-webel2024seasonal" class="csl-entry" role="listitem">
+Webel, Karsten, and Anna Smyk. 2024. <span>“Seasonal Adjustment of Infra-Monthly Time Series with JDemetra+.”</span> <em>Journal of Official Statistics</em> 40 (4): 783–828.
+</div>
+</div>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./introduction.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.bib" class="pagination-link">
+        <span class="nav-page-text"></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right"></div>
+  </div>
+</footer>
+
+
+
+</body></html>

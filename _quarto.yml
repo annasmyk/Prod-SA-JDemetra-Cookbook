@@ -1,20 +1,21 @@
 project:
   type: book
 book:
-  title: "JDemetra+ documentation"
+  title: "Production of seasonally adjusted series"
+  subtitle: "JDemetra+ and R Cookbook"
 
   reader-mode: false
   sharing: [facebook, twitter, linkedin]
 
   page-footer:
     right: |
-      <li><a href="https://github.com/annasmyk/JD_Quarto_Book" target="blank">Code source</a></li>
+      <li><a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook" target="blank">Code source</a></li>
     left: |
       This book was built with <a href="https://quarto.org/">Quarto</a>.
 
   repo-actions: [edit,issue]
   site-url: https://jdemetra-new-documentation.netlify.app/
-  repo-url: https://github.com/annasmyk/JD_Quarto_Book
+  repo-url: https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook
   repo-branch: main
   # cover-image: resources/logo-utilitr.png
   # favicon: resources/logo-utilitr.png
@@ -40,89 +41,18 @@ book:
           city: Paris
           url: "https://www.insee.fr/fr/accueil"
       role: "Author"
-    - name: Karsten Webel
-      url: https://github.com/webelk
-      affiliations:
-        - name: Deutsche Bundesbank
-          country: Germany
-          city: Frankfurt
-          url: "https://www.bundesbank.de"
-      role: "Collaborator"
-    - name: Maria Novas Filgueira
-      url: https://github.com/maria-novas
-      affiliations:
-        - name: Ine
-          country: Spain
-          city: Madrid
-          url: "https://www.ine.es/"
-      role: "Collaborator"
-    - name: Luis Sanguiao Sande
-      affiliations:
-        - name: Ine
-          country: Spain
-          city: Madrid
-          url: "https://www.ine.es/"
-      role: "Collaborator"
-    - name: Felix Aparicio Perez
-      affiliations:
-        - name: Ine
-          country: Spain
-          city: Madrid
-          url: "https://www.ine.es/"
-      role: "Collaborator"
-  date: "02/10/2026"
+
+  date: "02/28/2026"
   page-navigation: true
   chapters:
     - index.qmd
-#     ##- example.qmd
-#     ##- quickstart.qmd
-#     - G-how-to-use-this-book.qmd ## (#G-use-book)
-#     - G-news-v3-vs-v2.qmd ##(#v3-vs-v2)
-#     ##- G-jd-history.qmd ##(#g-jd-hist)
-#     - part: P_Algorithms.qmd ##(#part-A)
-#       chapters:
-#         - A-RegArima-Tramo-Modelling-Overview.qmd ## (#a-reg-a)
-#         - A-sa-overview.qmd ##(#sa-overview)
-#         - A-sa-pre-treatment.qmd ##(#sa-pre-t)
-#         - A-sa-X11-decomposition.qmd ##(a-sa-X11)
-#         - A-sa-seats-decomposition.qmd ##(#a-sa-seats)
-#         - A-rev-policies.qmd ##(#a-rev-pol)
-#         - A-sa-hf.qmd ##(#a-sa-hf)
-#         - A-sa-x12.qmd
-#         - A-sa-stl-decomposition.qmd ##(#a-sa-stl)
-#         - A-sa-bsm.qmd ##(#a-sa-bsm)
-#         - A-outlier-detection.qmd ##(#a-out-reg-ext)
-#         - A-calendar-correction.qmd ##(#a-cal)
-#         - A-benchmarking.qmd ##(#a-bench)
-#         - A-trend-cycle-estimation.qmd ##(#a-trend)
-#         - A-revision-analysis.qmd ##(#a-revs)
-#         - A-nowcasting.qmd ##(#a-now)
-#     - part: P_Tools.qmd ##(#part-T)
-#       chapters:
-#         - T-GUI-Overview.qmd ##(#t-gui-overview)
-#         - T-GUI-Data-Viz-TS-Tools.qmd ##(#t-GUI-tstools)
-#         - T-GUI-SA-Modelling-Features.qmd ##(#t-gui-sa)
-#         - T-GUI-Output.qmd ##(#t-gui-output)
-#         - T-plug-ins.qmd ##(#t-plug-ins)
-#         - T-Production-tools-cruncher-QR.qmd ##(#t-prod)
-#         - T-r-packages.qmd ##(#t-r-packs)
-#     - part: P_Methods.qmd ##(#part-T)
-#       chapters:
-#         - M-spectral-analysis.qmd ##(#m-spectrum)
-#         - M-reg-arima-modelling.qmd ##(#m-reg-a)
-#         - M-X11-decomposition.qmd ##(#m-X11)
-#         - M-SEATS-decomposition.qmd ##(#m-seats)
-#         #- M-sa-hf.qmd ##(#m-sa-hf)
-#         # - M-Trend-Estimation-Local-Polynomials.qmd ##(#m-trend)
-#         - M-tests.qmd ##(#m-tests)
-#         - M-STL-decomposition.qmd ##(#m-stl)
-#         # - M-state-space-framework.qmd ##(#m-ssf)
-#         - M-Temp-Disagg-Bench.qmd ##(#m-bench)
-#         - M-revision-analysis.qmd ##(#m-revs)
-#     #- Output_Description.qmd ##(#output-chap)
-#     - references.bib
-# bibliography: references.bib
-
+    - introduction.qmd
+    - P1-Overview.qmd
+    # - P2-Build.qmd
+    # - P3-Review.qmd
+    # - P4-Appendices.qmd
+    - references.bib
+bibliography: references.bib
 format:
   html:
     grid:
