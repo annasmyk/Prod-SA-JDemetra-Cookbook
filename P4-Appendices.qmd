@@ -1,14 +1,31 @@
 # Appendices {.unnumbered}
 
-## Production using the graphical interface: code {#prod-steps}
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| labl: "loading-packages"
 
-### Setting up the process and initial estimation
+library("ggplot2")
+library("dplyr")
 
-#### Correcting calendar effects
+library("rjd3toolkit")
+library("rjd3x13")
+library("rjd3providers")
+library("rjd3workspace")
+library("rjd3production")
+```
 
-##### Creating a reference calendar
 
-To create a French calendar based on French public holidays, you can use the [`create_french_calendar()`](https://tanguybarthelemy.github.io/rjd3production/reference/insee_modelling.html) function from the {rjd3production} package:
+## Calendar effect correction {#crea-regs}
+
+There are two possible procedures for generating calendar regressors: creating customized regressors as shown below, or using predefined regressors in JDemetra+, which also requires defining a reference calendar. Version 3.x of the GUI allows you to automatically \[select 🔗)(https://jdemetra-new-documentation.netlify.app/a-sa-pre-treatment#calendar-correction) from the predefined regressor sets, based on statistical tests.
+
+Instead of a simple [national calendar 🔗](https://jdemetra-new-documentation.netlify.app/a-calendar-correction#national-calendar), JDemetra+ allows you to create [“chained” 🔗](https://jdemetra-new-documentation.netlify.app/a-calendar-correction#chained-calendar) or [“composite” 🔗](https://jdemetra-new-documentation.netlify.app/a-calendar-correction#composite-calendar) with the GUI or [rjd3toolkit 🔗](https://rjdverse.github.io/rjd3toolkit/reference/index.html#calendars).
+
+### Creating a reference calendar
+
+To create a French calendar based on French public holidays, you can use the [`create_french_calendar()` 🔗](https://inseefr.github.io/rjd3production/reference/insee_modelling.html) function from the {rjd3production} package:
 
 ```{r}
 #| eval: true
@@ -17,9 +34,9 @@ To create a French calendar based on French public holidays, you can use the [`c
 cal_FR <- create_french_calendar()
 ```
 
-This function can be easily adapted to any national calendar.
+This function can be adapted to any national calendar.
 
-##### Generation of regressor sets
+### Generation of regressor sets
 
 Using the French calendar, it is possible to generate calendar regressors based, for example, on the usual groupings used by INSEE:
 
@@ -32,178 +49,74 @@ sets <- create_insee_regressors_sets(start = c(2000, 1), frequency = 12, length 
 names(sets)
 ```
 
-##### Selecting the best model for each series
+## Quality Report: Diagnostics and R Code {#ind-bq-r}
 
-We store the different sets of regressors in a “modelling context” and evaluate the relative effectiveness of each set on our series:
+Diagnostics selected by default when using X-13-Arima\footnote{When using Tramo-Seats, this also works, but in this version, the diagnostics specific to X-13-Arima are simply removed and not replaced} are as follows:
 
-```{r}
-#| eval: false
-#| echo: true
+Table A1: Diagnostics
 
-my_context <- create_insee_context()
-cjo_table <- select_regs(my_data_set, context = my_context)
-```
+![](img/BQ-Output-EN.png)
 
-##### Customizing specifications
-
-We include the selected set in the series specification.
-
-For example, modify a specification `my_spec`:
+In R, the diagnostics are extracted from the “model” object containing all the estimation results and obtained with the code below.
 
 ```{r}
 #| eval: false
 #| echo: true
 
-new_spec <- set_tradingdays(
-    my_spec,
-    option = "UserDefined",
-    uservariable = "REG5",
-    test = "None"
-)
+model <- x13(my_series, my_spec)
+str(model)
 ```
 
-Or modify all specifications for a workspace `my_ws`:
+More information on the tests is available in the [documentation 🔗](https://jdemetra-new-documentation.netlify.app/m-tests)
 
-```{r}
-#| eval: false
-#| echo: true
-
-assign_td(cjo_table, my_ws)
-```
-
-##### Assignment of calendar regressors
-
-##### Assignment of outliers
-
-Other parameters
-
-Estimation Preliminary estimation
-
-Output generation
-
-Quality control
-
-Production of a quality report
-
-Manual fine-tuning
-
-Final estimation
-
-Final Output generation
-
-### Quality Report: Additional Information
-
-#### Diagnostics and R Code {#ind-bq-r}
-
-A set selected by default when using X-13-Arima\footnote{When using Tramo-Seats, this also works, but in this version, the diagnostics specific to X-13-Arima are simply removed and not replaced} are as follows:
-
-COLLER TABLEAU complété
-
-#### Score equation {#eq-score}
+### Score equation {#eq-score}
 
 $$
-score\_total =30 * score\_qs\_residual\_s\_on\_sa + 30 * score\_f\_residual\_s\_on\_sa + 20 * score\_qs\_residual\_sa\_on\_i + \\
-20 * score\_f\_residual\_sa\_on\_i + 30 * score\_f\_residual\_td\_on\_sa + 20 * score\_f\_residual\_td\_on\_i + \\
-15 * score\_oos\_mean + 10 * score\_oos\_mse + 15 * score\_residuals\_independency + \\
-5 * score\_residuals\_homoskedasticity + 5 * score\_residuals\_skewness + 5 * score\_m7 + 5 * score\_q\_m2
+\begin{aligned}
+score\_total &= 30 * grade\_qs\_residual\_s\_on\_sa\\
+&+ 30 * grade\_f\_residual\_s\_on\_sa\\
+&+ 30 * grade\_f\_residual\_td\_on\_sa\\
+&+ 20 * grade\_f\_residual\_td\_on\_i\\
+&+ 20 * grade\_qs\_residual\_sa\_on\_i\\
+&+ 20 * grade\_f\_residual\_sa\_on\_i\\
+&+ 15 * grade\_oos\_mean\\
+&+ 10 * grade\_oos\_mse\\
+&+ 15 * grade\_residuals\_independency\\
+&+ 5 * grade\_residuals\_skewness\\
+&+ 5 * grade\_residuals\_homoskedasticity\\
+&+ 5 * grade\_q\_m2\\
+&+ 5 * grade\_m7
+\end{aligned}
 $$
 
-### Infra-annual campaign
+## Annual campaign: comparison of workspaces
 
-#### “Lastouliers” case
+### Creation of WS_work {#merge-ws}
 
-CODE - launch cruncher
+The **WS_work** is a merger between **WS_ref** and **WS_auto**. A score is calculated for both workspaces and, for each series, the SA-Item is retrieved from the workspace with the lowest score between WS_auto and WS_ref.
 
-#### Case of forecast seasonal factors
-
-CODE - recup s_f and decomp schema - calculation (not detailed)
-
-### Annual campaign: comparison of workspaces
-
-additional code vs body of text
-
-#### Production of quality reports on WS_ref and WS_auto
-
-code
-
-#### Creation of WS_work {#merge-ws}
-
-WS_work is a merge between WS_ref and WS_automatic. A quality assessment (QA) and a score are calculated for the two WSs, and for each series, the SA-Item (noted SAI) is retrieved from the WS with the lowest score between WS_auto and WS_ref, with a 20-point offset for WS_automatique.
-
-In an annual campaign process, the `transfer_series()`{.r} function from {rjd3workspace} is used to merge **WS_ref** and **WS_auto**.
-
-CODE to be improved
+In an annual campaign process, we will use the [`transfer_sa_item()`{.r} 🔗](https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html) function from {rjd3workspace} to merge **WS_ref** and **WS_auto**.
 
 ```{r}
 #| eval: false
 #| echo: true
 
-WS_rsa3 <- load_workspace(file = "./WS/WS_rsa3.xml")
+# save WS_ref as initial version of WS_work
+WS_auto <- load_workspace(file = "./WS/WS_auto.xml")
 WS_work <- load_workspace(file = "./WS/WS_work.xml")
 
-sap1_rsa3 <- .jws_sap(jws = WS_rsa3, idx = 1)
+sap1_auto <- .jws_sap(jws = WS_auto, idx = 1)
 sap1_work <- .jws_sap(jws = WS_work, idx = 1)
 
+# update ws_work with sa-items from ws auto when necessary 
 transfer_series(
-    jsap_from = sap1_rsa3,
+    jsap_from = sap1_auto,
     jsap_to = sap1_work,
     selected_sa_items = c("RF0610", "RF0620")
 )
 
 save_workspace(jws = WS_work, file = "./WS/WS_work.xml")
 ```
-
-#### Quality assessment of the working set and manual expertise
-
-CODE
-
-Manual expertise: 1 descriptive sentence
-
-## Production process in R: code {#prod-full-R}
-
-### Setting up the process and initial estimate
-
-Add CODE/comment where necessary
-
-The creation and selection of regressors is the same
-
-Customization of specifications: everything is simpler here, just customization of specs in R
-
--   Assignment of calendar regressors
-
--   Assignment of outliers
-
--   Other parameters
-
-Estimation
-
-Preliminary estimation
-
-Production output
-
-Quality control
-
-Production of a quality assessment
-
-Manual expertise
-
-Final estimation
-
-Final production output
-
-### Infra-annual campaign
-
-#### “Last outliers” case
-
-CODE
-
-#### Predicted seasonal coefficients case
-
-CODE - recup s_f and decomp schema - calculation (not detailed)
-
-### Annual campaign: comparison of workspaces
-
-additional code vs body of text
 
 ## Refreshing data in R data {#refresh-R}
 
@@ -288,11 +201,9 @@ library("rjd3workspace")
 set_specification(jsap, 1L, new_estimation_spec)
 ```
 
-
-- `pointSpec` (or Result Specification)
+-   `pointSpec` (or Result Specification)
 
 Estimation result can be applied as indicated above.
-
 
 ```{r}
 #| eval: false
@@ -387,4 +298,4 @@ The modelling context contains the calendars, variables, and external regressors
 
 It is possible to convert X-13 specifications used in the US Census Bureau's X-13-Arima-Seats software into JDemetra+ X13-Arima specifications.
 
-This operation is performed using the graphical interface with the [SpecParser](https://github.com/bbkrd/SpecParser) plug-in, which can only be used in version 2. The workspace containing these specifications can be opened in version 3. The plug-in documentation can be found [here](https://bbkrd.github.io/pages/specparser/) and all the migration steps are described [here](https://bbkrd.github.io/pages/specparser/) in the JDemetra+ documentation.
+This operation is performed using the graphical interface with the [SpecParser 🔗](https://github.com/bbkrd/SpecParser) plug-in, which can only be used in version 2. The workspace containing these specifications can be opened in version 3. The plug-in documentation can be found [here 🔗](https://bbkrd.github.io/pages/specparser/) and all the migration steps are described [here 🔗](https://bbkrd.github.io/pages/specparser/) in the JDemetra+ documentation.

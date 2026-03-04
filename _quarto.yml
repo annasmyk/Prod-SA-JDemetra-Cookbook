@@ -48,9 +48,10 @@ book:
     - index.qmd
     - introduction.qmd
     - P1-Overview.qmd
-    # - P2-Build.qmd
-    # - P3-Review.qmd
-    # - P4-Appendices.qmd
+    - P2-Build.qmd
+    - P3-Review.qmd
+    - P4-Appendices.qmd
+    - references.qmd
     - references.bib
 bibliography: references.bib
 format:
@@ -66,3 +67,7 @@ format:
     documentclass: scrreprt
 
 editor: source
+lang: en
+monofont: 'Fira Code'
+monofontoptions: 'Scale=0.75'
+

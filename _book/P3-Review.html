@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Production of seasonally adjusted series - Part 3: Infra-annual and annual campaigns</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./P4-Appendices.html" rel="next">
+<link href="./P2-Build.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./P3-Review.html">Part 3: Infra-annual and annual campaigns</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Production of seasonally adjusted series</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abstract</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P1-Overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part 1: Seasonal Adjustment and Production</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P2-Build.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part 2: Building a production process</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P3-Review.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Part 3: Infra-annual and annual campaigns</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P4-Appendices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendices</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#camp-infra" id="toc-camp-infra" class="nav-link active" data-scroll-target="#camp-infra">Infra-annual campaigns</a></li>
+  <li><a href="#camp-an" id="toc-camp-an" class="nav-link" data-scroll-target="#camp-an">Annual campaigns</a></li>
+  <li><a href="#numerical-impact-of-a-change-in-parameters" id="toc-numerical-impact-of-a-change-in-parameters" class="nav-link" data-scroll-target="#numerical-impact-of-a-change-in-parameters">Numerical impact of a change in parameters</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook/edit/main/P3-Review.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Part 3: Infra-annual and annual campaigns</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="camp-infra" class="level3">
+<h3 class="anchored" data-anchor-id="camp-infra">Infra-annual campaigns</h3>
+<p>The objective of an infra-annual campaign is to quickly produce an updated SA-CJO series when a new gross point is available and the recent past of the gross series may be revised. The seasonally adjusted series has two sources of revision: the raw data and changes to the final seasonal factor estimation models. The seasonal adjustment guidelines recommend minimizing these so-called technical revisions (see Chapter 6). A common method for achieving this objective is to use the predicted seasonal factors, including the predicted calendar effect, calculated during the last annual campaign. However, JDemetra+ also offers a continuum of refresh methods that allow to gradually loosen the constraints on the pre-adjustment and control the revisions of the linearized series before the decomposition step, which will be completely redone. All of these refresh policies are presented in the <a href="https://jdemetra-new-documentation.netlify.app/a-rev-policies">documentation&nbsp;🔗</a>, among which the “lastoutliers” option is particularly recommended. In this case, we allow ourselves to re-identify the outliers over the last year. Manual expertise in the infra-annual context will focus on revisions and therefore outliers, avoiding too many parameter changes. This refresh is possible from the graphical interface, with the Cruncher by specifying the “policy” argument of the rjwsacruncher::cruncher_and_param function but also directly in R, as shown in the code examples in the <a href="P4-Appendices.html#refresh-R">appendices&nbsp;🔗</a>.</p>
+<p>For infra-annual estimation with the Cruncher, the following R code can be used:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjwsacruncher"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cruncher_and_param</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">workspace =</span> <span class="st">"C:/my_folder/my_ws.xml"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rename_multi_documents =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">policy =</span> <span class="st">"lastoutliers"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Table 4: Implementation of a refresh policy</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Data type</th>
+<th>Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Workspace</td>
+<td>- GUI <a href="https://jdemetra-new-documentation.netlify.app/a-rev-policies#implementation-in-gui">(Drop-down menus)</a><a href="P4-Appendices.html#refresh-R">🔗</a></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>- <a href="https://aqlt.github.io/rjwsacruncher/reference/cruncher_and_param.html"><code class="sourceCode r">rjwsacruncher<span class="sc">::</span><span class="fu">cruncher_and_param</span>(..., <span class="at">policy=</span> ,)</code>&nbsp;🔗</a></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>- <a href="https://rjdverse.github.io/rjd3workspace/reference/refresh.html"><code class="sourceCode r">rjd3workspace<span class="sc">::</span><span class="fu">jws_refresh</span>()</code>&nbsp;🔗</a></td>
+</tr>
+<tr class="even">
+<td>TS objects in R</td>
+<td>- <a href="https://rjdverse.github.io/rjd3x13/reference/refresh.html"><code class="sourceCode r">rjd3x13<span class="sc">::</span><span class="fu">x13_refresh</span>()</code>&nbsp;🔗</a></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>- <a href="https://rjdverse.github.io/rjd3tramoseats/reference/refresh.html"><code class="sourceCode r">rjd3tramoseats<span class="sc">::</span><span class="fu">tramoseats_refresh</span>()</code>&nbsp;🔗</a></td>
+</tr>
+</tbody>
+</table>
+<p>The use of forecast seasonal coefficients (<span class="math inline">\(S\_{f}\)</span>) simply requires exporting them at the end of the installation process, then at the end of each annual campaign, in order to perform the calculation: <span class="math inline">\(Y_{sa}=Y_{raw}-S_{f}\)</span> or <span class="math inline">\(Y_{sa}=Y_{raw} / S_{f}\)</span>, in the case of a multiplicative model. To potentially take into account a revision of the recent past of the raw series, exporting past coefficients is also useful. The series of forecast coefficients can be generated by the Cruncher by specifying it in the options, as shown below</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">default_tsmatrix_series =</span> <span class="fu">c</span>(<span class="st">"sa"</span>, <span class="st">"sa_f"</span>, <span class="st">"s"</span>, <span class="st">"s_f"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>or in R by defining a user-defined output as shown below</p>
+<!-- If the SA series is generally updated with projected seasonal factors outside of JDemetra+, in order to minimize the tools used, this operation can also be performed in a workspace by blocking the re-estimation span on the date of the last annual campaign or installation of the process, while continuing to update the data. However, it is necessary to determine the desired behavior in the event of a revision of the recent past by selecting the appropriate refresh policy. -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">x13</span>(y, <span class="at">userdefined =</span> <span class="fu">c</span>(<span class="st">"s"</span>, <span class="st">"s_f"</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mod<span class="sc">$</span>user_defined)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="camp-an" class="level3">
+<h3 class="anchored" data-anchor-id="camp-an">Annual campaigns</h3>
+<p>An annual campaign consists of updating seasonal coefficient estimation models to verify that the parameters used do indeed produce seasonally adjusted series with the required properties (absence of residual seasonality, absence of residual calendar effects, etc.).</p>
+<p>This update can be done by comparing the current or reference models used up to the time of the campaign with an automatic estimate. In most cases, the automatic estimation will be constrained by past parameters such as the selection of calendar regressors or certain pre-specified outliers, particularly those from the COVID period. For ease of comparison, it may be useful to calculate the quality report scores described in Part 2 for the “reference” or “current” workspace and the “automatic” workspace. A lower score for the automatic estimate means that this is preferable, and a new workspace (“working”) can then be created by merging the “current” and “automatic” workspaces, as detailed in the <a href="#fusion-ws">appendices&nbsp;🔗</a>.</p>
+<p>This approach requires working on comparable raw series. If these have undergone significant revisions (re-basing, change of source, etc.), we return to an approach similar to the installation of a new process.</p>
+<p>Main steps:</p>
+<ul>
+<li><p>Update the reference workspace (“ref”) using the new raw data and statistical parameters from the previous annual campaign, possibly modified by the same strategy as a sub-annual campaign (e.g., “lastoutliers”).</p></li>
+<li><p>Automatic estimation (“auto”) on the new raw data, probably maintaining certain parameters (set of calendar regressors, some or all of the outliers “pre-specified” by the user, etc.)</p></li>
+<li><p>calculation of scores for the two workspaces “ref” and “auto”</p></li>
+<li><p>merging of the “auto” and “ref” workspaces into a new ‘working’ workspace according to the score value of each series</p></li>
+<li><p>editing of a quality report on the “working” Workspace</p></li>
+<li><p>Manual review with selective editing, as in the installation phase</p></li>
+<li><p>Generation of the final output with the Cruncher, as in the installation phase</p></li>
+</ul>
+<p>If forecast coefficients are used during infra-annual campaigns, the workspace from the previous annual campaign can be updated with a policy “last outliers” to return to the case described above.</p>
+<p>Details on how the data is organized and code snippets are provided in the <a href="https://inseefr.github.io/rjd3production/articles/process.html">vignette {rjd3production} package 🔗</a>.</p>
+</section>
+<section id="numerical-impact-of-a-change-in-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-impact-of-a-change-in-parameters">Numerical impact of a change in parameters</h3>
+<p>In light of the (bad) diagnostics, identified in particular through the quality report, the producer can intervene to modify the parameters and improve the statistical quality of the adjustment. For example, they can modify a set of calendar regressors and eliminate the residual calendar effects that they had previously observed. Beyond improving statistical test results, it is often useful to visualize the numerical impact of a parameter change or re-estimation, which allows revisions to be quantified and visualized, but also certain settings to be validated, particularly the choice of outliers based on “expert knowledge.” Exporting the series produced is one solution, but if you want to make these comparisons before you have finished working on a workspace, you can use the <a href="https://inseefr.github.io/rjd3production/reference/compare.html"><code class="sourceCode r"><span class="fu">compare</span>()</code>&nbsp;🔗</a> function from the rjd3production package, which avoids generating intermediate outputs. This allows you to read the series directly in two or more workspaces, each corresponding to a version of the parameters or a state of the estimate, as shown in the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">compare</span>(path_ws_ref, path_ws_work)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_app</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The function launches a shiny application that provides a graphical comparison, below is the final trend (d12), and the ability to download the series values to analyze the revisions.</p>
+<p><img src="img/shiny-app.png" class="img-fluid"></p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Ensuring the statistical quality of seasonally adjusted series requires the implementation of a production process that, in light of diagnostics, allows for easy and large-scale customization of estimation parameters. The use of the open-source software JDemetra+ and its numerous R tools makes it possible to achieve this goal by offering many automation options while providing access to detailed manual fine tuning. We have seen that the decision to integrate the graphical user interface into a production process is fundamental to the organization of data. The main reasons for this should be the use of manual expertise and performance. However, an organization based solely on R does not exclude ad hoc use of the GUI or Cruncher. The organization of operations and the use of tools as described in this article are, of course, only suggestions, which we hope will provide practical answers to the many producers of SA series who wish to use JDemetra+.</p>
+<p>In order to communicate with their users, they often need reporting tools that break down the effects of seasonal adjustment on changes in a given series, in particular to highlight the various contributions to revisions. Such tools are often very local, but there are packages or plug-ins linked to JDemetra+, often still in version 2, that allow this type of information to be obtained quickly. It would be interesting to follow up on this article by offering a review of open-source reporting tools and making available an R package that allows users to take full advantage of version 3 of JDemetra+.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./P2-Build.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Part 2: Building a production process</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./P4-Appendices.html" class="pagination-link">
+        <span class="nav-page-text">Appendices</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right"></div>
+  </div>
+</footer>
+
+
+
+</body></html>

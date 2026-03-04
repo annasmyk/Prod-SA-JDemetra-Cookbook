@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Production of seasonally adjusted series - Introduction</title>
+<title>Production of seasonally adjusted series - References</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -49,8 +49,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./P1-Overview.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./references.bib" rel="next">
+<link href="./P4-Appendices.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -93,7 +93,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./introduction.html">Introduction</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -152,7 +152,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./introduction.html" class="sidebar-item-text sidebar-link active">
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -182,7 +182,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
+  <a href="./references.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -199,7 +199,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction</h1>
+<h1 class="title">References</h1>
 </div>
 
 
@@ -214,35 +214,54 @@ div.csl-indent {
 
 </header>
 
-<p>Seasonal adjustment is a key process in official statistics. The dissemination of most economic indicators requires that they first be purged of quasi-periodic, seasonal, and calendar movements in order to facilitate the interpretation of short-term developments and the identification of turning points and medium- and long-term trends <span class="citation" data-cites="bell1984issues">(<a href="references.html#ref-bell1984issues" role="doc-biblioref">Bell and Hillmer 1984</a>)</span>. However, implementing a standardized and flexible process for producing seasonally and calendar adjusted (sa) series that complies with European statistical system best practices <span class="citation" data-cites="eurostat2024guidelines">(<a href="references.html#ref-eurostat2024guidelines" role="doc-biblioref">Eurostat 2024</a>)</span> is costly. <!-- % challenges, implementation difficulties  --> <!-- % good properties of a process --> In addition to producing seasonally adjusted series, it must also provide integrated quality indicators <span class="citation" data-cites="ch22HBSA">(<a href="references.html#ref-ch22HBSA" role="doc-biblioref">Kirchner and alli 2018</a>)</span> and allow for manual adjustment by experts, often under significant time constraints. <!-- %good properties of a process  --> <!-- %current situation at INSEE: around JD+ --> At INSEE, all seasonal adjustment processes are built around JDemetra+ <span class="citation" data-cites="JD_doc">(<a href="references.html#ref-JD_doc" role="doc-biblioref">Smyk and alli 2026</a>)</span>, officially recommended by Eurostat since 2015. This is open source software for time series analysis, providing access to the two most popular seasonal adjustment algorithms in European official statistics: X-13 Arima <span class="citation" data-cites="census">(<a href="references.html#ref-census" role="doc-biblioref">US-Census-Bureau 2015</a>)</span> and Tramo-Seats <span class="citation" data-cites="gomez1996programs">(<a href="references.html#ref-gomez1996programs" role="doc-biblioref">Gomez and Maravall 1996</a>)</span>. The algorithms are written in Java and accessible via a <a href="https://github.com/jdemetra">graphical user interface&nbsp;🔗</a> and a family of R packages: the <a href="https://github.com/rjdverse">rjdverse&nbsp;🔗</a>.</p>
-<p>Version 3 of JDemetra+, gradually available since 2023, offers new R tools to optimize production and improve existing processes <!-- % need for mass parameterization --> <!-- %highlighting difficulties  --> In addition, the Covid crisis has highlighted the need for fine-grained parameterization on a very large scale, such as assigning specific outlier profiles to each series for several hundred series. <!-- % transition from SAS to R --> Finally, the emphasis in recent years on the transition from SAS to R at INSEE is promoting the acceptance of these new tools in a general context of modernization. Therefore, the current context is very favorable for reviewing and optimizing existing processes.</p>
-<p>Each year, INSEE’s Statistical Methods Department undertakes a number of process redesigns, disseminates best practices, and trains producers in the use of the JDemetra+ software. However, in order to clarify the construction and optimization of seasonality adjustment processes, an example of a method and a presentation of the latest tools are necessary.</p>
-<p>Currently, producers of seasonally adjusted series have access to theoretical information on seasonal adjustment algorithms, such as the <a href="https://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/ks-gq%20-18-001">Handbook on Seasonal Adjustment&nbsp;🔗</a>, a guide to <a href="https://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/w/ks-gq%20-24-012">best practices&nbsp;🔗</a>, the <a href="https://jdemetra-new-documentation.netlify.app/">JDemetra+ software documentation&nbsp;🔗</a>, and possibly notes reflecting the historical sedimentation of practices in your institution. One piece seems to be missing from this puzzle: a specific example of implementation using the most up-to-date tools. The rest of this article aims to describe and illustrate how to take advantage of JDemetra+ version 3.x to build efficient production processes, adjust up to several thousand series with individualized settings, control statistical quality, and target manual fine-tuning.</p>
-<p>The production of seasonally adjusted series generally involves three stages: the process of installation, during which methodological changes are most significant; annual revision campaigns; and infra-annual revision campaigns. Production processes can be based on workspaces—a data structure specific to JDemetra+ that allows for the use of a graphical interface—or be built entirely in R. <!-- % more precise here GUI vs R world Comm + fluid  --></p>
-<p>Annual campaigns require tools for comparing and prioritizing models in need of manual fine-tuning. The R package JDCruncheR can be used for this purpose. Infra-annual production requires data revision policies and tools for analysis of revisions to validate figures before publication. We detail these three phases by showing the advantages and disadvantages of different configurations, presenting available tools, and comparing execution times. The article includes R code snippets, and a complete example is available in the <a href="https://inseefr.github.io/rjd3production/articles/process.html">{rjd3production} package&nbsp;🔗</a></p>
-<p>Following a brief overview of the statistical operations comprising the seasonal adjustment process and the JDemetra+ software, the second section outlines the construction of a production process. The third section covers annual and infra-annual reviews of parameters. The appendices provide a more detailed presentation of the reviewed tools.</p>
-
-
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-attal2012regresseurs" class="csl-entry" role="listitem">
+Attal Toubert, Ketty. 2012. <span>“R<span>é</span>gresseurs Pour Effets
+de Calendrier: Comment Les Construire, Comment Les Choisir.”</span>
+<em>XI<span>è</span>mes Journ<span>é</span>es de
+M<span>é</span>thodologie Statistique de l’Insee</em>.
+</div>
 <div id="ref-bell1984issues" class="csl-entry" role="listitem">
-Bell, William R, and Steven C Hillmer. 1984. <span>“Issues Involved with the Seasonal Adjustment of Economic Time Series.”</span> <em>Journal of Business &amp; Economic Statistics</em> 2 (4): 291–320.
+Bell, William R, and Steven C Hillmer. 1984. <span>“Issues Involved with
+the Seasonal Adjustment of Economic Time Series.”</span> <em>Journal of
+Business &amp; Economic Statistics</em> 2 (4): 291–320.
 </div>
 <div id="ref-eurostat2024guidelines" class="csl-entry" role="listitem">
-Eurostat. 2024. <span>“ESS Guidelines on Seasonal Adjustment.”</span> Eurostat Methodologies; Working Papers, European Commission. <a href="https://doi.org/10.2785/705102 ">https://doi.org/10.2785/705102 </a>.
+Eurostat. 2024. <span>“ESS Guidelines on Seasonal Adjustment.”</span>
+Eurostat Methodologies; Working Papers, European Commission. <a href="https://doi.org/10.2785/705102 ">https://doi.org/10.2785/705102
+</a>.
 </div>
 <div id="ref-gomez1996programs" class="csl-entry" role="listitem">
-Gomez, Victor, and Agustin Maravall. 1996. <span>“Programs TRAMO (Time Series Regression with Arima Noise, Missing Observations, and Outliers) and SEATS (Signal Extraction in Arima Time Series). Instructions for the User.”</span> <em>Documento de Trabajo</em> 9628: 56.
+Gomez, Victor, and Agustin Maravall. 1996. <span>“Programs TRAMO (Time
+Series Regression with Arima Noise, Missing Observations, and Outliers)
+and SEATS (Signal Extraction in Arima Time Series). Instructions for the
+User.”</span> <em>Documento de Trabajo</em> 9628: 56.
+</div>
+<div id="ref-grudkowska2013advanced" class="csl-entry" role="listitem">
+Grudkowska, Sylwia, Dario Buono, Jean Palate, and Wojciech Ciebiera.
+2013. <span>“Advanced Tools for Time Series Analysis and Seasonal
+Adjustment in the New Jdemetra+.”</span> <em>JSM Proceedings Paper</em>.
 </div>
 <div id="ref-ch22HBSA" class="csl-entry" role="listitem">
-Kirchner, and alli. 2018. <span>“Quality Measures and Reporting for Seasonal Adjustment.”</span> <em>Handbook on Seasonal Adjustment</em>. <a href="https://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-18-001">ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-18-001</a>.
+Kirchner, and alli. 2018. <span>“Quality Measures and Reporting for
+Seasonal Adjustment.”</span> <em>Handbook on Seasonal Adjustment</em>.
+<a href="https://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-18-001">ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-18-001</a>.
 </div>
 <div id="ref-JD_doc" class="csl-entry" role="listitem">
 Smyk, and alli. 2026. <span>“Online JD+ Documentation.”</span> 2026. <a href="https://jdemetra-new-documentation.netlify.app/">https://jdemetra-new-documentation.netlify.app/</a>.
 </div>
 <div id="ref-census" class="csl-entry" role="listitem">
-US-Census-Bureau. 2015. <span>“The x-13ARIMA-Seats Seasonal Adjustment Program.”</span> 2015. <a href="https://www.census.gov/srd/www/x13as">https://www.census.gov/srd/www/x13as</a>.
+US-Census-Bureau. 2015. <span>“The x-13ARIMA-Seats Seasonal Adjustment
+Program.”</span> 2015. <a href="https://www.census.gov/srd/www/x13as">https://www.census.gov/srd/www/x13as</a>.
+</div>
+<div id="ref-webel2024seasonal" class="csl-entry" role="listitem">
+Webel, Karsten, and Anna Smyk. 2024. <span>“Seasonal Adjustment of
+Infra-Monthly Time Series with JDemetra+.”</span> <em>Journal of
+Official Statistics</em> 40 (4): 783–828.
 </div>
 </div>
+
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -480,13 +499,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Abstract</span>
+      <a href="./P4-Appendices.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Appendices</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./P1-Overview.html" class="pagination-link">
-        <span class="nav-page-text">Part 1: Seasonal Adjustment and Production</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.bib" class="pagination-link">
+        <span class="nav-page-text"></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -496,7 +515,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook/edit/main/introduction.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
+    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook/edit/main/references.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
     <div class="nav-footer-right"></div>
   </div>
 </footer>
