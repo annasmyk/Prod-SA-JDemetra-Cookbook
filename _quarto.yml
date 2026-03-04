@@ -13,7 +13,7 @@ book:
       This book was built with <a href="https://quarto.org/">Quarto</a>.
 
   repo-actions: [edit,issue]
-  site-url: https://saproductionwithjdemetraandr.netlify.app//
+  site-url: https://saproductionwithjdemetraandr.netlify.app/
   repo-url: https://github.com/annasmyk/Prod-SA-JDemetra-Cookbook
   repo-branch: main
   # cover-image: resources/logo-utilitr.png
