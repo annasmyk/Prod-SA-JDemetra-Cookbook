@@ -4,14 +4,7 @@
     "href": "index.html",
     "title": "Production of seasonally adjusted series",
     "section": "",
-    "text": "Abstract"
-  },
-  {
-    "objectID": "index.html#abstract",
-    "href": "index.html#abstract",
-    "title": "Production of seasonally adjusted series",
-    "section": "Abstract",
-    "text": "Abstract\nSeasonal adjustment is a key process in all public statistical organizations, as it is necessary for the dissemination and interpretation of a large number of economic indicators. In an effort to harmonize practices, Eurostat has recommended since 2015 the use of the open source software JDemetra+, which provides access to the two most popular seasonal adjustment algorithms in European public statistics: X-13 Arima and Tramo-Seats, via a graphical user interface and a family of R packages. This article aims to describe and illustrate how to take advantage of version 3.x of JDemetra+ to build efficient production processes that can adjust several thousand series with individualized settings, while controlling statistical quality and targeting manual fine-tuning.\nKeywords: Seasonal adjustment, official statistics, production process, X13-Arima, Tramo-Seats\nJEL Classification: C01, C02, C14, C22, C82, C87"
+    "text": "JDemetra+ and R Cookbook"
   },
   {
     "objectID": "introduction.html",
