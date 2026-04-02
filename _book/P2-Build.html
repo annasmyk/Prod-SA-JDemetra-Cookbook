@@ -269,13 +269,13 @@ div.csl-indent {
 
 <section id="two-approaches" class="level2">
 <h2 class="anchored" data-anchor-id="two-approaches">Two approaches</h2>
-<p>JDemetra+ allows to use of seasonal adjustment algorithms via R packages or the graphical user interface (GUI). The use of the GUI is generally motivated by a subsequent manual fine-tuning step, which is greatly facilitated by an organized view of the results and diagnostics, as well as the ability to modify specifications in a guided manner. However, using the GUI does not require the user to perform all operations manually with the mouse. There are two ways to automate the process: the Cruncher can be used to run estimations and export outputs, while the rjd3production and rjd3workspace packages can be used to bulk operations such as customizing specifications.</p>
-<p>Producers who make little or no use of manual fine-tuning are increasingly inclined to use R functions directly and therefore only manipulate TS (Time Series) objects, freeing themselves from the workspace structure. However, these two approaches are not mutually exclusive; it is entirely possible to recreate a functional workspace (readable by the GUI and crunchable) from R objects.</p>
+<p>JDemetra+ allows to use of seasonal adjustment algorithms via R packages or the graphical user interface (GUI). The use of the GUI is generally motivated by a subsequent manual fine-tuning step, which is greatly facilitated by an organized view of the results and diagnostics, as well as the ability to modify specifications in a guided manner. However, using the GUI does not require the user to perform all operations manually with the mouse. There are two ways to automate the process: the <em>Cruncher</em> can be used to run estimations and export outputs, while the rjd3production and rjd3workspace packages can be used to bulk operations such as customizing specifications.</p>
+<p>Producers who make little or no use of manual fine-tuning are increasingly inclined to use R functions directly and therefore only manipulate TS (Time Series) objects, freeing themselves from the <em>workspace</em> structure. However, these two approaches are not mutually exclusive; it is entirely possible to recreate a functional <em>workspace</em> (readable by the GUI and crunchable) from R objects.</p>
 <p>In the rest of this section, we will first look at the case of using the GUI, then discuss the case of using R packages exclusively.</p>
 </section>
 <section id="using-the-graphical-user-interface" class="level2">
 <h2 class="anchored" data-anchor-id="using-the-graphical-user-interface">Using the graphical user interface</h2>
-<p>Using the GUI therefore requires organization into workspace(s). These can be created <a href="https://jdemetra-new-documentation.netlify.app/t-gui-sa-modelling-features#how-to-create-a-workspace">manually&nbsp;🔗</a> or via an R script, based on the following code</p>
+<p>Using the GUI therefore requires organization into <em>workspace</em>(s). These can be created <a href="https://jdemetra-new-documentation.netlify.app/t-gui-sa-modelling-features#how-to-create-a-workspace">manually&nbsp;🔗</a> or via an R script, based on the following code</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -295,7 +295,7 @@ div.csl-indent {
 <p>As a preliminary step to estimation, the selection of calendar regressors consists of determining which set of provides the best correction for each series. To do this, we suggest following these steps:</p>
 <ul>
 <li><p>Create a set of regressors to test, as detailed in Attal-Toubert <span class="citation" data-cites="attal2012regresseurs">(<a href="references.html#ref-attal2012regresseurs" role="doc-biblioref">2012</a>)</span> and illustrated in <a href="P4-Appendices.html#crea-regs">appendices&nbsp;🔗</a></p></li>
-<li><p>run automatic sesonal adjustment (possibly keeping a relevant predefined set of outliers, for example those corresponding to the COVID period) for all the pre-selected sets of regressors</p></li>
+<li><p>run automatic seasonal adjustment (possibly keeping a relevant predefined set of outliers, for example those corresponding to the COVID period) for all the pre-selected sets of regressors</p></li>
 <li><p>note the relative effectiveness of each set by penalizing residual trading days effects</p></li>
 <li><p>choose the set with the best score</p></li>
 </ul>
@@ -306,7 +306,7 @@ div.csl-indent {
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>td_table <span class="ot">&lt;-</span> <span class="fu">select_regs</span>(my_series, <span class="at">context =</span> my_context)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>assign the selected set to each series of the workspace by declaring it in the corresponding specification</li>
+<li>assign the selected set to each series of the <em>workspace</em> by declaring it in the corresponding specification</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assign_td</span>(<span class="at">td =</span> td_table, <span class="at">jws =</span> my_ws)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -319,10 +319,10 @@ div.csl-indent {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjd3workspace)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># reading the workspace </span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># reading the *workspace* </span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>jws <span class="ot">&lt;-</span> <span class="fu">jws_open</span>(<span class="st">"C:/my_folder/workspace_test.xml"</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># retrieving the sa-item in the workspace (here the first of the first SA-processing)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># retrieving the sa-item in the *workspace* (here the first of the first SA-processing)</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>jsap <span class="ot">&lt;-</span> <span class="fu">jws_sap</span>(jws, 1L)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>jsai <span class="ot">&lt;-</span> <span class="fu">jsap_sai</span>(jsap, 1L)</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
@@ -345,16 +345,16 @@ div.csl-indent {
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">set_domain_specification</span>(jsap, 1L, spec3_with_td)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Here we assign pre-specified sets of outliers to an entire workspace :</p>
+<p>Here we assign pre-specified sets of outliers to an entire <em>workspace</em> :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assign_outliers</span>(<span class="at">outliers =</span> outliers_table, <span class="at">jws =</span> my_ws)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Outliers can be stored in an “*.yaml” file or imported from en existing workspace.</p>
+<p>Outliers can be stored in an “*.yaml” file or imported from en existing <em>workspace</em>.</p>
 <p>It is also possible to retrieve X13-Arima or Tramo-Seats specifications from X13-Arima-Seats software and make them compatible with JDemetra+. We describe this migration procedure in <a href="P4-Appendices.html#mig-to-jd">appendices&nbsp;🔗</a>.</p>
 </section>
 <section id="estimation" class="level3">
 <h3 class="anchored" data-anchor-id="estimation">Estimation</h3>
-<p>Once the specifications have been set in their initial version, before any modification based on the diagnostics, the estimation can be launched manually in the graphical interface. It is very common to automate this step with the “Cruncher,” which will directly export the output (series and diagnostics). This avoids opening the GUI by running the code below:</p>
+<p>Once the specifications have been set in their initial version, before any modification based on the diagnostics, the estimation can be launched manually in the graphical interface. It is very common to automate this step with the <em>Cruncher</em>, which will directly export the output (series and diagnostics). This avoids opening the GUI by running the code below:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjwsacruncher"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cruncher_and_param</span>(</span>
@@ -363,10 +363,10 @@ div.csl-indent {
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">policy =</span> <span class="st">"complete"</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>A subdirectory /output is created in the workspace directory with the files containing the series and the file containing the diagnostics and parameters (demetra_m.csv). The objects to be exported are selected by setting options in R. The corresponding code can be viewed <a href="https://jdemetra-new-documentation.netlify.app/t-production-tools-Cruncher-qr">here&nbsp;🔗</a>.</p>
+<p>A subdirectory /output is created in the <em>workspace</em> directory with the files containing the series and the file containing the diagnostics and parameters (demetra_m.csv). The objects to be exported are selected by setting options in R. The corresponding code can be viewed <a href="https://jdemetra-new-documentation.netlify.app/t-production-tools-Cruncher-qr">here&nbsp;🔗</a>.</p>
 <p>In the example above, the policy is “complete” (or “concurrent”), which is the only choice possible for an initial estimation. We will return to this parameter and the various refresh policies available in the <a href="P3-Review.html#camp-infra">third part&nbsp;🔗</a> in more detail.</p>
-<p>Although it is possible to organize series into several SAProcessings in a JDemetra+ workspace, it should be noted that the Cruncher will always act on an entire workspace.</p>
-<p>The path to the physical location of the data must be specified. This <a href="P4-Appendices.html#sec-concept-metadata">link is entered in the workspace&nbsp;🔗</a> when the data is assigned to it. If the data has been moved before the estimation is updated, the path must be updated. This can be done with the following functions in the case of an Excel workbook:</p>
+<p>Although it is possible to organize series into several SAProcessings in a JDemetra+ <em>workspace</em>, it should be noted that the <em>Cruncher</em> will always act on an entire <em>workspace</em>.</p>
+<p>The path to the physical location of the data must be specified. This <a href="P4-Appendices.html#sec-concept-metadata">link is entered in the <em>workspace</em>&nbsp;🔗</a> when the data is assigned to it. If the data has been moved before the estimation is updated, the path must be updated. This can be done with the following functions in the case of an Excel workbook:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the workspace</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>my_ws <span class="ot">&lt;-</span> <span class="fu">jws_open</span>(<span class="st">"C:/my_folder/workspace_test.xml"</span>)</span>
@@ -380,7 +380,7 @@ div.csl-indent {
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Saving the workspace (wrinting the file on the disk)</span></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save_workspace</span>(my_ws, <span class="st">"C:/my_folder/workspace_test.xml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The case of a “.txt” or “.csv” file is illustrated <a href="https://rjdverse.github.io/rjd3workspace/reference/spreadsheet_update_path.html">here&nbsp;🔗</a>.</p>
+<p>The case of a “.txt” or “.csv” file is illustrated <a href="https://rjdverse.github.io/rjd3workspace/reference/txt_update_path.html">here&nbsp;🔗</a>.</p>
 </section>
 <section id="quality-report" class="level3">
 <h3 class="anchored" data-anchor-id="quality-report">Quality Report</h3>
@@ -403,10 +403,10 @@ div.csl-indent {
 <li><p>a sheet with the diagnostic methods for each series</p></li>
 <li><p>a sheet with the values, including the score, the weighted score, and the main contributions to the score</p></li>
 </ul>
-<p>The user can enrich this file and document the manual fine-tuning of the workspace. Sorting by descending (weighted) score yields the expected selective editing.</p>
+<p>The user can enrich this file and document the manual fine-tuning of the <em>workspace</em>. Sorting by descending (weighted) score yields the expected selective editing.</p>
 <p>Below is an excerpt from the Excel export of the quality report, by default:</p>
 <p><img src="img/BQ-example.png" class="img-fluid"></p>
-<p>Guided by the quality report, the producer modifies the specifications to improve seasonal adjustment, generally using the graphical interface. To generate the final output, particularly the series, they can restart the Cruncher, no longer with the policy=“complete” option but using a refresh that re-estimates only the coefficients of the pre-adjustment model (“policy=regarimaparmeters”) and retains all of the user’s modifications. We provide more details on this point in the <a href="P4-Appendices.html#comp-refresh">appendices&nbsp;🔗</a>.</p>
+<p>Guided by the quality report, the producer modifies the specifications to improve seasonal adjustment, generally using the graphical interface. To generate the final output, particularly the series, they can restart the <em>Cruncher</em>, no longer with the policy=“complete” option but using a refresh that re-estimates only the coefficients of the pre-adjustment model (“policy=regarimaparmeters”) and retains all of the user’s modifications. We provide more details on this point in the <a href="P4-Appendices.html#comp-refresh">appendices&nbsp;🔗</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjwsacruncher"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cruncher_and_param</span>(</span>
@@ -419,7 +419,7 @@ div.csl-indent {
 </section>
 <section id="using-only-r-packages" class="level2">
 <h2 class="anchored" data-anchor-id="using-only-r-packages">Using only R packages</h2>
-<p>All of the steps described above can be performed without using a workspace structure and remaining in the R environment.</p>
+<p>All of the steps described above can be performed without using a <em>workspace</em> structure and remaining in the R environment.</p>
 <section id="estimation-1" class="level3">
 <h3 class="anchored" data-anchor-id="estimation-1">Estimation</h3>
 <p>In this case, we use the functions <a href="https://rjdverse.github.io/rjd3x13/reference/x13.html"><code class="sourceCode r">rjd3x13<span class="sc">::</span><span class="fu">x13</span>()</code> 🔗</a> (or <a href="https://rjdverse.github.io/rjd3tramoseats/reference/tramoseats.html"><code class="sourceCode r">rjd3tramoseats<span class="sc">::</span><span class="fu">tramoseats</span>()</code> 🔗</a>) to perform the estimations. Estimation functions work on one TS object which will require to set up loops or “lapply” type functions.</p>
@@ -431,7 +431,7 @@ div.csl-indent {
 </section>
 <section id="diagnostics-and-specifications" class="level3">
 <h3 class="anchored" data-anchor-id="diagnostics-and-specifications">Diagnostics and specifications</h3>
-<p>In R, you can access the same diagnostics as from the GUI and the Cruncher by navigating through the object produced by the estimation (list of lists), which you can directly organize into a customized quality report. To take advantage of the existing formatting, simply rewrite a crunchable workspace and regenerate the same report as in the GUI approach. To remain in one environment, manual modification of the specifications based on the diagnostics will in this case be done directly in the R script, as in the example below:</p>
+<p>In R, you can access the same diagnostics as from the GUI and the <em>Cruncher</em> by navigating through the object produced by the estimation (list of lists), which you can directly organize into a customized quality report. To take advantage of the existing formatting, simply rewrite a crunchable <em>workspace</em> and regenerate the same report as in the GUI approach. To remain in one environment, manual modification of the specifications based on the diagnostics will in this case be done directly in the R script, as in the example below:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>spec0 <span class="ot">&lt;-</span> rjd3x13<span class="sc">::</span><span class="fu">x13_spec</span>()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -445,7 +445,7 @@ div.csl-indent {
 <!-- CODE ? -->
 <p>The loop of reading diagnostics and modifying parameters is less fluid, which encourages the use of the graphical interface approach in cases requiring intensive manual fine-tuning. To update specifications in R based on diagnostics, scripts must be modified directly, which is slower and more prone to error for analysts, especially those unfamiliar with R. The R-only approach makes storing and versioning specifications more complex.</p>
 <p>The diagnostics used to construct the score presented above can be obtained directly in R, which allows the selective editing procedure to be replicated. The code for obtaining this output can be found in the <a href="P4-Appendices.html#ind-bq-r">appendices&nbsp;🔗</a>.</p>
-<p>The R approach also eliminates any portability issues, even though updating the link between a workspace and the data is now simple and reliable.</p>
+<p>The R approach also eliminates any portability issues, even though updating the link between a <em>workspace</em> and the data is now simple and reliable.</p>
 </section>
 </section>
 <section id="perf" class="level2">
@@ -456,7 +456,7 @@ div.csl-indent {
 <p><img src="P2-Build_files/figure-html/graph-perf-1.png" class="img-fluid" width="4000"></p>
 </div>
 </div>
-<p>For a series number close to one thousand, the estimation with <code>rjdx13</code> takes less than three minutes, which is still very reasonable for most users but far behind the Cruncher, which completes the same process in about twenty seconds.</p>
+<p>For a series number close to one thousand, the estimation with <code>rjdx13</code> takes less than three minutes, which is still very reasonable for most users but far behind the <em>Cruncher</em>, which completes the same process in about twenty seconds.</p>
 <p>Once the production process is in place, it is recommended to validate or adjust the settings annually and to adopt an infra-annual production strategy, generally monthly or quarterly, allowing the seasonally adjusted data to be updated when new raw data becomes available. This issue is tackled in the next part.</p>
 
 

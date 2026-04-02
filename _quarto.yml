@@ -41,7 +41,7 @@ book:
           url: "https://www.insee.fr/fr/accueil"
       role: "Author"
 
-  date: "02/28/2026"
+  date: "04/02/2026"
   page-navigation: true
   chapters:
     - index.qmd

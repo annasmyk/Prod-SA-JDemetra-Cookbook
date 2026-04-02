@@ -16,7 +16,6 @@ library("rjd3workspace")
 library("rjd3production")
 ```
 
-
 ## Calendar effect correction {#crea-regs}
 
 There are two possible procedures for generating calendar regressors: creating customized regressors as shown below, or using predefined regressors in JDemetra+, which also requires defining a reference calendar. Version 3.x of the GUI allows you to automatically \[select 🔗)(https://jdemetra-new-documentation.netlify.app/a-sa-pre-treatment#calendar-correction) from the predefined regressor sets, based on statistical tests.
@@ -38,7 +37,7 @@ This function can be adapted to any national calendar.
 
 ### Generation of regressor sets
 
-Using the French calendar, it is possible to generate calendar regressors based, for example, on the usual groupings used by INSEE:
+Using the French calendar, it is possible to generate calendar regressors based, for example, on the usual groups used by INSEE:
 
 ```{r}
 #| eval: true
@@ -49,7 +48,7 @@ sets <- create_insee_regressors_sets(start = c(2000, 1), frequency = 12, length 
 names(sets)
 ```
 
-## Quality Report: Diagnostics and R Code {#ind-bq-r}
+## Quality Report: Diagnostics and R code {#ind-bq-r}
 
 Diagnostics selected by default when using X-13-Arima\footnote{When using Tramo-Seats, this also works, but in this version, the diagnostics specific to X-13-Arima are simply removed and not replaced} are as follows:
 
@@ -57,15 +56,18 @@ Table A1: Diagnostics
 
 ![](img/BQ-Output-EN.png)
 
-In R, the diagnostics are extracted from the “model” object containing all the estimation results and obtained with the code below.
+
+
+
+In R, the diagnostics are extracted from the “m_sa” object containing all the estimation results and obtained with the code below.
 
 ```{r}
 #| eval: false
 #| echo: true
-
-model <- x13(my_series, my_spec)
-str(model)
+m_sa <- x13(my_series, my_spec, userdefined = c("diagnostics.fcast-outsample-mean","diagnostics.fcast-outsample-variance"))
+str(m_sa)
 ```
+
 
 More information on the tests is available in the [documentation 🔗](https://jdemetra-new-documentation.netlify.app/m-tests)
 
@@ -93,7 +95,7 @@ $$
 
 ### Creation of WS_work {#merge-ws}
 
-The **WS_work** is a merger between **WS_ref** and **WS_auto**. A score is calculated for both workspaces and, for each series, the SA-Item is retrieved from the workspace with the lowest score between WS_auto and WS_ref.
+The **WS_work** is a merger between **WS_ref** and **WS_auto**. A score is calculated for both *workspaces* and, for each series, the SA-Item is retrieved from the *workspace* with the lowest score between WS_auto and WS_ref.
 
 In an annual campaign process, we will use the [`transfer_sa_item()`{.r} 🔗](https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html) function from {rjd3workspace} to merge **WS_ref** and **WS_auto**.
 
@@ -118,64 +120,19 @@ transfer_series(
 save_workspace(jws = WS_work, file = "./WS/WS_work.xml")
 ```
 
-## Refreshing data in R data {#refresh-R}
-
-In version 3 of JDemetra+, refresh policies can also be applied directly in R and no longer only via the GUI or the cruncher, as was the case in version 2.
-
-### TS Objects
-
-In the object (list of lists) containing the estimation results in R, you can extract the `estimationSpec` and `resultSpec` (or `pointSpec`) The refresh policy will allow you to remove certain constraints in the `estimationSpec`, in the example below to re-identify outliers from January 1, 2017.
-
-```{r}
-#| eval: false
-#| echo: true
-
-library("rjd3x13")
-# estimate a model
-sa_x13_v3 <- rjd3x13::x13(y_raw, spec = "RSA5")
-current_result_spec <- sa_x13_v3$result_spec
-current_domain_spec <- sa_x13_v3$estimation_spec
-
-# generate NEW spec for refresh
-refreshed_spec <- x13_refresh(
-    current_result_spec, # point spec to be refreshed
-    current_domain_spec, # domain spec (set of constraints)
-    policy = "Outliers",
-    period = 12, # monthly series
-    start = "2017-01-01",
-    end = NULL
-)
-
-# apply the new spec on new data : for example y_new= y_raw + 1 month
-sa_x13_v3_refresh <- x13(y_new, refreshed_spec)
-```
-
-### Workspaces
-
-It is possible to refresh a workspace or SA-Processing without using either the Cruncher or the GUI with the `jsap_refresh()`{.r} and `jws_refresh()`{.r} functions from the rjd3workspace package.
-
-```{r}
-#| eval: false
-#| echo: true
-
-ws <- jws_open(file = ws_path)
-jws_refresh(jws = ws, policy = "lastoutliers")
-save_workspace(jws = ws, file = ws_path)
-```
-
 ## Additional information on specifications {#comp-specs}
 
 ### Modification
 
--   `domainSpec` (or Reference Specification)
+-   `Reference Specification`
 
 Modification in the GUI:
 
 ![](../../img/DT_modif_ref_spec.png){width="90%" height="60%"}
 
-Using this same menu, you can apply the Reference Specification or the Result Specification to a series.
+Using this same menu, you can apply the `Reference Specification` or the `Result Specification` to a series.
 
-En R :
+In the `rjd3workspace` package, `Reference Specification` is called `Domain Specification`:
 
 ```{r}
 #| eval: false
@@ -185,13 +142,14 @@ library("rjd3workspace")
 set_domain_specification(jsap, 1L, new_domain_spec)
 ```
 
--   `estimationSpec`
+-   `Estimation Specification`
 
-Modification in GUI:
+Modification in GUI, use the `Specification` button on the right-hand side:
 
 ![](../../img/DT_modif_est_spec.png){width="90%" height="60%"}
 
-In R :
+In the `rjd3workspace` package, `Estimation Specification` is simply referred to as `Specification`:
+
 
 ```{r}
 #| eval: false
@@ -201,9 +159,9 @@ library("rjd3workspace")
 set_specification(jsap, 1L, new_estimation_spec)
 ```
 
--   `pointSpec` (or Result Specification)
+-   `Result Specification`
 
-Estimation result can be applied as indicated above.
+Estimation result can be applied as indicated below.
 
 ```{r}
 #| eval: false
@@ -219,68 +177,67 @@ read_sai(jsai)
 
 ### Refresh policy behavior {#comp-refresh}
 
-The estimation is made using the latest estimationSpec, but a refresh policy aims to remove all or part of the constraints of the `estimationSpec` and return to the `domainSpec`.
+A refresh policy is designed to remove all or some of the constraints from the `Estimation Specification` and revert to the `Reference Specification`.
 
--   The “concurrent” policy returns to the `domainSpec` by deleting user-defined parameters not written in the domain spec (difference in behavior compared to version 2 of JDemetra+: changes made via the specification window on the right are deleted).
+- The “concurrent” policy reverts to the `Reference Specification` by clearing user-defined parameters not written to the domain spec (changes made via the specification window on the right are discarded). In particular, it clears the outliers pre-specified in the `Estimation Specification`; all outliers will be re-identified
 
--   “concurrent” refresh deletes the outliers pre-specified in the `estimationSpec` (for example, in the GUI via the specification window on the right), which corresponds to a modification of the `estimationSpec`; all outliers will be re-identified
+- The “lastoutliers” policy clears the outliers pre-specified in the `Estimation Specification` for the last year (or other defined span); re-identification will be performed for this period.
 
--   Refresh “lastoutliers” deletes the outliers pre-specified in the `estimationSpec` over the last year (or other defined span), and a re-identification will be performed over this period.
-
-This allows the user to differentiate between permanent settings (`domainSpec`) and temporary settings (`estimationSpec`).
+This allows the user to distinguish between permanent settings (`Reference Specification`) and temporary settings (`Estimation Specification`).
 
 ### Example
 
-Here is a common procedure for updating data in the case of a sub-annual campaign with output generation using the cruncher. Please note that you must save the workspace before performing a “refresh.”
+Here is a common procedure for updating data in the case of an intra-annual campaign, with output generation using *Cruncher*. Note: You must save the *workspace* before performing a “refresh” (via the GUI or *Cruncher*). 
 
--   New raw data is available (new points and revision of the recent past).
+- New raw data is available (new data points and revisions to recent history).
 
--   Use a “refresh last outliers” to benefit from automatic detection
+- Use a “refresh last outliers” to benefit from automatic detection for the last year
 
--   Check the results and revisions, and for certain important series, review the automatic detection
+- Check the results and revisions; for certain important series, you may want to review the automatic detection
 
--   Open the graphical user interface and modify the `estimationSpec` of a series via the window on the right by adding an outlier $Out_1$ in the last year
+- We open the graphical interface and modify the `Estimation Specification` for a series via the window on the right by adding an outlier ($Out_1$) in the last year
 
--   Apply and save these changes in the GUI
+- We apply and save these changes in the GUI
 
--   Regenerate an output with the cruncher (export the final series)
+- We must regenerate an output with the *Cruncher* (export of final series)
 
--   If policy = lastoutliers again: return to the `domainSpec` for the last year, $Out_1$ is lost
+- If the *Cruncher* uses “policy=lastoutliers” again: it reverts to the `Reference Specification` for the last year, and $Out_1$ is lost
 
--   If you want to keep $Out_1$, use the option policy = “arimaparameters”; the identification does not change, only the coefficients are re-estimated
+- If you want to keep $Out_1$, use the option policy = “arimaparameters”; the identification remains unchanged, only the coefficients are re-estimated
 
--   To keep $Out_1$ and re-identify with ‘lastoutliers’ again, you must write $Out_1$ in the `domainSpec` (called “reference specification” in the graphical interface)
+- To keep $Out_1$ and re-identify using “lastoutliers” again, you must include $Out_1$ in the `Reference Specification`.
 
 ### Differences between version 2 and version 3 {#spec-v2-v3}
 
-In JDemetra+ version 2.x, there is no `estimationSpec`. The settings set by the user are therefore necessarily in the `domainSpec` and are therefore never deleted by a refresh policy.
+In JDemetra+ version 2.x, there was no `Estimation Specification`. The settings set by the user were therefore necessarily saved in the `Reference Specification` and hence never deleted by a refresh policy.
 
-Workspaces created in version 2 can be opened in version 3, but it will no longer be possible to return to version 2.
+*workspaces* created in version 2 can be opened in version 3, but it will no longer be possible to return to version 2.
 
-Copying specifications when a version 2 workspace is opened in version 3:
+Copying specifications when a version 2 *workspace* is opened in version 3:
 
--   `domainSpec` copied to `domainSpec` and `estimationSpec`
--   `pointSpec` to `pointSpec`
+-   `Reference Specification` is copied in `Reference Specification` and in `Estimation Specification`
+
+-   `Result Specification` is copied in `Result Specification`
 
 ## Data structures
 
-Workspaces are organized into SA-Processing and SA-Item.
+*workspaces* are organized into SA-Processing and SA-Item.
 
-#### SA-Processing {#sec-concept-sap}
+### SA-Processing {#sec-concept-sap}
 
 An SA-Processing (SAP) is represented by an `.xml` file. It contains SA-Items and user-defined reference specifications.
 
-#### SA-Item {#sec-concept-sai}
+### SA-Item {#sec-concept-sai}
 
 An SA-Item contains information about a given series:
 
 -   raw data
 
--   specifications (`pointSpec`, `estimationSpec`, `domainSpec`)
+-   specifications (`pointSpecification`, `estimationSpecification`, `Specification``)
 
 -   metadata
 
-#### Metadata {#sec-concept-metadata}
+### Metadata {#sec-concept-metadata}
 
 The metadata (see the <metaData> tag in the `.xml` file corresponding to SA-Processing) contains:
 
@@ -292,10 +249,10 @@ The metadata (see the <metaData> tag in the `.xml` file corresponding to SA-Proc
 
 ### Modelling context {#sec-concept-modelling-context}
 
-The modelling context contains the calendars, variables, and external regressors needed for the estimates made in the workspace.
+The modelling context contains the calendars, variables, and external regressors needed for the estimates made in the *workspace*.
 
 ## Migration to JDemetra+ {#mig-to-jd}
 
 It is possible to convert X-13 specifications used in the US Census Bureau's X-13-Arima-Seats software into JDemetra+ X13-Arima specifications.
 
-This operation is performed using the graphical interface with the [SpecParser 🔗](https://github.com/bbkrd/SpecParser) plug-in, which can only be used in version 2. The workspace containing these specifications can be opened in version 3. The plug-in documentation can be found [here 🔗](https://bbkrd.github.io/pages/specparser/) and all the migration steps are described [here 🔗](https://bbkrd.github.io/pages/specparser/) in the JDemetra+ documentation.
+This operation is performed using the graphical interface with the [SpecParser 🔗](https://github.com/bbkrd/SpecParser) plug-in, which can only be used in version 2. The *workspace* containing these specifications can be opened in version 3. The plug-in documentation can be found [here 🔗](https://bbkrd.github.io/pages/specparser/) and all the migration steps are described [here 🔗](https://bbkrd.github.io/pages/specparser/) in the JDemetra+ documentation.

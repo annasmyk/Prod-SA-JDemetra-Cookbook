@@ -218,18 +218,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#creating-a-reference-calendar" id="toc-creating-a-reference-calendar" class="nav-link" data-scroll-target="#creating-a-reference-calendar">Creating a reference calendar</a></li>
   <li><a href="#generation-of-regressor-sets" id="toc-generation-of-regressor-sets" class="nav-link" data-scroll-target="#generation-of-regressor-sets">Generation of regressor sets</a></li>
   </ul></li>
-  <li><a href="#ind-bq-r" id="toc-ind-bq-r" class="nav-link" data-scroll-target="#ind-bq-r">Quality Report: Diagnostics and R Code</a>
+  <li><a href="#ind-bq-r" id="toc-ind-bq-r" class="nav-link" data-scroll-target="#ind-bq-r">Quality Report: Diagnostics and R code</a>
   <ul class="collapse">
   <li><a href="#eq-score" id="toc-eq-score" class="nav-link" data-scroll-target="#eq-score">Score equation</a></li>
   </ul></li>
   <li><a href="#annual-campaign-comparison-of-workspaces" id="toc-annual-campaign-comparison-of-workspaces" class="nav-link" data-scroll-target="#annual-campaign-comparison-of-workspaces">Annual campaign: comparison of workspaces</a>
   <ul class="collapse">
   <li><a href="#merge-ws" id="toc-merge-ws" class="nav-link" data-scroll-target="#merge-ws">Creation of WS_work</a></li>
-  </ul></li>
-  <li><a href="#refresh-R" id="toc-refresh-R" class="nav-link" data-scroll-target="#refresh-R">Refreshing data in R data</a>
-  <ul class="collapse">
-  <li><a href="#ts-objects" id="toc-ts-objects" class="nav-link" data-scroll-target="#ts-objects">TS Objects</a></li>
-  <li><a href="#workspaces" id="toc-workspaces" class="nav-link" data-scroll-target="#workspaces">Workspaces</a></li>
   </ul></li>
   <li><a href="#comp-specs" id="toc-comp-specs" class="nav-link" data-scroll-target="#comp-specs">Additional information on specifications</a>
   <ul class="collapse">
@@ -240,6 +235,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#data-structures" id="toc-data-structures" class="nav-link" data-scroll-target="#data-structures">Data structures</a>
   <ul class="collapse">
+  <li><a href="#sec-concept-sap" id="toc-sec-concept-sap" class="nav-link" data-scroll-target="#sec-concept-sap">SA-Processing</a></li>
+  <li><a href="#sec-concept-sai" id="toc-sec-concept-sai" class="nav-link" data-scroll-target="#sec-concept-sai">SA-Item</a></li>
+  <li><a href="#sec-concept-metadata" id="toc-sec-concept-metadata" class="nav-link" data-scroll-target="#sec-concept-metadata">Metadata</a></li>
   <li><a href="#sec-concept-modelling-context" id="toc-sec-concept-modelling-context" class="nav-link" data-scroll-target="#sec-concept-modelling-context">Modelling context</a></li>
   </ul></li>
   <li><a href="#mig-to-jd" id="toc-mig-to-jd" class="nav-link" data-scroll-target="#mig-to-jd">Migration to JDemetra+</a></li>
@@ -280,7 +278,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="generation-of-regressor-sets" class="level3">
 <h3 class="anchored" data-anchor-id="generation-of-regressor-sets">Generation of regressor sets</h3>
-<p>Using the French calendar, it is possible to generate calendar regressors based, for example, on the usual groupings used by INSEE:</p>
+<p>Using the French calendar, it is possible to generate calendar regressors based, for example, on the usual groups used by INSEE:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>regs <span class="ot">&lt;-</span> <span class="fu">create_insee_regressors</span>(<span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">length =</span> <span class="dv">360</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sets <span class="ot">&lt;-</span> <span class="fu">create_insee_regressors_sets</span>(<span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">length =</span> <span class="dv">240</span>)</span>
@@ -293,14 +291,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 <section id="ind-bq-r" class="level2">
-<h2 class="anchored" data-anchor-id="ind-bq-r">Quality Report: Diagnostics and R Code</h2>
+<h2 class="anchored" data-anchor-id="ind-bq-r">Quality Report: Diagnostics and R code</h2>
 <p>Diagnostics selected by default when using X-13-Arima are as follows:</p>
 <p>Table A1: Diagnostics</p>
 <p><img src="img/BQ-Output-EN.png" class="img-fluid"></p>
-<p>In R, the diagnostics are extracted from the “model” object containing all the estimation results and obtained with the code below.</p>
+<p>In R, the diagnostics are extracted from the “m_sa” object containing all the estimation results and obtained with the code below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">x13</span>(my_series, my_spec)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>m_sa <span class="ot">&lt;-</span> <span class="fu">x13</span>(my_series, my_spec, <span class="at">userdefined =</span> <span class="fu">c</span>(<span class="st">"diagnostics.fcast-outsample-mean"</span>,<span class="st">"diagnostics.fcast-outsample-variance"</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(m_sa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>More information on the tests is available in the <a href="https://jdemetra-new-documentation.netlify.app/m-tests">documentation 🔗</a></p>
 <section id="eq-score" class="level3">
@@ -328,7 +326,7 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 <h2 class="anchored" data-anchor-id="annual-campaign-comparison-of-workspaces">Annual campaign: comparison of workspaces</h2>
 <section id="merge-ws" class="level3">
 <h3 class="anchored" data-anchor-id="merge-ws">Creation of WS_work</h3>
-<p>The <strong>WS_work</strong> is a merger between <strong>WS_ref</strong> and <strong>WS_auto</strong>. A score is calculated for both workspaces and, for each series, the SA-Item is retrieved from the workspace with the lowest score between WS_auto and WS_ref.</p>
+<p>The <strong>WS_work</strong> is a merger between <strong>WS_ref</strong> and <strong>WS_auto</strong>. A score is calculated for both <em>workspaces</em> and, for each series, the SA-Item is retrieved from the <em>workspace</em> with the lowest score between WS_auto and WS_ref.</p>
 <p>In an annual campaign process, we will use the <a href="https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html"><code class="sourceCode r"><span class="fu">transfer_sa_item</span>()</code> 🔗</a> function from {rjd3workspace} to merge <strong>WS_ref</strong> and <strong>WS_auto</strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save WS_ref as initial version of WS_work</span></span>
@@ -349,135 +347,97 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 </div>
 </section>
 </section>
-<section id="refresh-R" class="level2">
-<h2 class="anchored" data-anchor-id="refresh-R">Refreshing data in R data</h2>
-<p>In version 3 of JDemetra+, refresh policies can also be applied directly in R and no longer only via the GUI or the cruncher, as was the case in version 2.</p>
-<section id="ts-objects" class="level3">
-<h3 class="anchored" data-anchor-id="ts-objects">TS Objects</h3>
-<p>In the object (list of lists) containing the estimation results in R, you can extract the <code>estimationSpec</code> and <code>resultSpec</code> (or <code>pointSpec</code>) The refresh policy will allow you to remove certain constraints in the <code>estimationSpec</code>, in the example below to re-identify outliers from January 1, 2017.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3x13"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate a model</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sa_x13_v3 <span class="ot">&lt;-</span> rjd3x13<span class="sc">::</span><span class="fu">x13</span>(y_raw, <span class="at">spec =</span> <span class="st">"RSA5"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>current_result_spec <span class="ot">&lt;-</span> sa_x13_v3<span class="sc">$</span>result_spec</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>current_domain_spec <span class="ot">&lt;-</span> sa_x13_v3<span class="sc">$</span>estimation_spec</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># generate NEW spec for refresh</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>refreshed_spec <span class="ot">&lt;-</span> <span class="fu">x13_refresh</span>(</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    current_result_spec, <span class="co"># point spec to be refreshed</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    current_domain_spec, <span class="co"># domain spec (set of constraints)</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">policy =</span> <span class="st">"Outliers"</span>,</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">period =</span> <span class="dv">12</span>, <span class="co"># monthly series</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">start =</span> <span class="st">"2017-01-01"</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">end =</span> <span class="cn">NULL</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># apply the new spec on new data : for example y_new= y_raw + 1 month</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>sa_x13_v3_refresh <span class="ot">&lt;-</span> <span class="fu">x13</span>(y_new, refreshed_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="workspaces" class="level3">
-<h3 class="anchored" data-anchor-id="workspaces">Workspaces</h3>
-<p>It is possible to refresh a workspace or SA-Processing without using either the Cruncher or the GUI with the <code class="sourceCode r"><span class="fu">jsap_refresh</span>()</code> and <code class="sourceCode r"><span class="fu">jws_refresh</span>()</code> functions from the rjd3workspace package.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ws <span class="ot">&lt;-</span> <span class="fu">jws_open</span>(<span class="at">file =</span> ws_path)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">jws_refresh</span>(<span class="at">jws =</span> ws, <span class="at">policy =</span> <span class="st">"lastoutliers"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">save_workspace</span>(<span class="at">jws =</span> ws, <span class="at">file =</span> ws_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-</section>
 <section id="comp-specs" class="level2">
 <h2 class="anchored" data-anchor-id="comp-specs">Additional information on specifications</h2>
 <section id="modification" class="level3">
 <h3 class="anchored" data-anchor-id="modification">Modification</h3>
 <ul>
-<li><code>domainSpec</code> (or Reference Specification)</li>
+<li><code>Reference Specification</code></li>
 </ul>
 <p>Modification in the GUI:</p>
 <p><img src="../../img/DT_modif_ref_spec.png" style="width:90.0%;height:60.0%"></p>
-<p>Using this same menu, you can apply the Reference Specification or the Result Specification to a series.</p>
-<p>En R :</p>
+<p>Using this same menu, you can apply the <code>Reference Specification</code> or the <code>Result Specification</code> to a series.</p>
+<p>In the <code>rjd3workspace</code> package, <code>Reference Specification</code> is called <code>Domain Specification</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_domain_specification</span>(jsap, 1L, new_domain_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>Estimation Specification</code></li>
+</ul>
+<p>Modification in GUI, use the <code>Specification</code> button on the right-hand side:</p>
+<p><img src="../../img/DT_modif_est_spec.png" style="width:90.0%;height:60.0%"></p>
+<p>In the <code>rjd3workspace</code> package, <code>Estimation Specification</code> is simply referred to as <code>Specification</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_specification</span>(jsap, 1L, new_estimation_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>Result Specification</code></li>
+</ul>
+<p>Estimation result can be applied as indicated below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_domain_specification</span>(jsap, 1L, new_domain_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li><code>estimationSpec</code></li>
-</ul>
-<p>Modification in GUI:</p>
-<p><img src="../../img/DT_modif_est_spec.png" style="width:90.0%;height:60.0%"></p>
-<p>In R :</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_specification</span>(jsap, 1L, new_estimation_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li><code>pointSpec</code> (or Result Specification)</li>
-</ul>
-<p>Estimation result can be applied as indicated above.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">jws_compute</span>(jws)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">read_workspace</span>(jws, <span class="at">compute =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sap</span>(jsap)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sai</span>(jsai)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">jws_compute</span>(jws)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">read_workspace</span>(jws, <span class="at">compute =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sap</span>(jsap)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sai</span>(jsai)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="comp-refresh" class="level3">
 <h3 class="anchored" data-anchor-id="comp-refresh">Refresh policy behavior</h3>
-<p>The estimation is made using the latest estimationSpec, but a refresh policy aims to remove all or part of the constraints of the <code>estimationSpec</code> and return to the <code>domainSpec</code>.</p>
+<p>A refresh policy is designed to remove all or some of the constraints from the <code>Estimation Specification</code> and revert to the <code>Reference Specification</code>.</p>
 <ul>
-<li><p>The “concurrent” policy returns to the <code>domainSpec</code> by deleting user-defined parameters not written in the domain spec (difference in behavior compared to version 2 of JDemetra+: changes made via the specification window on the right are deleted).</p></li>
-<li><p>“concurrent” refresh deletes the outliers pre-specified in the <code>estimationSpec</code> (for example, in the GUI via the specification window on the right), which corresponds to a modification of the <code>estimationSpec</code>; all outliers will be re-identified</p></li>
-<li><p>Refresh “lastoutliers” deletes the outliers pre-specified in the <code>estimationSpec</code> over the last year (or other defined span), and a re-identification will be performed over this period.</p></li>
+<li><p>The “concurrent” policy reverts to the <code>Reference Specification</code> by clearing user-defined parameters not written to the domain spec (changes made via the specification window on the right are discarded). In particular, it clears the outliers pre-specified in the <code>Estimation Specification</code>; all outliers will be re-identified</p></li>
+<li><p>The “lastoutliers” policy clears the outliers pre-specified in the <code>Estimation Specification</code> for the last year (or other defined span); re-identification will be performed for this period.</p></li>
 </ul>
-<p>This allows the user to differentiate between permanent settings (<code>domainSpec</code>) and temporary settings (<code>estimationSpec</code>).</p>
+<p>This allows the user to distinguish between permanent settings (<code>Reference Specification</code>) and temporary settings (<code>Estimation Specification</code>).</p>
 </section>
 <section id="example" class="level3">
 <h3 class="anchored" data-anchor-id="example">Example</h3>
-<p>Here is a common procedure for updating data in the case of a sub-annual campaign with output generation using the cruncher. Please note that you must save the workspace before performing a “refresh.”</p>
+<p>Here is a common procedure for updating data in the case of an intra-annual campaign, with output generation using <em>Cruncher</em>. Note: You must save the <em>workspace</em> before performing a “refresh” (via the GUI or <em>Cruncher</em>).</p>
 <ul>
-<li><p>New raw data is available (new points and revision of the recent past).</p></li>
-<li><p>Use a “refresh last outliers” to benefit from automatic detection</p></li>
-<li><p>Check the results and revisions, and for certain important series, review the automatic detection</p></li>
-<li><p>Open the graphical user interface and modify the <code>estimationSpec</code> of a series via the window on the right by adding an outlier <span class="math inline">\(Out_1\)</span> in the last year</p></li>
-<li><p>Apply and save these changes in the GUI</p></li>
-<li><p>Regenerate an output with the cruncher (export the final series)</p></li>
-<li><p>If policy = lastoutliers again: return to the <code>domainSpec</code> for the last year, <span class="math inline">\(Out_1\)</span> is lost</p></li>
-<li><p>If you want to keep <span class="math inline">\(Out_1\)</span>, use the option policy = “arimaparameters”; the identification does not change, only the coefficients are re-estimated</p></li>
-<li><p>To keep <span class="math inline">\(Out_1\)</span> and re-identify with ‘lastoutliers’ again, you must write <span class="math inline">\(Out_1\)</span> in the <code>domainSpec</code> (called “reference specification” in the graphical interface)</p></li>
+<li><p>New raw data is available (new data points and revisions to recent history).</p></li>
+<li><p>Use a “refresh last outliers” to benefit from automatic detection for the last year</p></li>
+<li><p>Check the results and revisions; for certain important series, you may want to review the automatic detection</p></li>
+<li><p>We open the graphical interface and modify the <code>Estimation Specification</code> for a series via the window on the right by adding an outlier (<span class="math inline">\(Out_1\)</span>) in the last year</p></li>
+<li><p>We apply and save these changes in the GUI</p></li>
+<li><p>We must regenerate an output with the <em>Cruncher</em> (export of final series)</p></li>
+<li><p>If the <em>Cruncher</em> uses “policy=lastoutliers” again: it reverts to the <code>Reference Specification</code> for the last year, and <span class="math inline">\(Out_1\)</span> is lost</p></li>
+<li><p>If you want to keep <span class="math inline">\(Out_1\)</span>, use the option policy = “arimaparameters”; the identification remains unchanged, only the coefficients are re-estimated</p></li>
+<li><p>To keep <span class="math inline">\(Out_1\)</span> and re-identify using “lastoutliers” again, you must include <span class="math inline">\(Out_1\)</span> in the <code>Reference Specification</code>.</p></li>
 </ul>
 </section>
 <section id="spec-v2-v3" class="level3">
 <h3 class="anchored" data-anchor-id="spec-v2-v3">Differences between version 2 and version 3</h3>
-<p>In JDemetra+ version 2.x, there is no <code>estimationSpec</code>. The settings set by the user are therefore necessarily in the <code>domainSpec</code> and are therefore never deleted by a refresh policy.</p>
-<p>Workspaces created in version 2 can be opened in version 3, but it will no longer be possible to return to version 2.</p>
-<p>Copying specifications when a version 2 workspace is opened in version 3:</p>
+<p>In JDemetra+ version 2.x, there was no <code>Estimation Specification</code>. The settings set by the user were therefore necessarily saved in the <code>Reference Specification</code> and hence never deleted by a refresh policy.</p>
+<p><em>workspaces</em> created in version 2 can be opened in version 3, but it will no longer be possible to return to version 2.</p>
+<p>Copying specifications when a version 2 <em>workspace</em> is opened in version 3:</p>
 <ul>
-<li><code>domainSpec</code> copied to <code>domainSpec</code> and <code>estimationSpec</code></li>
-<li><code>pointSpec</code> to <code>pointSpec</code></li>
+<li><p><code>Reference Specification</code> is copied in <code>Reference Specification</code> and in <code>Estimation Specification</code></p></li>
+<li><p><code>Result Specification</code> is copied in <code>Result Specification</code></p></li>
 </ul>
 </section>
 </section>
 <section id="data-structures" class="level2">
 <h2 class="anchored" data-anchor-id="data-structures">Data structures</h2>
-<p>Workspaces are organized into SA-Processing and SA-Item.</p>
-<section id="sec-concept-sap" class="level4">
-<h4 class="anchored" data-anchor-id="sec-concept-sap">SA-Processing</h4>
+<p><em>workspaces</em> are organized into SA-Processing and SA-Item.</p>
+<section id="sec-concept-sap" class="level3">
+<h3 class="anchored" data-anchor-id="sec-concept-sap">SA-Processing</h3>
 <p>An SA-Processing (SAP) is represented by an <code>.xml</code> file. It contains SA-Items and user-defined reference specifications.</p>
 </section>
-<section id="sec-concept-sai" class="level4">
-<h4 class="anchored" data-anchor-id="sec-concept-sai">SA-Item</h4>
+<section id="sec-concept-sai" class="level3">
+<h3 class="anchored" data-anchor-id="sec-concept-sai">SA-Item</h3>
 <p>An SA-Item contains information about a given series:</p>
 <ul>
 <li><p>raw data</p></li>
-<li><p>specifications (<code>pointSpec</code>, <code>estimationSpec</code>, <code>domainSpec</code>)</p></li>
+<li><p>specifications (<code>pointSpecification</code>, <code>estimationSpecification</code>, `Specification``)</p></li>
 <li><p>metadata</p></li>
 </ul>
 </section>
-<section id="sec-concept-metadata" class="level4">
-<h4 class="anchored" data-anchor-id="sec-concept-metadata">Metadata</h4>
+<section id="sec-concept-metadata" class="level3">
+<h3 class="anchored" data-anchor-id="sec-concept-metadata">Metadata</h3>
 <p>The metadata (see the <metadata> tag in the <code>.xml</code> file corresponding to SA-Processing) contains:</metadata></p>
 <ul>
 <li><p>the type of source of the raw data</p></li>
@@ -487,13 +447,13 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 </section>
 <section id="sec-concept-modelling-context" class="level3">
 <h3 class="anchored" data-anchor-id="sec-concept-modelling-context">Modelling context</h3>
-<p>The modelling context contains the calendars, variables, and external regressors needed for the estimates made in the workspace.</p>
+<p>The modelling context contains the calendars, variables, and external regressors needed for the estimates made in the <em>workspace</em>.</p>
 </section>
 </section>
 <section id="mig-to-jd" class="level2">
 <h2 class="anchored" data-anchor-id="mig-to-jd">Migration to JDemetra+</h2>
 <p>It is possible to convert X-13 specifications used in the US Census Bureau’s X-13-Arima-Seats software into JDemetra+ X13-Arima specifications.</p>
-<p>This operation is performed using the graphical interface with the <a href="https://github.com/bbkrd/SpecParser">SpecParser&nbsp;🔗</a> plug-in, which can only be used in version 2. The workspace containing these specifications can be opened in version 3. The plug-in documentation can be found <a href="https://bbkrd.github.io/pages/specparser/">here&nbsp;🔗</a> and all the migration steps are described <a href="https://bbkrd.github.io/pages/specparser/">here&nbsp;🔗</a> in the JDemetra+ documentation.</p>
+<p>This operation is performed using the graphical interface with the <a href="https://github.com/bbkrd/SpecParser">SpecParser&nbsp;🔗</a> plug-in, which can only be used in version 2. The <em>workspace</em> containing these specifications can be opened in version 3. The plug-in documentation can be found <a href="https://bbkrd.github.io/pages/specparser/">here&nbsp;🔗</a> and all the migration steps are described <a href="https://bbkrd.github.io/pages/specparser/">here&nbsp;🔗</a> in the JDemetra+ documentation.</p>
 
 
 </section>

@@ -19,15 +19,15 @@ library("rjd3production")
 
 ## Two approaches
 
-JDemetra+ allows to use of seasonal adjustment algorithms via R packages or the graphical user interface (GUI). The use of the GUI is generally motivated by a subsequent manual fine-tuning step, which is greatly facilitated by an organized view of the results and diagnostics, as well as the ability to modify specifications in a guided manner. However, using the GUI does not require the user to perform all operations manually with the mouse. There are two ways to automate the process: the Cruncher can be used to run estimations and export outputs, while the rjd3production and rjd3workspace packages can be used to bulk operations such as customizing specifications.
+JDemetra+ allows to use of seasonal adjustment algorithms via R packages or the graphical user interface (GUI). The use of the GUI is generally motivated by a subsequent manual fine-tuning step, which is greatly facilitated by an organized view of the results and diagnostics, as well as the ability to modify specifications in a guided manner. However, using the GUI does not require the user to perform all operations manually with the mouse. There are two ways to automate the process: the *Cruncher* can be used to run estimations and export outputs, while the rjd3production and rjd3workspace packages can be used to bulk operations such as customizing specifications.
 
-Producers who make little or no use of manual fine-tuning are increasingly inclined to use R functions directly and therefore only manipulate TS (Time Series) objects, freeing themselves from the workspace structure. However, these two approaches are not mutually exclusive; it is entirely possible to recreate a functional workspace (readable by the GUI and crunchable) from R objects.
+Producers who make little or no use of manual fine-tuning are increasingly inclined to use R functions directly and therefore only manipulate TS (Time Series) objects, freeing themselves from the *workspace* structure. However, these two approaches are not mutually exclusive; it is entirely possible to recreate a functional *workspace* (readable by the GUI and crunchable) from R objects.
 
 In the rest of this section, we will first look at the case of using the GUI, then discuss the case of using R packages exclusively.
 
 ## Using the graphical user interface
 
-Using the GUI therefore requires organization into workspace(s). These can be created [manually 🔗](https://jdemetra-new-documentation.netlify.app/t-gui-sa-modelling-features#how-to-create-a-workspace) or via an R script, based on the following code
+Using the GUI therefore requires organization into *workspace*(s). These can be created [manually 🔗](https://jdemetra-new-documentation.netlify.app/t-gui-sa-modelling-features#how-to-create-a-workspace) or via an R script, based on the following code
 
 ```{r}
 #| eval: false
@@ -53,7 +53,7 @@ As a preliminary step to estimation, the selection of calendar regressors consis
 
 -   Create a set of regressors to test, as detailed in Attal-Toubert [-@attal2012regresseurs] and illustrated in [appendices 🔗](#crea-regs)
 
--   run automatic sesonal adjustment (possibly keeping a relevant predefined set of outliers, for example those corresponding to the COVID period) for all the pre-selected sets of regressors
+-   run automatic seasonal adjustment (possibly keeping a relevant predefined set of outliers, for example those corresponding to the COVID period) for all the pre-selected sets of regressors
 
 -   note the relative effectiveness of each set by penalizing residual trading days effects
 
@@ -70,7 +70,7 @@ my_context$variables <- my_context$variables[c("REG1", "REG1_LY", "REG6", "REG6_
 td_table <- select_regs(my_series, context = my_context)
 ```
 
--   assign the selected set to each series of the workspace by declaring it in the corresponding specification
+-   assign the selected set to each series of the *workspace* by declaring it in the corresponding specification
 
 ```{r}
 #| eval: false
@@ -90,10 +90,10 @@ In the following example, we modify one SA-Item (`jsai`):
 #| echo: true
 library(rjd3workspace)
 
-# reading the workspace 
+# reading the *workspace* 
 jws <- jws_open("C:/my_folder/workspace_test.xml")
 
-# retrieving the sa-item in the workspace (here the first of the first SA-processing)
+# retrieving the sa-item in the *workspace* (here the first of the first SA-processing)
 jsap <- jws_sap(jws, 1L)
 jsai <- jsap_sai(jsap, 1L)
 
@@ -117,7 +117,7 @@ spec3_with_td <- rjd3toolkit::set_tradingdays(
 set_domain_specification(jsap, 1L, spec3_with_td)
 ```
 
-Here we assign pre-specified sets of outliers to an entire workspace :
+Here we assign pre-specified sets of outliers to an entire *workspace* :
 
 ```{r}
 #| eval: false
@@ -126,13 +126,13 @@ Here we assign pre-specified sets of outliers to an entire workspace :
 assign_outliers(outliers = outliers_table, jws = my_ws)
 ```
 
-Outliers can be stored in an "\*.yaml" file or imported from en existing workspace.
+Outliers can be stored in an "\*.yaml" file or imported from en existing *workspace*.
 
 It is also possible to retrieve X13-Arima or Tramo-Seats specifications from X13-Arima-Seats software and make them compatible with JDemetra+. We describe this migration procedure in [appendices 🔗](#mig-to-jd).
 
 ### Estimation
 
-Once the specifications have been set in their initial version, before any modification based on the diagnostics, the estimation can be launched manually in the graphical interface. It is very common to automate this step with the “Cruncher,” which will directly export the output (series and diagnostics). This avoids opening the GUI by running the code below:
+Once the specifications have been set in their initial version, before any modification based on the diagnostics, the estimation can be launched manually in the graphical interface. It is very common to automate this step with the *Cruncher*, which will directly export the output (series and diagnostics). This avoids opening the GUI by running the code below:
 
 ```{r}
 #| eval: false
@@ -146,13 +146,13 @@ cruncher_and_param(
 )
 ```
 
-A subdirectory /output is created in the workspace directory with the files containing the series and the file containing the diagnostics and parameters (demetra_m.csv). The objects to be exported are selected by setting options in R. The corresponding code can be viewed [here 🔗](https://jdemetra-new-documentation.netlify.app/t-production-tools-Cruncher-qr).
+A subdirectory /output is created in the *workspace* directory with the files containing the series and the file containing the diagnostics and parameters (demetra_m.csv). The objects to be exported are selected by setting options in R. The corresponding code can be viewed [here 🔗](https://jdemetra-new-documentation.netlify.app/t-production-tools-Cruncher-qr).
 
 In the example above, the policy is “complete” (or “concurrent”), which is the only choice possible for an initial estimation. We will return to this parameter and the various refresh policies available in the [third part 🔗](#camp-infra) in more detail.
 
-Although it is possible to organize series into several SAProcessings in a JDemetra+ workspace, it should be noted that the Cruncher will always act on an entire workspace.
+Although it is possible to organize series into several SAProcessings in a JDemetra+ *workspace*, it should be noted that the *Cruncher* will always act on an entire *workspace*.
 
-The path to the physical location of the data must be specified. This [link is entered in the workspace 🔗](#sec-concept-metadata) when the data is assigned to it. If the data has been moved before the estimation is updated, the path must be updated. This can be done with the following functions in the case of an Excel workbook:
+The path to the physical location of the data must be specified. This [link is entered in the *workspace* 🔗](#sec-concept-metadata) when the data is assigned to it. If the data has been moved before the estimation is updated, the path must be updated. This can be done with the following functions in the case of an Excel workbook:
 
 ```{r}
 #| eval: false
@@ -171,7 +171,7 @@ spreadsheet_update_path(
 save_workspace(my_ws, "C:/my_folder/workspace_test.xml")
 ```
 
-The case of a “.txt” or “.csv” file is illustrated [here 🔗](https://rjdverse.github.io/rjd3workspace/reference/spreadsheet_update_path.html).
+The case of a “.txt” or “.csv” file is illustrated [here 🔗](https://rjdverse.github.io/rjd3workspace/reference/txt_update_path.html).
 
 ### Quality Report
 
@@ -210,13 +210,13 @@ The result can be exported to Excel, where it is organized as follows by default
 
 -   a sheet with the values, including the score, the weighted score, and the main contributions to the score
 
-The user can enrich this file and document the manual fine-tuning of the workspace. Sorting by descending (weighted) score yields the expected selective editing.
+The user can enrich this file and document the manual fine-tuning of the *workspace*. Sorting by descending (weighted) score yields the expected selective editing.
 
 Below is an excerpt from the Excel export of the quality report, by default:
 
 ![](img/BQ-example.png)
 
-Guided by the quality report, the producer modifies the specifications to improve seasonal adjustment, generally using the graphical interface. To generate the final output, particularly the series, they can restart the Cruncher, no longer with the policy="complete" option but using a refresh that re-estimates only the coefficients of the pre-adjustment model (“policy=regarimaparmeters”) and retains all of the user's modifications. We provide more details on this point in the [appendices 🔗](#comp-refresh).
+Guided by the quality report, the producer modifies the specifications to improve seasonal adjustment, generally using the graphical interface. To generate the final output, particularly the series, they can restart the *Cruncher*, no longer with the policy="complete" option but using a refresh that re-estimates only the coefficients of the pre-adjustment model (“policy=regarimaparmeters”) and retains all of the user's modifications. We provide more details on this point in the [appendices 🔗](#comp-refresh).
 
 ```{r}
 #| eval: false
@@ -232,7 +232,7 @@ cruncher_and_param(
 
 ## Using only R packages
 
-All of the steps described above can be performed without using a workspace structure and remaining in the R environment.
+All of the steps described above can be performed without using a *workspace* structure and remaining in the R environment.
 
 ### Estimation
 
@@ -249,7 +249,7 @@ str(mod)
 
 ### Diagnostics and specifications
 
-In R, you can access the same diagnostics as from the GUI and the Cruncher by navigating through the object produced by the estimation (list of lists), which you can directly organize into a customized quality report. To take advantage of the existing formatting, simply rewrite a crunchable workspace and regenerate the same report as in the GUI approach. To remain in one environment, manual modification of the specifications based on the diagnostics will in this case be done directly in the R script, as in the example below:
+In R, you can access the same diagnostics as from the GUI and the *Cruncher* by navigating through the object produced by the estimation (list of lists), which you can directly organize into a customized quality report. To take advantage of the existing formatting, simply rewrite a crunchable *workspace* and regenerate the same report as in the GUI approach. To remain in one environment, manual modification of the specifications based on the diagnostics will in this case be done directly in the R script, as in the example below:
 
 ```{r}
 #| eval: false
@@ -272,7 +272,7 @@ The loop of reading diagnostics and modifying parameters is less fluid, which en
 
 The diagnostics used to construct the score presented above can be obtained directly in R, which allows the selective editing procedure to be replicated. The code for obtaining this output can be found in the [appendices 🔗](#ind-bq-r).
 
-The R approach also eliminates any portability issues, even though updating the link between a workspace and the data is now simple and reliable.
+The R approach also eliminates any portability issues, even though updating the link between a *workspace* and the data is now simple and reliable.
 
 ## Performance {#perf}
 
@@ -307,6 +307,6 @@ read.table(
     scale_fill_viridis_d()
 ```
 
-For a series number close to one thousand, the estimation with `rjdx13` takes less than three minutes, which is still very reasonable for most users but far behind the Cruncher, which completes the same process in about twenty seconds.
+For a series number close to one thousand, the estimation with `rjdx13` takes less than three minutes, which is still very reasonable for most users but far behind the *Cruncher*, which completes the same process in about twenty seconds.
 
 Once the production process is in place, it is recommended to validate or adjust the settings annually and to adopt an infra-annual production strategy, generally monthly or quarterly, allowing the seasonally adjusted data to be updated when new raw data becomes available. This issue is tackled in the next part.
