@@ -17,6 +17,9 @@ library("rjd3workspace")
 library("rjd3production")
 ```
 
+Seasonal adjustment is a key process in official statistics, as it is necessary for the dissemination and interpretation of a large number of economic indicators. In an effort to harmonize practices, Eurostat has recommended since 2015 the use of the open source software JDemetra+, which provides access to the two most popular seasonal adjustment algorithms in European statistical agencies: X-13 Arima and Tramo-Seats, via a graphical user interface and a family of R packages. 
 
+
+These pages describe and illustrate how to take advantage of JDemetra+ version 3 to build efficient production processes that can adjust several thousand series with individualized settings, while controlling statistical quality and minimizing manual fine-tuning.
 
 
