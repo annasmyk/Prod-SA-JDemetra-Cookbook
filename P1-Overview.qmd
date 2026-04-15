@@ -53,9 +53,9 @@ The rest of this article presents a procedure and the tools needed to implement 
 
 ## JDemetra+: a tool for seasonal adjustment
 
-JDemetra+ is an open-source library of algorithms for time series analysis. These are accessible via a Graphical User Interface (GUI), which can be enhanced with [plug-ins 🔗](https://jdemetra-new-documentation.netlify.app/t-plug-ins) and an ecosystem of R packages, the [rjdverse 🔗](https://github.com/rjdverse?view_as=public). In addition to seasonal adjustment, they also enable nowcasting, benchmarking, temporal disaggregation, trend estimation, and revision analysis. The development and promotion of JDemetra+ are co-financed by Eurostat through successive grants and currently within the [COSA 🔗](https://jdemetra-new-documentation.netlify.app/#COSA-abstract) project.
+JDemetra+ is an open-source library of algorithms for time series analysis. These are accessible via a Graphical User Interface (GUI), which can be enhanced with [plug-ins](https://doc.jdemetra.org/t-plug-ins) and an ecosystem of R packages, the [rjdverse](https://github.com/rjdverse?view_as=public). In addition to seasonal adjustment, they also enable nowcasting, benchmarking, temporal disaggregation, trend estimation, and revision analysis. The development and promotion of JDemetra+ are co-financed by Eurostat through successive grants and currently within the [COSA](https://doc.jdemetra.org/#COSA-abstract) project.
 
-Seasonal adjustment is the area for which JDemetra+ is best known. The software was initially developed as a simple graphical interface, based on the original programs for the two algorithms X12-arima and Tramo-Seats. The aim was to provide users with a user-friendly view of the results, diagnostics, and parameters, and to harmonize this for both algorithms. The software was initially called [Demetra 🔗](https://github.com/cosa-tsa-shop/Resources-Logistics/tree/main/Historical%20Documents), the goddess of agriculture and the seasons. When the Fortran programs of the US Census Bureau and the Bank of Spain were rewritten in Java\footnote{Same structure but potentially different estimation and optimization procedures that could give rise to numerically non-strictly equal results.}, Demetra became JDemetra+ [@grudkowska2013advanced].
+Seasonal adjustment is the area for which JDemetra+ is best known. The software was initially developed as a simple graphical interface, based on the original programs for the two algorithms X12-arima and Tramo-Seats. The aim was to provide users with a user-friendly view of the results, diagnostics, and parameters, and to harmonize this for both algorithms. The software was initially called [Demetra](https://github.com/cosa-tsa-shop/Resources-Logistics/tree/main/Historical%20Documents), the goddess of agriculture and the seasons. When the Fortran programs of the US Census Bureau and the Bank of Spain were rewritten in Java\footnote{Same structure but potentially different estimation and optimization procedures that could give rise to numerically non-strictly equal results.}, Demetra became JDemetra+ [@grudkowska2013advanced].
 
 ### Algorithms
 
@@ -77,30 +77,30 @@ All of the above algorithms can be used to seasonally adjust monthly, quarterly,
 
 #### Graphical User Interface (GUI)
 
-JDemetra+ is available as a [Graphical User Interface 🔗](https://jdemetra-new-documentation.netlify.app/t-gui-overview) designed to facilitate manual fine-tuning through an organized presentation of results and parameters. Operations are mainly performed by clicking buttons, which requires auxiliary automation tools. Using the GUI and the *Cruncher* also requires organizing data into a specific structure: the [*workspace* 🔗](#sec-concept-workspace).
+JDemetra+ is available as a [Graphical User Interface](https://doc.jdemetra.org/t-gui-overview) designed to facilitate manual fine-tuning through an organized presentation of results and parameters. Operations are mainly performed by clicking buttons, which requires auxiliary automation tools. Using the GUI and the *Cruncher* also requires organizing data into a specific structure: the [*workspace*](#sec-concept-workspace).
 
 #### Cruncher {#Cruncher}
 
-The *Cruncher* avoids opening the interface and clicking when launching or refreshing an estimation. It is a command line executable module that we will use later with two R packages, rjwsacruncher for estimations and exporting results, and JDCruncher for formatting diagnostics. Another advantage of the *Cruncher* is its speed: it can be run on hundreds or thousands of series and produce results in a reasonable amount of time. The installation procedure and main functions are described in the [documentation 🔗](https://jdemetra-new-documentation.netlify.app/t-production-tools-Cruncher-qr).
+The *Cruncher* avoids opening the interface and clicking when launching or refreshing an estimation. It is a command line executable module that we will use later with two R packages, rjwsacruncher for estimations and exporting results, and JDCruncher for formatting diagnostics. Another advantage of the *Cruncher* is its speed: it can be run on hundreds or thousands of series and produce results in a reasonable amount of time. The installation procedure and main functions are described in the [documentation](https://doc.jdemetra.org/t-production-tools-Cruncher-qr).
 
 #### R packages
 
-A family of packages, [rjdverse 🔗](https://github.com/rjdverse) provides direct access to JDemetra+ algorithms in R and automates operations related to the use of *workspaces*. The rjd3production package offers macro functions corresponding to complete stages in the production process.
+A family of packages, [rjdverse](https://github.com/rjdverse) provides direct access to JDemetra+ algorithms in R and automates operations related to the use of *workspaces*. The rjd3production package offers macro functions corresponding to complete stages in the production process.
 
 Table 3: R packages for the production of seasonally adjusted series
 
 | Package | Useful functions for production |
 |---------------------|---------------------------------------------------|
-| [{rjd3toolkit} 🔗](https://github.com/rjdverse/rjd3toolkit) | Generation of calendar regressors, Customization of specifications, Tests |
-| [{rjd3x13} 🔗](https://github.com/rjdverse/rjd3x13) | Seasonal adjustment (Reg-Arima pre-adjustment and X11 decomposition) |
-| [{rjd3tramoseats} 🔗](https://github.com/rjdverse/rjd3tramoseats) | Seasonal adjustment (TRAMO pre-adjustment and SEATS decomposition) |
-| [{rjwsacruncher} 🔗](https://github.com/AQLT/rjwsacruncher) | *workspace* update and output export |
-| [{JDCruncheR} 🔗](https://github.com/InseeFr/JDCruncheR) | Create a quality report for the *workspace* based on the outputs |
-| [{rjd3production} 🔗](https://github.com/inseefr/rjd3production) | Wrapper with macro functions for each production step |
-| [{rjd3workspace} 🔗](https://github.com/rjdverse/rjd3workspace) | *workspace* creation and modification |
-| [{rjd3providers} 🔗](https://github.com/rjdverse/rjd3providers) | Input data management |
+| [{rjd3toolkit}](https://github.com/rjdverse/rjd3toolkit) | Generation of calendar regressors, Customization of specifications, Tests |
+| [{rjd3x13}](https://github.com/rjdverse/rjd3x13) | Seasonal adjustment (Reg-Arima pre-adjustment and X11 decomposition) |
+| [{rjd3tramoseats}](https://github.com/rjdverse/rjd3tramoseats) | Seasonal adjustment (TRAMO pre-adjustment and SEATS decomposition) |
+| [{rjwsacruncher}](https://github.com/AQLT/rjwsacruncher) | *workspace* update and output export |
+| [{JDCruncheR}](https://github.com/InseeFr/JDCruncheR) | Create a quality report for the *workspace* based on the outputs |
+| [{rjd3production}](https://github.com/inseefr/rjd3production) | Wrapper with macro functions for each production step |
+| [{rjd3workspace}](https://github.com/rjdverse/rjd3workspace) | *workspace* creation and modification |
+| [{rjd3providers}](https://github.com/rjdverse/rjd3providers) | Input data management |
 
-The installation procedures for all those tools are to be found in the [documentation 🔗](https://jdemetra-new-documentation.netlify.app/#installing-the-software).
+The installation procedures for all those tools are to be found in the [documentation](https://doc.jdemetra.org/#installing-the-software).
 
 ### Data structures {#data-structures}
 
@@ -108,7 +108,7 @@ In the following paragraphs, we briefly describe the data structures and concept
 
 #### Input series {#sec-concept-input}
 
-The JDemetra+ interface accepts different types of data formats that can be imported from the menus in the [providers](https://jdemetra-new-documentation.netlify.app/t-gui-overview#providers-window) tab.
+The JDemetra+ interface accepts different types of data formats that can be imported from the menus in the [providers](https://doc.jdemetra.org/t-gui-overview#providers-window) tab.
 
 -   CSV files (specifying the field separator, date format, decimal separator, etc.)
 -   Excel files (only \*.xlsx in version 3.x)
@@ -126,7 +126,7 @@ JDemetra+ generates different types of outputs:
 -   Parameters (specification information)
 -   Diagnostics (information on the quality of the fit)
 
-The graphical interface allows you to view these outputs and export them using [drop-down menus 🔗](https://jdemetra-new-documentation.netlify.app/t-gui-output).
+The graphical interface allows you to view these outputs and export them using [drop-down menus](https://doc.jdemetra.org/t-gui-output).
 
 The *Cruncher* avoids menu navigation by offering an identical automated export. The parameters and diagnostics are grouped into a single data file where the identifier is the name of the series. The exported file is called demetra_m.CVS, where “m” stands for matrix.
 
@@ -143,7 +143,7 @@ mod$result$final
 
 #### Specifications {#sec-concept-specification}
 
-A specification is the set of parameters and constraints specific to X-13 or Tramo-Seats that are used to seasonally adjust a time series. Each algorithm has a set of [default specifications 🔗](https://jdemetra-new-documentation.netlify.app/a-sa-pre-treatment#a-pre-t-def-spec) that the user can customize. Thus, a specification will be attached to each series, stored in the *workspace* or in the R object.
+A specification is the set of parameters and constraints specific to X-13 or Tramo-Seats that are used to seasonally adjust a time series. Each algorithm has a set of [default specifications](https://doc.jdemetra.org/a-sa-pre-treatment#a-pre-t-def-spec) that the user can customize. Thus, a specification will be attached to each series, stored in the *workspace* or in the R object.
 
 More specifically, version 3 of JDemetra+ allows you to work with three versions of the same initial specification: `Reference Specification`, `Estimation Specification`, and `Result Specification`. The distinction between these three stages becomes useful when applying an estimation or refresh policy using the GUI or the *Cruncher* during annual or sub-annual campaigns.
 
@@ -153,9 +153,9 @@ More specifically, version 3 of JDemetra+ allows you to work with three versions
 
 - `Reference Specification`: Initially corresponds to the default specification selected by the user. During a refresh policy, it overrides the parameters of the `Estimation Specification`—even if those were specified by the user—where constraints are relaxed. If you want a parameter from the `Estimation Specification` to be preserved even though the refresh policy might re-identify or re-estimate it, it must be included in the `Reference Specification`.
  
-The display and user modifications of these three types of specifications, as well as an example use case, are presented in [Appendices 🔗](#comp-specs).
+The display and user modifications of these three types of specifications, as well as an example use case, are presented in [Appendices](#comp-specs).
 
-Definition of specifications and the behavior of refresh policies differ from JDemetra+ version 2; details are provided in [Appendices 🔗](#spec-v2-v3).
+Definition of specifications and the behavior of refresh policies differ from JDemetra+ version 2; details are provided in [Appendices](#spec-v2-v3).
 
 #### Workspaces {#sec-concept-workspace}
 
@@ -168,6 +168,6 @@ A *workspace* is a data structure specific to JDemetra+, consisting of a set of 
 
 At the first level, a *workspace* is the combination of a directory (containing XML files) and a master XML file that defines the structure of the folder and its contents. Both have the same name and must be located together in the same directory.
 
-A *workspace* contains SA-Processing, the equivalent of subdirectories specific to JDemetra+, where SA-items are created. These are sub-structures containing all the information relating to a series (raw data, links to it, and the three types of specifications seen in the previous section). The *workspace* does not store results, but rather all the parameters needed to regenerate them. We complete this description in [appendices 🔗](#data-structures).
+A *workspace* contains SA-Processing, the equivalent of subdirectories specific to JDemetra+, where SA-items are created. These are sub-structures containing all the information relating to a series (raw data, links to it, and the three types of specifications seen in the previous section). The *workspace* does not store results, but rather all the parameters needed to regenerate them. We complete this description in [appendices](#data-structures).
 
 The following section details the steps involved in building a production process by combining the tools described above.

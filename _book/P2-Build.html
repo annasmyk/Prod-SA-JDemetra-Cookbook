@@ -275,7 +275,7 @@ div.csl-indent {
 </section>
 <section id="using-the-graphical-user-interface" class="level2">
 <h2 class="anchored" data-anchor-id="using-the-graphical-user-interface">Using the graphical user interface</h2>
-<p>Using the GUI therefore requires organization into <em>workspace</em>(s). These can be created <a href="https://jdemetra-new-documentation.netlify.app/t-gui-sa-modelling-features#how-to-create-a-workspace">manually&nbsp;🔗</a> or via an R script, based on the following code</p>
+<p>Using the GUI therefore requires organization into <em>workspace</em>(s). These can be created <a href="https://doc.jdemetra.org/t-gui-sa-modelling-features#how-to-create-a-workspace">manually</a> or via an R script, based on the following code</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -294,7 +294,7 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="selection-and-assignment-of-a-set-of-calendar-regressors">Selection and assignment of a set of calendar regressors</h3>
 <p>As a preliminary step to estimation, the selection of calendar regressors consists of determining which set of provides the best correction for each series. To do this, we suggest following these steps:</p>
 <ul>
-<li><p>Create a set of regressors to test, as detailed in Attal-Toubert <span class="citation" data-cites="attal2012regresseurs">(<a href="references.html#ref-attal2012regresseurs" role="doc-biblioref">2012</a>)</span> and illustrated in <a href="P4-Appendices.html#crea-regs">appendices&nbsp;🔗</a></p></li>
+<li><p>Create a set of regressors to test, as detailed in Attal-Toubert <span class="citation" data-cites="attal2012regresseurs">(<a href="references.html#ref-attal2012regresseurs" role="doc-biblioref">2012</a>)</span> and illustrated in <a href="P4-Appendices.html#crea-regs">appendices</a></p></li>
 <li><p>run automatic seasonal adjustment (possibly keeping a relevant predefined set of outliers, for example those corresponding to the COVID period) for all the pre-selected sets of regressors</p></li>
 <li><p>note the relative effectiveness of each set by penalizing residual trading days effects</p></li>
 <li><p>choose the set with the best score</p></li>
@@ -326,7 +326,7 @@ div.csl-indent {
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>jsap <span class="ot">&lt;-</span> <span class="fu">jws_sap</span>(jws, 1L)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>jsai <span class="ot">&lt;-</span> <span class="fu">jsap_sai</span>(jsap, 1L)</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>spec0 <span class="ot">&lt;-</span> <span class="fu">get_domain_specification</span>(jsai)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>spec0 <span class="ot">&lt;-</span> <span class="fu">get_reference_specification</span>(jsai)</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>spec1_with_outliers <span class="ot">&lt;-</span> rjd3toolkit<span class="sc">::</span><span class="fu">add_outlier</span>(</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> spec0,</span>
@@ -343,14 +343,14 @@ div.csl-indent {
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">test =</span> <span class="st">"None"</span></span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">set_domain_specification</span>(jsap, 1L, spec3_with_td)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">set_reference_specification</span>(jsap, 1L, spec3_with_td)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here we assign pre-specified sets of outliers to an entire <em>workspace</em> :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assign_outliers</span>(<span class="at">outliers =</span> outliers_table, <span class="at">jws =</span> my_ws)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Outliers can be stored in an “*.yaml” file or imported from en existing <em>workspace</em>.</p>
-<p>It is also possible to retrieve X13-Arima or Tramo-Seats specifications from X13-Arima-Seats software and make them compatible with JDemetra+. We describe this migration procedure in <a href="P4-Appendices.html#mig-to-jd">appendices&nbsp;🔗</a>.</p>
+<p>It is also possible to retrieve X13-Arima or Tramo-Seats specifications from X13-Arima-Seats software and make them compatible with JDemetra+. We describe this migration procedure in <a href="P4-Appendices.html#mig-to-jd">appendices</a>.</p>
 </section>
 <section id="estimation" class="level3">
 <h3 class="anchored" data-anchor-id="estimation">Estimation</h3>
@@ -363,10 +363,10 @@ div.csl-indent {
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">policy =</span> <span class="st">"complete"</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>A subdirectory /output is created in the <em>workspace</em> directory with the files containing the series and the file containing the diagnostics and parameters (demetra_m.csv). The objects to be exported are selected by setting options in R. The corresponding code can be viewed <a href="https://jdemetra-new-documentation.netlify.app/t-production-tools-Cruncher-qr">here&nbsp;🔗</a>.</p>
-<p>In the example above, the policy is “complete” (or “concurrent”), which is the only choice possible for an initial estimation. We will return to this parameter and the various refresh policies available in the <a href="P3-Review.html#camp-infra">third part&nbsp;🔗</a> in more detail.</p>
+<p>A subdirectory /output is created in the <em>workspace</em> directory with the files containing the series and the file containing the diagnostics and parameters (demetra_m.csv). The objects to be exported are selected by setting options in R. The corresponding code can be viewed <a href="https://doc.jdemetra.org/t-production-tools-Cruncher-qr">here</a>.</p>
+<p>In the example above, the policy is “complete” (or “concurrent”), which is the only choice possible for an initial estimation. We will return to this parameter and the various refresh policies available in the <a href="P3-Review.html#camp-infra">third part</a> in more detail.</p>
 <p>Although it is possible to organize series into several SAProcessings in a JDemetra+ <em>workspace</em>, it should be noted that the <em>Cruncher</em> will always act on an entire <em>workspace</em>.</p>
-<p>The path to the physical location of the data must be specified. This <a href="P4-Appendices.html#sec-concept-metadata">link is entered in the <em>workspace</em>&nbsp;🔗</a> when the data is assigned to it. If the data has been moved before the estimation is updated, the path must be updated. This can be done with the following functions in the case of an Excel workbook:</p>
+<p>The path to the physical location of the data must be specified. This <a href="P4-Appendices.html#sec-concept-metadata">link is entered in the <em>workspace</em></a> when the data is assigned to it. If the data has been moved before the estimation is updated, the path must be updated. This can be done with the following functions in the case of an Excel workbook:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the workspace</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>my_ws <span class="ot">&lt;-</span> <span class="fu">jws_open</span>(<span class="st">"C:/my_folder/workspace_test.xml"</span>)</span>
@@ -380,24 +380,24 @@ div.csl-indent {
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Saving the workspace (wrinting the file on the disk)</span></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save_workspace</span>(my_ws, <span class="st">"C:/my_folder/workspace_test.xml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The case of a “.txt” or “.csv” file is illustrated <a href="https://rjdverse.github.io/rjd3workspace/reference/txt_update_path.html">here&nbsp;🔗</a>.</p>
+<p>The case of a “.txt” or “.csv” file is illustrated <a href="https://rjdverse.github.io/rjd3workspace/reference/txt_update_path.html">here</a>.</p>
 </section>
 <section id="quality-report" class="level3">
 <h3 class="anchored" data-anchor-id="quality-report">Quality Report</h3>
 <p>A quality report is constructed by assigning each series a score based on diagnostics selected from the JDemetra+ output. This makes it possible to quickly identify the series with the poorest statistical quality and thus target manual fine-tuning. The statistical score can also be weighted by the importance of the series in the dissemination process to achieve an even more pragmatic selection.</p>
-<p>The {JDCruncheR} package produces this report based on the diagnostics and parameters in the “demetra_m.csv” file generated by the rjwsacruncher::cruncher_and_param function. This file can also be generated directly via the GUI using <a href="https://jdemetra-new-documentation.netlify.app/t-gui-output">drop-down menus&nbsp;🔗</a>.</p>
+<p>The {JDCruncheR} package produces this report based on the diagnostics and parameters in the “demetra_m.csv” file generated by the rjwsacruncher::cruncher_and_param function. This file can also be generated directly via the GUI using <a href="https://doc.jdemetra.org/t-gui-output">drop-down menus</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>BQ <span class="ot">&lt;-</span> JDCruncheR<span class="sc">::</span><span class="fu">extract_QR</span>(<span class="st">"C:/Workspaces/my_ws/Output/SAProcessing-1/demetra_m.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The extraction parameters are detailed in the documentation for the <a href="https://inseefr.github.io/JDCruncheR/reference/extract_QR.html"><code>extractQR</code>&nbsp;🔗</a> function.</p>
-<p>A set of diagnostics, detailed in the <a href="P4-Appendices.html#ind-bq-r">appendices&nbsp;🔗</a>, relating in particular to residual seasonality, residual trading day effects, and the whiteness of the residuals, are selected. Each of these is assigned a rating (“Good,” “Uncertain,” “Bad,” or “Severe”) according to thresholds that can be viewed using the option below:</p>
+<p>The extraction parameters are detailed in the documentation for the <a href="https://inseefr.github.io/JDCruncheR/reference/extract_QR.html"><code>extractQR</code></a> function.</p>
+<p>A set of diagnostics, detailed in the <a href="P4-Appendices.html#ind-bq-r">appendices</a>, relating in particular to residual seasonality, residual trading day effects, and the whiteness of the residuals, are selected. Each of these is assigned a rating (“Good,” “Uncertain,” “Bad,” or “Severe”) according to thresholds that can be viewed using the option below:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"JDCruncheR"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getOption</span>(<span class="st">"jdc_thresholds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>These thresholds can be configured using the <a href="https://inseefr.github.io/JDCruncheR/reference/set_thresholds.html"><code>JDCruncher::set_threshold()</code>&nbsp;🔗</a> function.</p>
-<p>Each modality corresponds to a grade, so (“Good,” “Uncertain,” “Bad,” or “Severe”) will become (0, 1, 3, 5). The score for a series is the weighted average of its scores, and its quality is lower when the score is higher. The residual seasonality tests on the seasonally adjusted series and on the irregular have the highest weights. The complete score equation is detailed in the <a href="P4-Appendices.html#eq-score">appendices&nbsp;🔗</a>.</p>
-<p>This equation can also be configured with the <code>score_pond</code> argument of the <a href="https://inseefr.github.io/JDCruncheR/reference/compute_score.html">compute_score()&nbsp;🔗</a> function.</p>
+<p>These thresholds can be configured using the <a href="https://inseefr.github.io/JDCruncheR/reference/set_thresholds.html"><code>JDCruncher::set_threshold()</code></a> function.</p>
+<p>Each modality corresponds to a grade, so (“Good,” “Uncertain,” “Bad,” or “Severe”) will become (0, 1, 3, 5). The score for a series is the weighted average of its scores, and its quality is lower when the score is higher. The residual seasonality tests on the seasonally adjusted series and on the irregular have the highest weights. The complete score equation is detailed in the <a href="P4-Appendices.html#eq-score">appendices</a>.</p>
+<p>This equation can also be configured with the <code>score_pond</code> argument of the <a href="https://inseefr.github.io/JDCruncheR/reference/compute_score.html">compute_score()</a> function.</p>
 <p>The result can be exported to Excel, where it is organized as follows by default:</p>
 <ul>
 <li><p>a sheet with the diagnostic methods for each series</p></li>
@@ -406,7 +406,7 @@ div.csl-indent {
 <p>The user can enrich this file and document the manual fine-tuning of the <em>workspace</em>. Sorting by descending (weighted) score yields the expected selective editing.</p>
 <p>Below is an excerpt from the Excel export of the quality report, by default:</p>
 <p><img src="img/BQ-example.png" class="img-fluid"></p>
-<p>Guided by the quality report, the producer modifies the specifications to improve seasonal adjustment, generally using the graphical interface. To generate the final output, particularly the series, they can restart the <em>Cruncher</em>, no longer with the policy=“complete” option but using a refresh that re-estimates only the coefficients of the pre-adjustment model (“policy=regarimaparmeters”) and retains all of the user’s modifications. We provide more details on this point in the <a href="P4-Appendices.html#comp-refresh">appendices&nbsp;🔗</a>.</p>
+<p>Guided by the quality report, the producer modifies the specifications to improve seasonal adjustment, generally using the graphical interface. To generate the final output, particularly the series, they can restart the <em>Cruncher</em>, no longer with the policy=“complete” option but using a refresh that re-estimates only the coefficients of the pre-adjustment model (“policy=regarimaparmeters”) and retains all of the user’s modifications. We provide more details on this point in the <a href="P4-Appendices.html#comp-refresh">appendices</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjwsacruncher"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cruncher_and_param</span>(</span>
@@ -444,7 +444,7 @@ div.csl-indent {
 <!-- Should you need to apply a customized modification to the whole data set -->
 <!-- CODE ? -->
 <p>The loop of reading diagnostics and modifying parameters is less fluid, which encourages the use of the graphical interface approach in cases requiring intensive manual fine-tuning. To update specifications in R based on diagnostics, scripts must be modified directly, which is slower and more prone to error for analysts, especially those unfamiliar with R. The R-only approach makes storing and versioning specifications more complex.</p>
-<p>The diagnostics used to construct the score presented above can be obtained directly in R, which allows the selective editing procedure to be replicated. The code for obtaining this output can be found in the <a href="P4-Appendices.html#ind-bq-r">appendices&nbsp;🔗</a>.</p>
+<p>The diagnostics used to construct the score presented above can be obtained directly in R, which allows the selective editing procedure to be replicated. The code for obtaining this output can be found in the <a href="P4-Appendices.html#ind-bq-r">appendices</a>.</p>
 <p>The R approach also eliminates any portability issues, even though updating the link between a <em>workspace</em> and the data is now simple and reliable.</p>
 </section>
 </section>

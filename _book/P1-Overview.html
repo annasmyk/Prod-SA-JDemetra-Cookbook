@@ -368,8 +368,8 @@ div.csl-indent {
 </section>
 <section id="jdemetra-a-tool-for-seasonal-adjustment" class="level2">
 <h2 class="anchored" data-anchor-id="jdemetra-a-tool-for-seasonal-adjustment">JDemetra+: a tool for seasonal adjustment</h2>
-<p>JDemetra+ is an open-source library of algorithms for time series analysis. These are accessible via a Graphical User Interface (GUI), which can be enhanced with <a href="https://jdemetra-new-documentation.netlify.app/t-plug-ins">plug-ins&nbsp;🔗</a> and an ecosystem of R packages, the <a href="https://github.com/rjdverse?view_as=public">rjdverse&nbsp;🔗</a>. In addition to seasonal adjustment, they also enable nowcasting, benchmarking, temporal disaggregation, trend estimation, and revision analysis. The development and promotion of JDemetra+ are co-financed by Eurostat through successive grants and currently within the <a href="https://jdemetra-new-documentation.netlify.app/#COSA-abstract">COSA&nbsp;🔗</a> project.</p>
-<p>Seasonal adjustment is the area for which JDemetra+ is best known. The software was initially developed as a simple graphical interface, based on the original programs for the two algorithms X12-arima and Tramo-Seats. The aim was to provide users with a user-friendly view of the results, diagnostics, and parameters, and to harmonize this for both algorithms. The software was initially called <a href="https://github.com/cosa-tsa-shop/Resources-Logistics/tree/main/Historical%20Documents">Demetra&nbsp;🔗</a>, the goddess of agriculture and the seasons. When the Fortran programs of the US Census Bureau and the Bank of Spain were rewritten in Java, Demetra became JDemetra+ <span class="citation" data-cites="grudkowska2013advanced">(<a href="references.html#ref-grudkowska2013advanced" role="doc-biblioref">Grudkowska et al. 2013</a>)</span>.</p>
+<p>JDemetra+ is an open-source library of algorithms for time series analysis. These are accessible via a Graphical User Interface (GUI), which can be enhanced with <a href="https://doc.jdemetra.org/t-plug-ins">plug-ins</a> and an ecosystem of R packages, the <a href="https://github.com/rjdverse?view_as=public">rjdverse</a>. In addition to seasonal adjustment, they also enable nowcasting, benchmarking, temporal disaggregation, trend estimation, and revision analysis. The development and promotion of JDemetra+ are co-financed by Eurostat through successive grants and currently within the <a href="https://doc.jdemetra.org/#COSA-abstract">COSA</a> project.</p>
+<p>Seasonal adjustment is the area for which JDemetra+ is best known. The software was initially developed as a simple graphical interface, based on the original programs for the two algorithms X12-arima and Tramo-Seats. The aim was to provide users with a user-friendly view of the results, diagnostics, and parameters, and to harmonize this for both algorithms. The software was initially called <a href="https://github.com/cosa-tsa-shop/Resources-Logistics/tree/main/Historical%20Documents">Demetra</a>, the goddess of agriculture and the seasons. When the Fortran programs of the US Census Bureau and the Bank of Spain were rewritten in Java, Demetra became JDemetra+ <span class="citation" data-cites="grudkowska2013advanced">(<a href="references.html#ref-grudkowska2013advanced" role="doc-biblioref">Grudkowska et al. 2013</a>)</span>.</p>
 <section id="algorithms" class="level3">
 <h3 class="anchored" data-anchor-id="algorithms">Algorithms</h3>
 <p>JDemetra+ now offers additional algorithms for seasonal adjustment, but only the two historical ones are really designed for mass data production, as they allow parameters to be stored in a <em>workspace</em> and use an automation module called Cruncher. In our examples, we will refer to X13-Arima, but all recommendations remain valid with Tramo-Seats.</p>
@@ -428,15 +428,15 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="tools">Tools</h3>
 <section id="graphical-user-interface-gui" class="level4">
 <h4 class="anchored" data-anchor-id="graphical-user-interface-gui">Graphical User Interface (GUI)</h4>
-<p>JDemetra+ is available as a <a href="https://jdemetra-new-documentation.netlify.app/t-gui-overview">Graphical User Interface&nbsp;🔗</a> designed to facilitate manual fine-tuning through an organized presentation of results and parameters. Operations are mainly performed by clicking buttons, which requires auxiliary automation tools. Using the GUI and the <em>Cruncher</em> also requires organizing data into a specific structure: the <a href="#sec-concept-workspace"><em>workspace</em>&nbsp;🔗</a>.</p>
+<p>JDemetra+ is available as a <a href="https://doc.jdemetra.org/t-gui-overview">Graphical User Interface</a> designed to facilitate manual fine-tuning through an organized presentation of results and parameters. Operations are mainly performed by clicking buttons, which requires auxiliary automation tools. Using the GUI and the <em>Cruncher</em> also requires organizing data into a specific structure: the <a href="#sec-concept-workspace"><em>workspace</em></a>.</p>
 </section>
 <section id="Cruncher" class="level4">
 <h4 class="anchored" data-anchor-id="Cruncher">Cruncher</h4>
-<p>The <em>Cruncher</em> avoids opening the interface and clicking when launching or refreshing an estimation. It is a command line executable module that we will use later with two R packages, rjwsacruncher for estimations and exporting results, and JDCruncher for formatting diagnostics. Another advantage of the <em>Cruncher</em> is its speed: it can be run on hundreds or thousands of series and produce results in a reasonable amount of time. The installation procedure and main functions are described in the <a href="https://jdemetra-new-documentation.netlify.app/t-production-tools-Cruncher-qr">documentation&nbsp;🔗</a>.</p>
+<p>The <em>Cruncher</em> avoids opening the interface and clicking when launching or refreshing an estimation. It is a command line executable module that we will use later with two R packages, rjwsacruncher for estimations and exporting results, and JDCruncher for formatting diagnostics. Another advantage of the <em>Cruncher</em> is its speed: it can be run on hundreds or thousands of series and produce results in a reasonable amount of time. The installation procedure and main functions are described in the <a href="https://doc.jdemetra.org/t-production-tools-Cruncher-qr">documentation</a>.</p>
 </section>
 <section id="r-packages" class="level4">
 <h4 class="anchored" data-anchor-id="r-packages">R packages</h4>
-<p>A family of packages, <a href="https://github.com/rjdverse">rjdverse&nbsp;🔗</a> provides direct access to JDemetra+ algorithms in R and automates operations related to the use of <em>workspaces</em>. The rjd3production package offers macro functions corresponding to complete stages in the production process.</p>
+<p>A family of packages, <a href="https://github.com/rjdverse">rjdverse</a> provides direct access to JDemetra+ algorithms in R and automates operations related to the use of <em>workspaces</em>. The rjd3production package offers macro functions corresponding to complete stages in the production process.</p>
 <p>Table 3: R packages for the production of seasonally adjusted series</p>
 <table class="table">
 <thead>
@@ -447,40 +447,40 @@ div.csl-indent {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://github.com/rjdverse/rjd3toolkit">{rjd3toolkit}&nbsp;🔗</a></td>
+<td><a href="https://github.com/rjdverse/rjd3toolkit">{rjd3toolkit}</a></td>
 <td>Generation of calendar regressors, Customization of specifications, Tests</td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/rjdverse/rjd3x13">{rjd3x13}&nbsp;🔗</a></td>
+<td><a href="https://github.com/rjdverse/rjd3x13">{rjd3x13}</a></td>
 <td>Seasonal adjustment (Reg-Arima pre-adjustment and X11 decomposition)</td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/rjdverse/rjd3tramoseats">{rjd3tramoseats}&nbsp;🔗</a></td>
+<td><a href="https://github.com/rjdverse/rjd3tramoseats">{rjd3tramoseats}</a></td>
 <td>Seasonal adjustment (TRAMO pre-adjustment and SEATS decomposition)</td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/AQLT/rjwsacruncher">{rjwsacruncher}&nbsp;🔗</a></td>
+<td><a href="https://github.com/AQLT/rjwsacruncher">{rjwsacruncher}</a></td>
 <td><em>workspace</em> update and output export</td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/InseeFr/JDCruncheR">{JDCruncheR}&nbsp;🔗</a></td>
+<td><a href="https://github.com/InseeFr/JDCruncheR">{JDCruncheR}</a></td>
 <td>Create a quality report for the <em>workspace</em> based on the outputs</td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/inseefr/rjd3production">{rjd3production}&nbsp;🔗</a></td>
+<td><a href="https://github.com/inseefr/rjd3production">{rjd3production}</a></td>
 <td>Wrapper with macro functions for each production step</td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/rjdverse/rjd3workspace">{rjd3workspace}&nbsp;🔗</a></td>
+<td><a href="https://github.com/rjdverse/rjd3workspace">{rjd3workspace}</a></td>
 <td><em>workspace</em> creation and modification</td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/rjdverse/rjd3providers">{rjd3providers}&nbsp;🔗</a></td>
+<td><a href="https://github.com/rjdverse/rjd3providers">{rjd3providers}</a></td>
 <td>Input data management</td>
 </tr>
 </tbody>
 </table>
-<p>The installation procedures for all those tools are to be found in the <a href="https://jdemetra-new-documentation.netlify.app/#installing-the-software">documentation&nbsp;🔗</a>.</p>
+<p>The installation procedures for all those tools are to be found in the <a href="https://doc.jdemetra.org/#installing-the-software">documentation</a>.</p>
 </section>
 </section>
 <section id="data-structures" class="level3">
@@ -488,7 +488,7 @@ div.csl-indent {
 <p>In the following paragraphs, we briefly describe the data structures and concepts specific to JDemetra+, which will be useful in the following sections.</p>
 <section id="sec-concept-input" class="level4">
 <h4 class="anchored" data-anchor-id="sec-concept-input">Input series</h4>
-<p>The JDemetra+ interface accepts different types of data formats that can be imported from the menus in the <a href="https://jdemetra-new-documentation.netlify.app/t-gui-overview#providers-window">providers</a> tab.</p>
+<p>The JDemetra+ interface accepts different types of data formats that can be imported from the menus in the <a href="https://doc.jdemetra.org/t-gui-overview#providers-window">providers</a> tab.</p>
 <ul>
 <li>CSV files (specifying the field separator, date format, decimal separator, etc.)</li>
 <li>Excel files (only *.xlsx in version 3.x)</li>
@@ -506,7 +506,7 @@ div.csl-indent {
 <li>Parameters (specification information)</li>
 <li>Diagnostics (information on the quality of the fit)</li>
 </ul>
-<p>The graphical interface allows you to view these outputs and export them using <a href="https://jdemetra-new-documentation.netlify.app/t-gui-output">drop-down menus&nbsp;🔗</a>.</p>
+<p>The graphical interface allows you to view these outputs and export them using <a href="https://doc.jdemetra.org/t-gui-output">drop-down menus</a>.</p>
 <p>The <em>Cruncher</em> avoids menu navigation by offering an identical automated export. The parameters and diagnostics are grouped into a single data file where the identifier is the name of the series. The exported file is called demetra_m.CVS, where “m” stands for matrix.</p>
 <p>If the estimation is done in R, for example with {rjd3x13}, a list of lists groups the series, diagnostics, and parameters.</p>
 <div class="cell">
@@ -517,15 +517,15 @@ div.csl-indent {
 </section>
 <section id="sec-concept-specification" class="level4">
 <h4 class="anchored" data-anchor-id="sec-concept-specification">Specifications</h4>
-<p>A specification is the set of parameters and constraints specific to X-13 or Tramo-Seats that are used to seasonally adjust a time series. Each algorithm has a set of <a href="https://jdemetra-new-documentation.netlify.app/a-sa-pre-treatment#a-pre-t-def-spec">default specifications&nbsp;🔗</a> that the user can customize. Thus, a specification will be attached to each series, stored in the <em>workspace</em> or in the R object.</p>
+<p>A specification is the set of parameters and constraints specific to X-13 or Tramo-Seats that are used to seasonally adjust a time series. Each algorithm has a set of <a href="https://doc.jdemetra.org/a-sa-pre-treatment#a-pre-t-def-spec">default specifications</a> that the user can customize. Thus, a specification will be attached to each series, stored in the <em>workspace</em> or in the R object.</p>
 <p>More specifically, version 3 of JDemetra+ allows you to work with three versions of the same initial specification: <code>Reference Specification</code>, <code>Estimation Specification</code>, and <code>Result Specification</code>. The distinction between these three stages becomes useful when applying an estimation or refresh policy using the GUI or the <em>Cruncher</em> during annual or sub-annual campaigns.</p>
 <ul>
 <li><p><code>Estimation Specification</code>: The set of constraints used by the algorithm to perform the calculations and obtain the expected series and indicators. If the user has not modified any parameters, it will be equal to one of the default specifications.</p></li>
 <li><p><code>Result Specification</code>: Complete result of the estimation (Reg-Arima model coefficients, filter lengths and weights, etc.) used to derive the estimated series from the raw series. All parameters are determined here; there is no further identification or automatic search for effects. This specification can be applied to a (compatible) series.</p></li>
 <li><p><code>Reference Specification</code>: Initially corresponds to the default specification selected by the user. During a refresh policy, it overrides the parameters of the <code>Estimation Specification</code>—even if those were specified by the user—where constraints are relaxed. If you want a parameter from the <code>Estimation Specification</code> to be preserved even though the refresh policy might re-identify or re-estimate it, it must be included in the <code>Reference Specification</code>.</p></li>
 </ul>
-<p>The display and user modifications of these three types of specifications, as well as an example use case, are presented in <a href="P4-Appendices.html#comp-specs">Appendices&nbsp;🔗</a>.</p>
-<p>Definition of specifications and the behavior of refresh policies differ from JDemetra+ version 2; details are provided in <a href="P4-Appendices.html#spec-v2-v3">Appendices&nbsp;🔗</a>.</p>
+<p>The display and user modifications of these three types of specifications, as well as an example use case, are presented in <a href="P4-Appendices.html#comp-specs">Appendices</a>.</p>
+<p>Definition of specifications and the behavior of refresh policies differ from JDemetra+ version 2; details are provided in <a href="P4-Appendices.html#spec-v2-v3">Appendices</a>.</p>
 </section>
 <section id="sec-concept-workspace" class="level4">
 <h4 class="anchored" data-anchor-id="sec-concept-workspace">Workspaces</h4>
@@ -537,7 +537,7 @@ div.csl-indent {
 <li>Multi-documents, also known as SA-Processing</li>
 </ul>
 <p>At the first level, a <em>workspace</em> is the combination of a directory (containing XML files) and a master XML file that defines the structure of the folder and its contents. Both have the same name and must be located together in the same directory.</p>
-<p>A <em>workspace</em> contains SA-Processing, the equivalent of subdirectories specific to JDemetra+, where SA-items are created. These are sub-structures containing all the information relating to a series (raw data, links to it, and the three types of specifications seen in the previous section). The <em>workspace</em> does not store results, but rather all the parameters needed to regenerate them. We complete this description in <a href="#data-structures">appendices&nbsp;🔗</a>.</p>
+<p>A <em>workspace</em> contains SA-Processing, the equivalent of subdirectories specific to JDemetra+, where SA-items are created. These are sub-structures containing all the information relating to a series (raw data, links to it, and the three types of specifications seen in the previous section). The <em>workspace</em> does not store results, but rather all the parameters needed to regenerate them. We complete this description in <a href="#data-structures">appendices</a>.</p>
 <p>The following section details the steps involved in building a production process by combining the tools described above.</p>
 
 

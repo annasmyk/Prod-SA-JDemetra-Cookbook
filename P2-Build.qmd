@@ -27,7 +27,7 @@ In the rest of this section, we will first look at the case of using the GUI, th
 
 ## Using the graphical user interface
 
-Using the GUI therefore requires organization into *workspace*(s). These can be created [manually 🔗](https://jdemetra-new-documentation.netlify.app/t-gui-sa-modelling-features#how-to-create-a-workspace) or via an R script, based on the following code
+Using the GUI therefore requires organization into *workspace*(s). These can be created [manually](https://doc.jdemetra.org/t-gui-sa-modelling-features#how-to-create-a-workspace) or via an R script, based on the following code
 
 ```{r}
 #| eval: false
@@ -51,7 +51,7 @@ save_workspace(my_ws, "C:/my_folder/workspace_test.xml")
 
 As a preliminary step to estimation, the selection of calendar regressors consists of determining which set of provides the best correction for each series. To do this, we suggest following these steps:
 
--   Create a set of regressors to test, as detailed in Attal-Toubert [-@attal2012regresseurs] and illustrated in [appendices 🔗](#crea-regs)
+-   Create a set of regressors to test, as detailed in Attal-Toubert [-@attal2012regresseurs] and illustrated in [appendices](#crea-regs)
 
 -   run automatic seasonal adjustment (possibly keeping a relevant predefined set of outliers, for example those corresponding to the COVID period) for all the pre-selected sets of regressors
 
@@ -97,7 +97,7 @@ jws <- jws_open("C:/my_folder/workspace_test.xml")
 jsap <- jws_sap(jws, 1L)
 jsai <- jsap_sai(jsap, 1L)
 
-spec0 <- get_domain_specification(jsai)
+spec0 <- get_reference_specification(jsai)
 
 spec1_with_outliers <- rjd3toolkit::add_outlier(
     x = spec0,
@@ -114,7 +114,7 @@ spec3_with_td <- rjd3toolkit::set_tradingdays(
     test = "None"
 )
 
-set_domain_specification(jsap, 1L, spec3_with_td)
+set_reference_specification(jsap, 1L, spec3_with_td)
 ```
 
 Here we assign pre-specified sets of outliers to an entire *workspace* :
@@ -128,7 +128,7 @@ assign_outliers(outliers = outliers_table, jws = my_ws)
 
 Outliers can be stored in an "\*.yaml" file or imported from en existing *workspace*.
 
-It is also possible to retrieve X13-Arima or Tramo-Seats specifications from X13-Arima-Seats software and make them compatible with JDemetra+. We describe this migration procedure in [appendices 🔗](#mig-to-jd).
+It is also possible to retrieve X13-Arima or Tramo-Seats specifications from X13-Arima-Seats software and make them compatible with JDemetra+. We describe this migration procedure in [appendices](#mig-to-jd).
 
 ### Estimation
 
@@ -146,13 +146,13 @@ cruncher_and_param(
 )
 ```
 
-A subdirectory /output is created in the *workspace* directory with the files containing the series and the file containing the diagnostics and parameters (demetra_m.csv). The objects to be exported are selected by setting options in R. The corresponding code can be viewed [here 🔗](https://jdemetra-new-documentation.netlify.app/t-production-tools-Cruncher-qr).
+A subdirectory /output is created in the *workspace* directory with the files containing the series and the file containing the diagnostics and parameters (demetra_m.csv). The objects to be exported are selected by setting options in R. The corresponding code can be viewed [here](https://doc.jdemetra.org/t-production-tools-Cruncher-qr).
 
-In the example above, the policy is “complete” (or “concurrent”), which is the only choice possible for an initial estimation. We will return to this parameter and the various refresh policies available in the [third part 🔗](#camp-infra) in more detail.
+In the example above, the policy is “complete” (or “concurrent”), which is the only choice possible for an initial estimation. We will return to this parameter and the various refresh policies available in the [third part](#camp-infra) in more detail.
 
 Although it is possible to organize series into several SAProcessings in a JDemetra+ *workspace*, it should be noted that the *Cruncher* will always act on an entire *workspace*.
 
-The path to the physical location of the data must be specified. This [link is entered in the *workspace* 🔗](#sec-concept-metadata) when the data is assigned to it. If the data has been moved before the estimation is updated, the path must be updated. This can be done with the following functions in the case of an Excel workbook:
+The path to the physical location of the data must be specified. This [link is entered in the *workspace*](#sec-concept-metadata) when the data is assigned to it. If the data has been moved before the estimation is updated, the path must be updated. This can be done with the following functions in the case of an Excel workbook:
 
 ```{r}
 #| eval: false
@@ -171,13 +171,13 @@ spreadsheet_update_path(
 save_workspace(my_ws, "C:/my_folder/workspace_test.xml")
 ```
 
-The case of a “.txt” or “.csv” file is illustrated [here 🔗](https://rjdverse.github.io/rjd3workspace/reference/txt_update_path.html).
+The case of a “.txt” or “.csv” file is illustrated [here](https://rjdverse.github.io/rjd3workspace/reference/txt_update_path.html).
 
 ### Quality Report
 
 A quality report is constructed by assigning each series a score based on diagnostics selected from the JDemetra+ output. This makes it possible to quickly identify the series with the poorest statistical quality and thus target manual fine-tuning. The statistical score can also be weighted by the importance of the series in the dissemination process to achieve an even more pragmatic selection.
 
-The {JDCruncheR} package produces this report based on the diagnostics and parameters in the “demetra_m.csv” file generated by the rjwsacruncher::cruncher_and_param function. This file can also be generated directly via the GUI using [drop-down menus 🔗](https://jdemetra-new-documentation.netlify.app/t-gui-output).
+The {JDCruncheR} package produces this report based on the diagnostics and parameters in the “demetra_m.csv” file generated by the rjwsacruncher::cruncher_and_param function. This file can also be generated directly via the GUI using [drop-down menus](https://doc.jdemetra.org/t-gui-output).
 
 ```{r}
 #| eval: false
@@ -186,9 +186,9 @@ The {JDCruncheR} package produces this report based on the diagnostics and param
 BQ <- JDCruncheR::extract_QR("C:/Workspaces/my_ws/Output/SAProcessing-1/demetra_m.csv")
 ```
 
-The extraction parameters are detailed in the documentation for the [`extractQR` 🔗](https://inseefr.github.io/JDCruncheR/reference/extract_QR.html) function.
+The extraction parameters are detailed in the documentation for the [`extractQR`](https://inseefr.github.io/JDCruncheR/reference/extract_QR.html) function.
 
-A set of diagnostics, detailed in the [appendices 🔗](#ind-bq-r), relating in particular to residual seasonality, residual trading day effects, and the whiteness of the residuals, are selected. Each of these is assigned a rating (“Good,” “Uncertain,” “Bad,” or “Severe”) according to thresholds that can be viewed using the option below:
+A set of diagnostics, detailed in the [appendices](#ind-bq-r), relating in particular to residual seasonality, residual trading day effects, and the whiteness of the residuals, are selected. Each of these is assigned a rating (“Good,” “Uncertain,” “Bad,” or “Severe”) according to thresholds that can be viewed using the option below:
 
 ```{r}
 #| eval: false
@@ -198,11 +198,11 @@ library("JDCruncheR")
 getOption("jdc_thresholds")
 ```
 
-These thresholds can be configured using the [`JDCruncher::set_threshold()` 🔗](https://inseefr.github.io/JDCruncheR/reference/set_thresholds.html) function.
+These thresholds can be configured using the [`JDCruncher::set_threshold()`](https://inseefr.github.io/JDCruncheR/reference/set_thresholds.html) function.
 
-Each modality corresponds to a grade, so (“Good,” “Uncertain,” “Bad,” or “Severe”) will become (0, 1, 3, 5). The score for a series is the weighted average of its scores, and its quality is lower when the score is higher. The residual seasonality tests on the seasonally adjusted series and on the irregular have the highest weights. The complete score equation is detailed in the [appendices 🔗](#eq-score).
+Each modality corresponds to a grade, so (“Good,” “Uncertain,” “Bad,” or “Severe”) will become (0, 1, 3, 5). The score for a series is the weighted average of its scores, and its quality is lower when the score is higher. The residual seasonality tests on the seasonally adjusted series and on the irregular have the highest weights. The complete score equation is detailed in the [appendices](#eq-score).
 
-This equation can also be configured with the `score_pond` argument of the [compute_score() 🔗](https://inseefr.github.io/JDCruncheR/reference/compute_score.html) function.
+This equation can also be configured with the `score_pond` argument of the [compute_score()](https://inseefr.github.io/JDCruncheR/reference/compute_score.html) function.
 
 The result can be exported to Excel, where it is organized as follows by default:
 
@@ -216,7 +216,7 @@ Below is an excerpt from the Excel export of the quality report, by default:
 
 ![](img/BQ-example.png)
 
-Guided by the quality report, the producer modifies the specifications to improve seasonal adjustment, generally using the graphical interface. To generate the final output, particularly the series, they can restart the *Cruncher*, no longer with the policy="complete" option but using a refresh that re-estimates only the coefficients of the pre-adjustment model (“policy=regarimaparmeters”) and retains all of the user's modifications. We provide more details on this point in the [appendices 🔗](#comp-refresh).
+Guided by the quality report, the producer modifies the specifications to improve seasonal adjustment, generally using the graphical interface. To generate the final output, particularly the series, they can restart the *Cruncher*, no longer with the policy="complete" option but using a refresh that re-estimates only the coefficients of the pre-adjustment model (“policy=regarimaparmeters”) and retains all of the user's modifications. We provide more details on this point in the [appendices](#comp-refresh).
 
 ```{r}
 #| eval: false
@@ -270,7 +270,7 @@ spec1_with_outliers <- rjd3toolkit::add_outlier(
 
 The loop of reading diagnostics and modifying parameters is less fluid, which encourages the use of the graphical interface approach in cases requiring intensive manual fine-tuning. To update specifications in R based on diagnostics, scripts must be modified directly, which is slower and more prone to error for analysts, especially those unfamiliar with R. The R-only approach makes storing and versioning specifications more complex.
 
-The diagnostics used to construct the score presented above can be obtained directly in R, which allows the selective editing procedure to be replicated. The code for obtaining this output can be found in the [appendices 🔗](#ind-bq-r).
+The diagnostics used to construct the score presented above can be obtained directly in R, which allows the selective editing procedure to be replicated. The code for obtaining this output can be found in the [appendices](#ind-bq-r).
 
 The R approach also eliminates any portability issues, even though updating the link between a *workspace* and the data is now simple and reliable.
 

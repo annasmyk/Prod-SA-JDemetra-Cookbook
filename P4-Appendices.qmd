@@ -18,13 +18,13 @@ library("rjd3production")
 
 ## Calendar effect correction {#crea-regs}
 
-There are two possible procedures for generating calendar regressors: creating customized regressors as shown below, or using predefined regressors in JDemetra+, which also requires defining a reference calendar. Version 3.x of the GUI allows you to automatically \[select 🔗)(https://jdemetra-new-documentation.netlify.app/a-sa-pre-treatment#calendar-correction) from the predefined regressor sets, based on statistical tests.
+There are two possible procedures for generating calendar regressors: creating customized regressors as shown below, or using predefined regressors in JDemetra+, which also requires defining a reference calendar. Version 3.x of the GUI allows you to automatically \[select)(https://doc.jdemetra.org/a-sa-pre-treatment#calendar-correction) from the predefined regressor sets, based on statistical tests.
 
-Instead of a simple [national calendar 🔗](https://jdemetra-new-documentation.netlify.app/a-calendar-correction#national-calendar), JDemetra+ allows you to create [“chained” 🔗](https://jdemetra-new-documentation.netlify.app/a-calendar-correction#chained-calendar) or [“composite” 🔗](https://jdemetra-new-documentation.netlify.app/a-calendar-correction#composite-calendar) with the GUI or [rjd3toolkit 🔗](https://rjdverse.github.io/rjd3toolkit/reference/index.html#calendars).
+Instead of a simple [national calendar](https://doc.jdemetra.org/a-calendar-correction#national-calendar), JDemetra+ allows you to create [“chained”](https://doc.jdemetra.org/a-calendar-correction#chained-calendar) or [“composite”](https://doc.jdemetra.org/a-calendar-correction#composite-calendar) with the GUI or [rjd3toolkit](https://rjdverse.github.io/rjd3toolkit/reference/index.html#calendars).
 
 ### Creating a reference calendar
 
-To create a French calendar based on French public holidays, you can use the [`create_french_calendar()` 🔗](https://inseefr.github.io/rjd3production/reference/insee_modelling.html) function from the {rjd3production} package:
+To create a French calendar based on French public holidays, you can use the [`create_french_calendar()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.html) function from the {rjd3production} package:
 
 ```{r}
 #| eval: true
@@ -69,7 +69,7 @@ str(m_sa)
 ```
 
 
-More information on the tests is available in the [documentation 🔗](https://jdemetra-new-documentation.netlify.app/m-tests)
+More information on the tests is available in the [documentation](https://doc.jdemetra.org/m-tests)
 
 ### Score equation {#eq-score}
 
@@ -97,7 +97,7 @@ $$
 
 The **WS_work** is a merger between **WS_ref** and **WS_auto**. A score is calculated for both *workspaces* and, for each series, the SA-Item is retrieved from the *workspace* with the lowest score between WS_auto and WS_ref.
 
-In an annual campaign process, we will use the [`transfer_sa_item()`{.r} 🔗](https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html) function from {rjd3workspace} to merge **WS_ref** and **WS_auto**.
+In an annual campaign process, we will use the [`transfer_sa_item()`{.r}](https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html) function from {rjd3workspace} to merge **WS_ref** and **WS_auto**.
 
 ```{r}
 #| eval: false
@@ -128,25 +128,25 @@ save_workspace(jws = WS_work, file = "./WS/WS_work.xml")
 
 Modification in the GUI:
 
-![](../../img/DT_modif_ref_spec.png){width="90%" height="60%"}
+![](img/DT_modif_ref_spec.png){width="90%" height="60%"}
 
 Using this same menu, you can apply the `Reference Specification` or the `Result Specification` to a series.
 
-In the `rjd3workspace` package, `Reference Specification` is called `Domain Specification`:
+In the `rjd3workspace` package:
 
 ```{r}
 #| eval: false
 #| echo: true
 
 library("rjd3workspace")
-set_domain_specification(jsap, 1L, new_domain_spec)
+set_reference_specification(jsap, 1L, new_reference_spec)
 ```
 
 -   `Estimation Specification`
 
 Modification in GUI, use the `Specification` button on the right-hand side:
 
-![](../../img/DT_modif_est_spec.png){width="90%" height="60%"}
+![](img/DT_modif_est_spec.png){width="90%" height="60%"}
 
 In the `rjd3workspace` package, `Estimation Specification` is simply referred to as `Specification`:
 
@@ -179,7 +179,7 @@ read_sai(jsai)
 
 A refresh policy is designed to remove all or some of the constraints from the `Estimation Specification` and revert to the `Reference Specification`.
 
-- The “concurrent” policy reverts to the `Reference Specification` by clearing user-defined parameters not written to the domain spec (changes made via the specification window on the right are discarded). In particular, it clears the outliers pre-specified in the `Estimation Specification`; all outliers will be re-identified
+- The “concurrent” policy reverts to the `Reference Specification` by clearing user-defined parameters not written in the reference spec (changes made via the specification window on the right hand side are discarded). In particular, it clears the outliers pre-specified in the `Estimation Specification`; all outliers will be re-identified
 
 - The “lastoutliers” policy clears the outliers pre-specified in the `Estimation Specification` for the last year (or other defined span); re-identification will be performed for this period.
 
@@ -233,7 +233,7 @@ An SA-Item contains information about a given series:
 
 -   raw data
 
--   specifications (`pointSpecification`, `estimationSpecification`, `Specification``)
+-   specifications (`resultSpecification`, `estimationSpecification`)
 
 -   metadata
 
@@ -255,4 +255,4 @@ The modelling context contains the calendars, variables, and external regressors
 
 It is possible to convert X-13 specifications used in the US Census Bureau's X-13-Arima-Seats software into JDemetra+ X13-Arima specifications.
 
-This operation is performed using the graphical interface with the [SpecParser 🔗](https://github.com/bbkrd/SpecParser) plug-in, which can only be used in version 2. The *workspace* containing these specifications can be opened in version 3. The plug-in documentation can be found [here 🔗](https://bbkrd.github.io/pages/specparser/) and all the migration steps are described [here 🔗](https://bbkrd.github.io/pages/specparser/) in the JDemetra+ documentation.
+This operation is performed using the graphical interface with the [SpecParser](https://github.com/bbkrd/SpecParser) plug-in, which can only be used in version 2. The *workspace* containing these specifications can be opened in version 3. The plug-in documentation can be found [here](https://bbkrd.github.io/pages/specparser/) and all the migration steps are described [here](https://bbkrd.github.io/pages/specparser/) in the JDemetra+ documentation.

@@ -266,11 +266,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="crea-regs" class="level2">
 <h2 class="anchored" data-anchor-id="crea-regs">Calendar effect correction</h2>
-<p>There are two possible procedures for generating calendar regressors: creating customized regressors as shown below, or using predefined regressors in JDemetra+, which also requires defining a reference calendar. Version 3.x of the GUI allows you to automatically [select 🔗)(https://jdemetra-new-documentation.netlify.app/a-sa-pre-treatment#calendar-correction) from the predefined regressor sets, based on statistical tests.</p>
-<p>Instead of a simple <a href="https://jdemetra-new-documentation.netlify.app/a-calendar-correction#national-calendar">national calendar 🔗</a>, JDemetra+ allows you to create <a href="https://jdemetra-new-documentation.netlify.app/a-calendar-correction#chained-calendar">“chained” 🔗</a> or <a href="https://jdemetra-new-documentation.netlify.app/a-calendar-correction#composite-calendar">“composite” 🔗</a> with the GUI or <a href="https://rjdverse.github.io/rjd3toolkit/reference/index.html#calendars">rjd3toolkit 🔗</a>.</p>
+<p>There are two possible procedures for generating calendar regressors: creating customized regressors as shown below, or using predefined regressors in JDemetra+, which also requires defining a reference calendar. Version 3.x of the GUI allows you to automatically [select)(https://doc.jdemetra.org/a-sa-pre-treatment#calendar-correction) from the predefined regressor sets, based on statistical tests.</p>
+<p>Instead of a simple <a href="https://doc.jdemetra.org/a-calendar-correction#national-calendar">national calendar</a>, JDemetra+ allows you to create <a href="https://doc.jdemetra.org/a-calendar-correction#chained-calendar">“chained”</a> or <a href="https://doc.jdemetra.org/a-calendar-correction#composite-calendar">“composite”</a> with the GUI or <a href="https://rjdverse.github.io/rjd3toolkit/reference/index.html#calendars">rjd3toolkit</a>.</p>
 <section id="creating-a-reference-calendar" class="level3">
 <h3 class="anchored" data-anchor-id="creating-a-reference-calendar">Creating a reference calendar</h3>
-<p>To create a French calendar based on French public holidays, you can use the <a href="https://inseefr.github.io/rjd3production/reference/insee_modelling.html"><code>create_french_calendar()</code>&nbsp;🔗</a> function from the {rjd3production} package:</p>
+<p>To create a French calendar based on French public holidays, you can use the <a href="https://inseefr.github.io/rjd3production/reference/insee_modelling.html"><code>create_french_calendar()</code></a> function from the {rjd3production} package:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cal_FR <span class="ot">&lt;-</span> <span class="fu">create_french_calendar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -300,7 +300,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>m_sa <span class="ot">&lt;-</span> <span class="fu">x13</span>(my_series, my_spec, <span class="at">userdefined =</span> <span class="fu">c</span>(<span class="st">"diagnostics.fcast-outsample-mean"</span>,<span class="st">"diagnostics.fcast-outsample-variance"</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(m_sa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>More information on the tests is available in the <a href="https://jdemetra-new-documentation.netlify.app/m-tests">documentation 🔗</a></p>
+<p>More information on the tests is available in the <a href="https://doc.jdemetra.org/m-tests">documentation</a></p>
 <section id="eq-score" class="level3">
 <h3 class="anchored" data-anchor-id="eq-score">Score equation</h3>
 <p><span class="math display">\[
@@ -327,7 +327,7 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 <section id="merge-ws" class="level3">
 <h3 class="anchored" data-anchor-id="merge-ws">Creation of WS_work</h3>
 <p>The <strong>WS_work</strong> is a merger between <strong>WS_ref</strong> and <strong>WS_auto</strong>. A score is calculated for both <em>workspaces</em> and, for each series, the SA-Item is retrieved from the <em>workspace</em> with the lowest score between WS_auto and WS_ref.</p>
-<p>In an annual campaign process, we will use the <a href="https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html"><code class="sourceCode r"><span class="fu">transfer_sa_item</span>()</code> 🔗</a> function from {rjd3workspace} to merge <strong>WS_ref</strong> and <strong>WS_auto</strong>.</p>
+<p>In an annual campaign process, we will use the <a href="https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html"><code class="sourceCode r"><span class="fu">transfer_sa_item</span>()</code></a> function from {rjd3workspace} to merge <strong>WS_ref</strong> and <strong>WS_auto</strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save WS_ref as initial version of WS_work</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>WS_auto <span class="ot">&lt;-</span> <span class="fu">load_workspace</span>(<span class="at">file =</span> <span class="st">"./WS/WS_auto.xml"</span>)</span>
@@ -355,18 +355,18 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 <li><code>Reference Specification</code></li>
 </ul>
 <p>Modification in the GUI:</p>
-<p><img src="../../img/DT_modif_ref_spec.png" style="width:90.0%;height:60.0%"></p>
+<p><img src="img/DT_modif_ref_spec.png" style="width:90.0%;height:60.0%"></p>
 <p>Using this same menu, you can apply the <code>Reference Specification</code> or the <code>Result Specification</code> to a series.</p>
-<p>In the <code>rjd3workspace</code> package, <code>Reference Specification</code> is called <code>Domain Specification</code>:</p>
+<p>In the <code>rjd3workspace</code> package:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_domain_specification</span>(jsap, 1L, new_domain_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_reference_specification</span>(jsap, 1L, new_reference_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><code>Estimation Specification</code></li>
 </ul>
 <p>Modification in GUI, use the <code>Specification</code> button on the right-hand side:</p>
-<p><img src="../../img/DT_modif_est_spec.png" style="width:90.0%;height:60.0%"></p>
+<p><img src="img/DT_modif_est_spec.png" style="width:90.0%;height:60.0%"></p>
 <p>In the <code>rjd3workspace</code> package, <code>Estimation Specification</code> is simply referred to as <code>Specification</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
@@ -389,7 +389,7 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 <h3 class="anchored" data-anchor-id="comp-refresh">Refresh policy behavior</h3>
 <p>A refresh policy is designed to remove all or some of the constraints from the <code>Estimation Specification</code> and revert to the <code>Reference Specification</code>.</p>
 <ul>
-<li><p>The “concurrent” policy reverts to the <code>Reference Specification</code> by clearing user-defined parameters not written to the domain spec (changes made via the specification window on the right are discarded). In particular, it clears the outliers pre-specified in the <code>Estimation Specification</code>; all outliers will be re-identified</p></li>
+<li><p>The “concurrent” policy reverts to the <code>Reference Specification</code> by clearing user-defined parameters not written in the reference spec (changes made via the specification window on the right hand side are discarded). In particular, it clears the outliers pre-specified in the <code>Estimation Specification</code>; all outliers will be re-identified</p></li>
 <li><p>The “lastoutliers” policy clears the outliers pre-specified in the <code>Estimation Specification</code> for the last year (or other defined span); re-identification will be performed for this period.</p></li>
 </ul>
 <p>This allows the user to distinguish between permanent settings (<code>Reference Specification</code>) and temporary settings (<code>Estimation Specification</code>).</p>
@@ -432,7 +432,7 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 <p>An SA-Item contains information about a given series:</p>
 <ul>
 <li><p>raw data</p></li>
-<li><p>specifications (<code>pointSpecification</code>, <code>estimationSpecification</code>, `Specification``)</p></li>
+<li><p>specifications (<code>resultSpecification</code>, <code>estimationSpecification</code>)</p></li>
 <li><p>metadata</p></li>
 </ul>
 </section>
@@ -453,7 +453,7 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 <section id="mig-to-jd" class="level2">
 <h2 class="anchored" data-anchor-id="mig-to-jd">Migration to JDemetra+</h2>
 <p>It is possible to convert X-13 specifications used in the US Census Bureau’s X-13-Arima-Seats software into JDemetra+ X13-Arima specifications.</p>
-<p>This operation is performed using the graphical interface with the <a href="https://github.com/bbkrd/SpecParser">SpecParser&nbsp;🔗</a> plug-in, which can only be used in version 2. The <em>workspace</em> containing these specifications can be opened in version 3. The plug-in documentation can be found <a href="https://bbkrd.github.io/pages/specparser/">here&nbsp;🔗</a> and all the migration steps are described <a href="https://bbkrd.github.io/pages/specparser/">here&nbsp;🔗</a> in the JDemetra+ documentation.</p>
+<p>This operation is performed using the graphical interface with the <a href="https://github.com/bbkrd/SpecParser">SpecParser</a> plug-in, which can only be used in version 2. The <em>workspace</em> containing these specifications can be opened in version 3. The plug-in documentation can be found <a href="https://bbkrd.github.io/pages/specparser/">here</a> and all the migration steps are described <a href="https://bbkrd.github.io/pages/specparser/">here</a> in the JDemetra+ documentation.</p>
 
 
 </section>
