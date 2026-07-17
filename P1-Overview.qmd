@@ -12,7 +12,7 @@ The main objective is, of course, to produce seasonally adjusted (SA) series, pa
 
 Seasonal adjustment begins with a seasonality test to ensure that this operation is necessary for the series in question. If this is not the case, the raw series will also be published as SA. In practice, this test is often performed at the end of the seasonal adjustment process, which allows it to be performed on the linearized series (from which the $S$ factors will be extracted) and to always keep the same input data set, excluding only the series that are not to be seasonally adjusted at the dissemination stage.
 
-A correction for calendar effects must often be implemented or at least tested \footnote{Eurostat guidelines recommend to correct calendar effects that have ex-ante relevance.}. The first estimation (pre-adjustment and decomposition) can then be made, probably with a largely automatic specification, and a quality report can be generated to improve the quality of the seasonal adjustment. We refer here to a quality report and not simply to diagnostics, as the former consists of formatting the diagnostics and summarizing them in a score that allows a *selective editing* approach to prioritize manual fine-tuning in the series. It is generally necessary to quantify the revisions and the numerical impact of the choice of parameters, which will influence the choice of final parameters. Once these elements have been reviewed, a second estimation can be made, and the process may be repeated until a final set of parameters is reached.
+A correction for calendar effects must often be implemented or at least tested \footnote{Eurostat guidelines recommend to correct calendar effects that have ex-ante relevance.}. The first estimation (pre-adjustment and decomposition) can then be made, probably with a largely automatic specification, and a quality report can be generated to improve the quality of the seasonal adjustment. We refer here to a quality report and not simply to diagnostics, as the former consists of formatting the diagnostics and summarizing them in a score that allows a *selective editing* approach to prioritize manual fine-tuning of the series during annual reviews. It is generally necessary to quantify the revisions and the numerical impact of the choice of parameters, which will influence the choice of final parameters. Once these elements have been reviewed, a second estimation can be made, and the process may be repeated until a final set of parameters is reached.
 
 Table 1: The steps
 
@@ -85,7 +85,7 @@ The *Cruncher* avoids opening the interface and clicking when launching or refre
 
 #### R packages
 
-A family of packages, [rjdverse](https://github.com/rjdverse) provides direct access to JDemetra+ algorithms in R and automates operations related to the use of *workspaces*. The rjd3production package offers macro functions corresponding to complete stages in the production process.
+A family of packages, [rjdverse](https://github.com/rjdverse) provides direct access to JDemetra+ algorithms in R and automates operations related to the use of *workspaces*. The rjd3production package offers macro functions corresponding to complete stages in the production process, such as selecting the best set of calendar regressors for each series, assigning it to the corresponding specification, adding or removing pre-specified outliers.
 
 Table 3: R packages for the production of seasonally adjusted series
 
