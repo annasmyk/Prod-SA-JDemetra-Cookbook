@@ -108,7 +108,7 @@ save_workspace(jws = WS_work, file = "./WS/WS_work.xml")
 
 Modification in the GUI:
 
-![](../../img/DT_modif_ref_spec.png){width="50%" height="50%"}
+![](img/DT_modif_ref_spec.png){width="50%" height="50%"}
 
 Using this same menu, you can apply the `Reference Specification` or the `Result Specification` to a series.
 
@@ -126,7 +126,7 @@ set_reference_specification(jsap, 1L, new_reference_spec)
 
 Modification in GUI, use the `Specification` button on the right-hand side:
 
-![](../../img/DT_modif_est_spec.png){width="50%" height="50%"}
+![](img/DT_modif_est_spec.png){width="50%" height="50%"}
 
 In the `rjd3workspace` package, `Estimation Specification` is simply referred to as `Specification`:
 
