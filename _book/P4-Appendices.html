@@ -266,15 +266,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="crea-regs" class="level2">
 <h2 class="anchored" data-anchor-id="crea-regs">Calendar effect correction</h2>
-<p>There are two possible procedures for generating calendar regressors: creating customized regressors as shown below, or using predefined regressors in JDemetra+, which also requires defining a reference calendar. Version 3.x of the GUI allows you to automatically [select)(https://doc.jdemetra.org/a-sa-pre-treatment#calendar-correction) from the predefined regressor sets, based on statistical tests.</p>
-<p>Instead of a simple <a href="https://doc.jdemetra.org/a-calendar-correction#national-calendar">national calendar</a>, JDemetra+ allows you to create <a href="https://doc.jdemetra.org/a-calendar-correction#chained-calendar">“chained”</a> or <a href="https://doc.jdemetra.org/a-calendar-correction#composite-calendar">“composite”</a> with the GUI or <a href="https://rjdverse.github.io/rjd3toolkit/reference/index.html#calendars">rjd3toolkit</a>.</p>
+<p>There are two possible procedures for generating calendar regressors: creating customized regressors as shown below, or using predefined regressors in JDemetra+, which also requires defining a reference calendar. Version 3.x of the GUI allows to automatically (select 🔗)(https://doc.jdemetra.org/a-sa-pre-treatment#calendar-correction) from the predefined regressor sets, based on statistical tests. JDemetra+ also allows you to create <a href="https://doc.jdemetra.org/a-calendar-correction#chained-calendar">“chained” 🔗</a> or <a href="https://doc.jdemetra.org/a-calendar-correction#composite-calendar">“composite” 🔗</a> with the GUI.</p>
 <section id="creating-a-reference-calendar" class="level3">
 <h3 class="anchored" data-anchor-id="creating-a-reference-calendar">Creating a reference calendar</h3>
-<p>To create a French calendar based on French public holidays, you can use the <a href="https://inseefr.github.io/rjd3production/reference/insee_modelling.html"><code>create_french_calendar()</code></a> function from the {rjd3production} package:</p>
+<p>To create a French calendar based on French public holidays, you can use the <a href="https://inseefr.github.io/rjd3production/reference/insee_modelling.html"><code>create_french_calendar()</code>&nbsp;🔗</a> function from the {rjd3production} package:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cal_FR <span class="ot">&lt;-</span> <span class="fu">create_french_calendar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This function can be adapted to any national calendar.</p>
+<p>This function can be easily adapted to any national calendar.</p>
 </section>
 <section id="generation-of-regressor-sets" class="level3">
 <h3 class="anchored" data-anchor-id="generation-of-regressor-sets">Generation of regressor sets</h3>
@@ -283,10 +282,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>regs <span class="ot">&lt;-</span> <span class="fu">create_insee_regressors</span>(<span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">length =</span> <span class="dv">360</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sets <span class="ot">&lt;-</span> <span class="fu">create_insee_regressors_sets</span>(<span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">length =</span> <span class="dv">240</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "REG1"    "REG2"    "REG3"    "REG5"    "REG6"    "LY"      "REG1_LY"
- [8] "REG2_LY" "REG3_LY" "REG5_LY" "REG6_LY"</code></pre>
-</div>
 </div>
 </section>
 </section>
@@ -297,10 +292,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="img/BQ-Output-EN.png" class="img-fluid"></p>
 <p>In R, the diagnostics are extracted from the “m_sa” object containing all the estimation results and obtained with the code below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>m_sa <span class="ot">&lt;-</span> <span class="fu">x13</span>(my_series, my_spec, <span class="at">userdefined =</span> <span class="fu">c</span>(<span class="st">"diagnostics.fcast-outsample-mean"</span>,<span class="st">"diagnostics.fcast-outsample-variance"</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(m_sa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m_sa <span class="ot">&lt;-</span> <span class="fu">x13</span>(my_series, my_spec, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">userdefined =</span> <span class="fu">c</span>(<span class="st">"diagnostics.fcast-outsample-mean"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"diagnostics.fcast-outsample-variance"</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(m_sa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>More information on the tests is available in the <a href="https://doc.jdemetra.org/m-tests">documentation</a></p>
+<p>More information on the tests is available in the <a href="https://doc.jdemetra.org/m-tests">documentation 🔗</a></p>
 <section id="eq-score" class="level3">
 <h3 class="anchored" data-anchor-id="eq-score">Score equation</h3>
 <p><span class="math display">\[
@@ -327,23 +324,23 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 <section id="merge-ws" class="level3">
 <h3 class="anchored" data-anchor-id="merge-ws">Creation of WS_work</h3>
 <p>The <strong>WS_work</strong> is a merger between <strong>WS_ref</strong> and <strong>WS_auto</strong>. A score is calculated for both <em>workspaces</em> and, for each series, the SA-Item is retrieved from the <em>workspace</em> with the lowest score between WS_auto and WS_ref.</p>
-<p>In an annual campaign process, we will use the <a href="https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html"><code class="sourceCode r"><span class="fu">transfer_sa_item</span>()</code></a> function from {rjd3workspace} to merge <strong>WS_ref</strong> and <strong>WS_auto</strong>.</p>
+<p>In an annual campaign process, we will use the <a href="https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html"><code class="sourceCode r"><span class="fu">transfer_sa_item</span>()</code> 🔗</a> function from {rjd3workspace} to merge <strong>WS_ref</strong> and <strong>WS_auto</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save WS_ref as initial version of WS_work</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>WS_auto <span class="ot">&lt;-</span> <span class="fu">load_workspace</span>(<span class="at">file =</span> <span class="st">"./WS/WS_auto.xml"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>WS_work <span class="ot">&lt;-</span> <span class="fu">load_workspace</span>(<span class="at">file =</span> <span class="st">"./WS/WS_work.xml"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sap1_auto <span class="ot">&lt;-</span> <span class="fu">.jws_sap</span>(<span class="at">jws =</span> WS_auto, <span class="at">idx =</span> <span class="dv">1</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>sap1_work <span class="ot">&lt;-</span> <span class="fu">.jws_sap</span>(<span class="at">jws =</span> WS_work, <span class="at">idx =</span> <span class="dv">1</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># update ws_work with sa-items from ws auto when necessary </span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">transfer_series</span>(</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">jsap_from =</span> sap1_auto,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">jsap_to =</span> sap1_work,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">selected_sa_items =</span> <span class="fu">c</span>(<span class="st">"RF0610"</span>, <span class="st">"RF0620"</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">save_workspace</span>(<span class="at">jws =</span> WS_work, <span class="at">file =</span> <span class="st">"./WS/WS_work.xml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save WS_ref as initial version of WS_work</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>WS_auto <span class="ot">&lt;-</span> <span class="fu">load_workspace</span>(<span class="at">file =</span> <span class="st">"./WS/WS_auto.xml"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>WS_work <span class="ot">&lt;-</span> <span class="fu">load_workspace</span>(<span class="at">file =</span> <span class="st">"./WS/WS_work.xml"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>sap1_auto <span class="ot">&lt;-</span> <span class="fu">.jws_sap</span>(<span class="at">jws =</span> WS_auto, <span class="at">idx =</span> <span class="dv">1</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>sap1_work <span class="ot">&lt;-</span> <span class="fu">.jws_sap</span>(<span class="at">jws =</span> WS_work, <span class="at">idx =</span> <span class="dv">1</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># update ws_work with sa-items from ws auto when necessary </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">transfer_series</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">jsap_from =</span> sap1_auto,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">jsap_to =</span> sap1_work,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">selected_sa_items =</span> <span class="fu">c</span>(<span class="st">"RF0610"</span>, <span class="st">"RF0620"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">save_workspace</span>(<span class="at">jws =</span> WS_work, <span class="at">file =</span> <span class="st">"./WS/WS_work.xml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -355,42 +352,42 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 <li><code>Reference Specification</code></li>
 </ul>
 <p>Modification in the GUI:</p>
-<p><img src="img/DT_modif_ref_spec.png" style="width:90.0%;height:60.0%"></p>
+<p><img src="../../img/DT_modif_ref_spec.png" style="width:50.0%;height:50.0%"></p>
 <p>Using this same menu, you can apply the <code>Reference Specification</code> or the <code>Result Specification</code> to a series.</p>
 <p>In the <code>rjd3workspace</code> package:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_reference_specification</span>(jsap, 1L, new_reference_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_reference_specification</span>(jsap, 1L, new_reference_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><code>Estimation Specification</code></li>
 </ul>
 <p>Modification in GUI, use the <code>Specification</code> button on the right-hand side:</p>
-<p><img src="img/DT_modif_est_spec.png" style="width:90.0%;height:60.0%"></p>
+<p><img src="../../img/DT_modif_est_spec.png" style="width:50.0%;height:50.0%"></p>
 <p>In the <code>rjd3workspace</code> package, <code>Estimation Specification</code> is simply referred to as <code>Specification</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_specification</span>(jsap, 1L, new_estimation_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set_specification</span>(jsap, 1L, new_estimation_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><code>Result Specification</code></li>
 </ul>
 <p>Estimation result can be applied as indicated below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">jws_compute</span>(jws)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">read_workspace</span>(jws, <span class="at">compute =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sap</span>(jsap)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sai</span>(jsai)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rjd3workspace"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">jws_compute</span>(jws)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">read_workspace</span>(jws, <span class="at">compute =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sap</span>(jsap)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sai</span>(jsai)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="comp-refresh" class="level3">
 <h3 class="anchored" data-anchor-id="comp-refresh">Refresh policy behavior</h3>
 <p>A refresh policy is designed to remove all or some of the constraints from the <code>Estimation Specification</code> and revert to the <code>Reference Specification</code>.</p>
 <ul>
-<li><p>The “concurrent” policy reverts to the <code>Reference Specification</code> by clearing user-defined parameters not written in the reference spec (changes made via the specification window on the right hand side are discarded). In particular, it clears the outliers pre-specified in the <code>Estimation Specification</code>; all outliers will be re-identified</p></li>
-<li><p>The “lastoutliers” policy clears the outliers pre-specified in the <code>Estimation Specification</code> for the last year (or other defined span); re-identification will be performed for this period.</p></li>
+<li><p>The “concurrent” policy removes user-defined parameters not written in the <code>Reference Specification</code> (changes made via the specification window on the right are discarded). In particular, it removes the pre-specified in the <code>Estimation Specification</code>; all outliers will be re-identified</p></li>
+<li><p>The “lastoutliers” policy removes the outliers pre-specified in the <code>Estimation Specification</code> for the last year; re-identification will be performed for this period.</p></li>
 </ul>
 <p>This allows the user to distinguish between permanent settings (<code>Reference Specification</code>) and temporary settings (<code>Estimation Specification</code>).</p>
 </section>
@@ -399,7 +396,7 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 <p>Here is a common procedure for updating data in the case of an intra-annual campaign, with output generation using <em>Cruncher</em>. Note: You must save the <em>workspace</em> before performing a “refresh” (via the GUI or <em>Cruncher</em>).</p>
 <ul>
 <li><p>New raw data is available (new data points and revisions to recent history).</p></li>
-<li><p>Use a “refresh last outliers” to benefit from automatic detection for the last year</p></li>
+<li><p>Use a “refresh last outliers” to benefit from automatic outlier detection for the last year</p></li>
 <li><p>Check the results and revisions; for certain important series, you may want to review the automatic detection</p></li>
 <li><p>We open the graphical interface and modify the <code>Estimation Specification</code> for a series via the window on the right by adding an outlier (<span class="math inline">\(Out_1\)</span>) in the last year</p></li>
 <li><p>We apply and save these changes in the GUI</p></li>
@@ -422,23 +419,23 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 </section>
 <section id="data-structures" class="level2">
 <h2 class="anchored" data-anchor-id="data-structures">Data structures</h2>
-<p><em>workspaces</em> are organized into SA-Processing and SA-Item.</p>
+<p><em>workspaces</em> are organized into SA-Processings and SA-Items.</p>
 <section id="sec-concept-sap" class="level3">
 <h3 class="anchored" data-anchor-id="sec-concept-sap">SA-Processing</h3>
-<p>An SA-Processing (SAP) is represented by an <code>.xml</code> file. It contains SA-Items and user-defined reference specifications.</p>
+<p>A SA-Processing (SAP) is represented by an <code>.xml</code> file. It contains SA-Items and user-defined reference specifications.</p>
 </section>
 <section id="sec-concept-sai" class="level3">
 <h3 class="anchored" data-anchor-id="sec-concept-sai">SA-Item</h3>
-<p>An SA-Item contains information about a given series:</p>
+<p>A SA-Item contains information about a given series:</p>
 <ul>
 <li><p>raw data</p></li>
-<li><p>specifications (<code>resultSpecification</code>, <code>estimationSpecification</code>)</p></li>
+<li><p>specifications (<code>resultSpecification</code>, <code>estimationSpecification</code>,<code>Reference Specification</code>)</p></li>
 <li><p>metadata</p></li>
 </ul>
 </section>
 <section id="sec-concept-metadata" class="level3">
 <h3 class="anchored" data-anchor-id="sec-concept-metadata">Metadata</h3>
-<p>The metadata (see the <metadata> tag in the <code>.xml</code> file corresponding to SA-Processing) contains:</metadata></p>
+<p>The metadata (see the <metadata> tag in the <code>.xml</code> file corresponding to a SA-Processing) contains:</metadata></p>
 <ul>
 <li><p>the type of source of the raw data</p></li>
 <li><p>the “id” of the file containing the raw data (path and parameters) that will be used to refresh the estimate</p></li>
@@ -453,7 +450,7 @@ score\_total &amp;= 30 * grade\_qs\_residual\_s\_on\_sa\\
 <section id="mig-to-jd" class="level2">
 <h2 class="anchored" data-anchor-id="mig-to-jd">Migration to JDemetra+</h2>
 <p>It is possible to convert X-13 specifications used in the US Census Bureau’s X-13-Arima-Seats software into JDemetra+ X13-Arima specifications.</p>
-<p>This operation is performed using the graphical interface with the <a href="https://github.com/bbkrd/SpecParser">SpecParser</a> plug-in, which can only be used in version 2. The <em>workspace</em> containing these specifications can be opened in version 3. The plug-in documentation can be found <a href="https://bbkrd.github.io/pages/specparser/">here</a> and all the migration steps are described <a href="https://bbkrd.github.io/pages/specparser/">here</a> in the JDemetra+ documentation.</p>
+<p>This operation is performed using the graphical interface with the <a href="https://github.com/bbkrd/SpecParser">SpecParser&nbsp;🔗</a> plug-in, which can only be used in version 2. The <em>workspace</em> containing these specifications can be opened in version 3. The plug-in documentation can be found <a href="https://bbkrd.github.io/pages/specparser/">here&nbsp;🔗</a> and all the migration steps are described <a href="https://bbkrd.github.io/pages/specparser/">here&nbsp;🔗</a> in the JDemetra+ documentation.</p>
 
 
 </section>

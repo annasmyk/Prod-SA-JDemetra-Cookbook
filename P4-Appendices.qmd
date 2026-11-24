@@ -1,46 +1,28 @@
 # Appendices {.unnumbered}
 
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| labl: "loading-packages"
-
-library("ggplot2")
-library("dplyr")
-
-library("rjd3toolkit")
-library("rjd3x13")
-library("rjd3providers")
-library("rjd3workspace")
-library("rjd3production")
-```
-
 ## Calendar effect correction {#crea-regs}
 
-There are two possible procedures for generating calendar regressors: creating customized regressors as shown below, or using predefined regressors in JDemetra+, which also requires defining a reference calendar. Version 3.x of the GUI allows you to automatically \[select)(https://doc.jdemetra.org/a-sa-pre-treatment#calendar-correction) from the predefined regressor sets, based on statistical tests.
-
-Instead of a simple [national calendar](https://doc.jdemetra.org/a-calendar-correction#national-calendar), JDemetra+ allows you to create [“chained”](https://doc.jdemetra.org/a-calendar-correction#chained-calendar) or [“composite”](https://doc.jdemetra.org/a-calendar-correction#composite-calendar) with the GUI or [rjd3toolkit](https://rjdverse.github.io/rjd3toolkit/reference/index.html#calendars).
+There are two possible procedures for generating calendar regressors: creating customized regressors as shown below, or using predefined regressors in JDemetra+, which also requires defining a reference calendar. Version 3.x of the GUI allows to automatically (select 🔗)(https://doc.jdemetra.org/a-sa-pre-treatment#calendar-correction) from the predefined regressor sets, based on statistical tests. JDemetra+ also allows you to create [“chained” 🔗](https://doc.jdemetra.org/a-calendar-correction#chained-calendar) or [“composite” 🔗](https://doc.jdemetra.org/a-calendar-correction#composite-calendar) with the GUI.
 
 ### Creating a reference calendar
 
-To create a French calendar based on French public holidays, you can use the [`create_french_calendar()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.html) function from the {rjd3production} package:
+To create a French calendar based on French public holidays, you can use the [`create_french_calendar()` 🔗](https://inseefr.github.io/rjd3production/reference/insee_modelling.html) function from the {rjd3production} package:
 
 ```{r}
-#| eval: true
+#| eval: false
 #| echo: true
 
 cal_FR <- create_french_calendar()
 ```
 
-This function can be adapted to any national calendar.
+This function can be easily adapted to any national calendar.
 
 ### Generation of regressor sets
 
 Using the French calendar, it is possible to generate calendar regressors based, for example, on the usual groups used by INSEE:
 
 ```{r}
-#| eval: true
+#| eval: false
 #| echo: true
 
 regs <- create_insee_regressors(start = c(2000, 1), frequency = 12, length = 360)
@@ -50,26 +32,24 @@ names(sets)
 
 ## Quality Report: Diagnostics and R code {#ind-bq-r}
 
-Diagnostics selected by default when using X-13-Arima\footnote{When using Tramo-Seats, this also works, but in this version, the diagnostics specific to X-13-Arima are simply removed and not replaced} are as follows:
+Diagnostics selected by default when using X-13-Arima\footnote{When using Tramo-Seats, this also works, but in the current version, the diagnostics specific to X-13-Arima are simply removed and not replaced} are as follows:
 
 Table A1: Diagnostics
 
 ![](img/BQ-Output-EN.png)
-
-
-
 
 In R, the diagnostics are extracted from the “m_sa” object containing all the estimation results and obtained with the code below.
 
 ```{r}
 #| eval: false
 #| echo: true
-m_sa <- x13(my_series, my_spec, userdefined = c("diagnostics.fcast-outsample-mean","diagnostics.fcast-outsample-variance"))
+m_sa <- x13(my_series, my_spec, 
+            userdefined = c("diagnostics.fcast-outsample-mean",
+                "diagnostics.fcast-outsample-variance"))
 str(m_sa)
 ```
 
-
-More information on the tests is available in the [documentation](https://doc.jdemetra.org/m-tests)
+More information on the tests is available in the [documentation 🔗](https://doc.jdemetra.org/m-tests)
 
 ### Score equation {#eq-score}
 
@@ -97,7 +77,7 @@ $$
 
 The **WS_work** is a merger between **WS_ref** and **WS_auto**. A score is calculated for both *workspaces* and, for each series, the SA-Item is retrieved from the *workspace* with the lowest score between WS_auto and WS_ref.
 
-In an annual campaign process, we will use the [`transfer_sa_item()`{.r}](https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html) function from {rjd3workspace} to merge **WS_ref** and **WS_auto**.
+In an annual campaign process, we will use the [`transfer_sa_item()`{.r} 🔗](https://rjdverse.github.io/rjd3workspace/reference/transfer_sa_item.html) function from {rjd3workspace} to merge **WS_ref** and **WS_auto**.
 
 ```{r}
 #| eval: false
@@ -124,11 +104,11 @@ save_workspace(jws = WS_work, file = "./WS/WS_work.xml")
 
 ### Modification
 
--   `Reference Specification`
+- `Reference Specification`
 
 Modification in the GUI:
 
-![](img/DT_modif_ref_spec.png){width="90%" height="60%"}
+![](../../img/DT_modif_ref_spec.png){width="50%" height="50%"}
 
 Using this same menu, you can apply the `Reference Specification` or the `Result Specification` to a series.
 
@@ -142,14 +122,13 @@ library("rjd3workspace")
 set_reference_specification(jsap, 1L, new_reference_spec)
 ```
 
--   `Estimation Specification`
+- `Estimation Specification`
 
 Modification in GUI, use the `Specification` button on the right-hand side:
 
-![](img/DT_modif_est_spec.png){width="90%" height="60%"}
+![](../../img/DT_modif_est_spec.png){width="50%" height="50%"}
 
 In the `rjd3workspace` package, `Estimation Specification` is simply referred to as `Specification`:
-
 
 ```{r}
 #| eval: false
@@ -159,7 +138,7 @@ library("rjd3workspace")
 set_specification(jsap, 1L, new_estimation_spec)
 ```
 
--   `Result Specification`
+- `Result Specification`
 
 Estimation result can be applied as indicated below.
 
@@ -179,19 +158,19 @@ read_sai(jsai)
 
 A refresh policy is designed to remove all or some of the constraints from the `Estimation Specification` and revert to the `Reference Specification`.
 
-- The “concurrent” policy reverts to the `Reference Specification` by clearing user-defined parameters not written in the reference spec (changes made via the specification window on the right hand side are discarded). In particular, it clears the outliers pre-specified in the `Estimation Specification`; all outliers will be re-identified
+- The “concurrent” policy removes user-defined parameters not written in the `Reference Specification` (changes made via the specification window on the right are discarded). In particular, it removes the pre-specified in the `Estimation Specification`; all outliers will be re-identified
 
-- The “lastoutliers” policy clears the outliers pre-specified in the `Estimation Specification` for the last year (or other defined span); re-identification will be performed for this period.
+- The “lastoutliers” policy removes the outliers pre-specified in the `Estimation Specification` for the last year; re-identification will be performed for this period.
 
 This allows the user to distinguish between permanent settings (`Reference Specification`) and temporary settings (`Estimation Specification`).
 
 ### Example
 
-Here is a common procedure for updating data in the case of an intra-annual campaign, with output generation using *Cruncher*. Note: You must save the *workspace* before performing a “refresh” (via the GUI or *Cruncher*). 
+Here is a common procedure for updating data in the case of an intra-annual campaign, with output generation using *Cruncher*. Note: You must save the *workspace* before performing a “refresh” (via the GUI or *Cruncher*).
 
 - New raw data is available (new data points and revisions to recent history).
 
-- Use a “refresh last outliers” to benefit from automatic detection for the last year
+- Use a “refresh last outliers” to benefit from automatic outlier detection for the last year
 
 - Check the results and revisions; for certain important series, you may want to review the automatic detection
 
@@ -215,37 +194,37 @@ In JDemetra+ version 2.x, there was no `Estimation Specification`. The settings 
 
 Copying specifications when a version 2 *workspace* is opened in version 3:
 
--   `Reference Specification` is copied in `Reference Specification` and in `Estimation Specification`
+- `Reference Specification` is copied in `Reference Specification` and in `Estimation Specification`
 
--   `Result Specification` is copied in `Result Specification`
+- `Result Specification` is copied in `Result Specification`
 
 ## Data structures
 
-*workspaces* are organized into SA-Processing and SA-Item.
+*workspaces* are organized into SA-Processings and SA-Items.
 
 ### SA-Processing {#sec-concept-sap}
 
-An SA-Processing (SAP) is represented by an `.xml` file. It contains SA-Items and user-defined reference specifications.
+A SA-Processing (SAP) is represented by an `.xml` file. It contains SA-Items and user-defined reference specifications.
 
 ### SA-Item {#sec-concept-sai}
 
-An SA-Item contains information about a given series:
+A SA-Item contains information about a given series:
 
--   raw data
+- raw data
 
--   specifications (`resultSpecification`, `estimationSpecification`)
+- specifications (`resultSpecification`, `estimationSpecification`,`Reference Specification`)
 
--   metadata
+- metadata
 
 ### Metadata {#sec-concept-metadata}
 
-The metadata (see the <metaData> tag in the `.xml` file corresponding to SA-Processing) contains:
+The metadata (see the <metaData> tag in the `.xml` file corresponding to a SA-Processing) contains:
 
--   the type of source of the raw data
+- the type of source of the raw data
 
--   the “id” of the file containing the raw data (path and parameters) that will be used to refresh the estimate
+- the “id” of the file containing the raw data (path and parameters) that will be used to refresh the estimate
 
--   any comments on the series (generally used to justify a choice of parameters)
+- any comments on the series (generally used to justify a choice of parameters)
 
 ### Modelling context {#sec-concept-modelling-context}
 
@@ -255,4 +234,4 @@ The modelling context contains the calendars, variables, and external regressors
 
 It is possible to convert X-13 specifications used in the US Census Bureau's X-13-Arima-Seats software into JDemetra+ X13-Arima specifications.
 
-This operation is performed using the graphical interface with the [SpecParser](https://github.com/bbkrd/SpecParser) plug-in, which can only be used in version 2. The *workspace* containing these specifications can be opened in version 3. The plug-in documentation can be found [here](https://bbkrd.github.io/pages/specparser/) and all the migration steps are described [here](https://bbkrd.github.io/pages/specparser/) in the JDemetra+ documentation.
+This operation is performed using the graphical interface with the [SpecParser 🔗](https://github.com/bbkrd/SpecParser) plug-in, which can only be used in version 2. The *workspace* containing these specifications can be opened in version 3. The plug-in documentation can be found [here 🔗](https://bbkrd.github.io/pages/specparser/) and all the migration steps are described [here 🔗](https://bbkrd.github.io/pages/specparser/) in the JDemetra+ documentation.

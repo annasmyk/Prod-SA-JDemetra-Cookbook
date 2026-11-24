@@ -1,10 +1,11 @@
-# JDemetra+ online documentation
+# Production of seasonally adjusted series
 
-"JD_Quarto_Book" is the repository containing the new JDemetra+ online [documentation](https://jdemetra-new-documentation.netlify.app/)
+## JDemetra+ and R Cookbook {.unnumbered #ind}
 
-JDemetra+ is an open-source software for seasonal adjustment and time series analysis, developed in the framework of Eurostat’s “Centre of Excellence on Statistical Methods and Tools” by the National Bank of Belgium with the support of the Bundesbank and Insee. It has been officially recommended by Eurostat to the European Statistical System members since 2015. 
-
-To learn more about this project you can visit [Eurostat CROS Portal](https://ec.europa.eu/eurostat/cros/content/centre-excellence-statistical-methods-and-tools)
-
-To keep up with all JDemetra+ related news head to [JD+ Universe blog](https://jdemetra-universe-blog.netlify.app/)
+Seasonal adjustment is a key process in official statistics, as it is necessary for the dissemination and interpretation of 
+a large number of economic indicators. In order to harmonise practices, Eurostat has officially recommended the use of JDemetra+ since 2015. 
+This open-source software provides access to the two most popular seasonal adjustment algorithms used by European statistical agencies: X-13 ARIMA and 
+TRAMO-SEATS, via a graphical user interface and a family of R packages. These pages describes how to use version 3 of JDemetra+ to create efficient 
+production processes that can adjust several 
+thousand series with customised settings, while ensuring statistical quality and minimising manual fine-tuning.
 
